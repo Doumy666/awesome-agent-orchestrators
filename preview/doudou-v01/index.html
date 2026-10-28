@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff8f6">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'none'; connect-src 'none'; form-action 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'">
+<title>🐾 豆豆的每日小心意 · 葵哈币银行 v0.1 虚构预览</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",system-ui,sans-serif; color:#57424b;background:#fff9f7;font-size:15px;line-height:1.55;font-synthesis:none}
+*{box-sizing:border-box}
+html{min-height:100%;scroll-behavior:smooth}
+body{margin:0;min-height:100dvh;background:radial-gradient(ellipse at 3% -8%,#ffe8f0 0,transparent 44%),radial-gradient(ellipse at 92% 3%,#fff1dc 0,transparent 40%),#fffaf8}
+button{font:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:3px solid #c15e89;outline-offset:3px}
+[hidden]{display:none!important}
+.page{width:min(100%,490px);margin:auto;min-height:100dvh;background:#fffffff0;padding:18px 17px calc(35px + env(safe-area-inset-bottom));box-shadow:0 0 50px #ab6c7c10}
+.preview-notice{margin:0 0 17px;border:1px dashed #eccad3;border-radius:14px;padding:10px 12px;background:#fff9f8;color:#9a6d7b;font-size:11px;line-height:1.7;text-align:center}
+.brand{display:flex;align-items:center;gap:11px;margin:3px 1px 18px}
+.brand-logo{width:51px;height:51px;display:grid;place-items:center;font-size:27px;border-radius:19px;background:linear-gradient(140deg,#fff3c2,#fff9e9);box-shadow:0 6px 18px #edca9b50}
+.brand-text{min-width:0;flex:1}.brand h1{font-size:23px;letter-spacing:.5px;margin:0;font-weight:840;line-height:1.25;color:#4f3a45}.brand small{font-size:10px;letter-spacing:1.7px;color:#b299a2;font-weight:600}
+.brand-tag{font-size:10px;background:#f0fff6;color:#3f8b74;border:1px solid #cdecd9;border-radius:999px;padding:7px 9px;white-space:nowrap}
+.role-switch{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;background:#fdf0f3;border:1px solid #f2e0e4;border-radius:17px;margin-bottom:20px}
+.role-switch button{border:0;background:transparent;color:#9d7887;padding:11px 6px;font-size:12px;font-weight:770;border-radius:12px;min-height:43px;transition:background .15s}
+.role-switch button[aria-pressed=true]{background:#fff;box-shadow:0 3px 12px #a17d8124;color:#a55073}
+.greeting{margin:6px 2px 13px}.greeting h2{font-size:25px;line-height:1.3;margin:0 0 5px;letter-spacing:-.8px;font-weight:870}.greeting p{margin:0;color:#a28a95;font-size:12px;line-height:1.7}
+.day-control{display:flex;align-items:center;justify-content:space-between;margin:15px 2px 11px;gap:6px}
+.day-control .caption{font-size:12px;color:#876d7a;font-weight:780}
+.day-control .date-pill{background:#fff7f4;border:1px solid #f0dce3;color:#a36a80;border-radius:999px;padding:6px 11px;font-size:11px;white-space:nowrap}
+.day-picker{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin:0 0 13px}
+.day-picker button{border:1px solid #f0e1e4;background:#fff;color:#a48a95;border-radius:13px;min-height:55px;padding:7px 1px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;font-size:10px;font-weight:650}
+.day-picker button span{font-size:12px;font-weight:850;font-variant-numeric:tabular-nums}
+.day-picker button[aria-pressed=true]{color:#9e4f70;background:linear-gradient(145deg,#fff0f5,#ffe5eb);border-color:#eec8d8;box-shadow:0 4px 10px #e7b3c13a}
+.daily-card{--ink:#5d5266;--accent:#ad7fb9;--muted:#947c9b;--border:#e6d5f0;--halo:#e4d9ff;--glow:#fff5ff;position:relative;overflow:hidden;background:linear-gradient(135deg,#fbf3ff 0%,#f9f0ff 46%,#fff7f7 100%);border:1px solid var(--border);border-radius:27px;box-shadow:0 14px 28px #b18ba223;padding:20px 19px 17px;min-height:415px;isolation:isolate;transition:background .25s ease}
+.daily-card:before{content:"";position:absolute;width:250px;height:250px;right:-72px;top:-111px;border-radius:50%;border:1px solid #ffffffd8;box-shadow:0 0 0 38px #ffffff18,0 0 0 79px #ffffff12;pointer-events:none;z-index:-1}
+.daily-card.theme-doudou{--ink:#70474f;--accent:#bc8175;--muted:#a5827d;--border:#f5ded5;--halo:#ffe0d2;--glow:#fff7e6;background:linear-gradient(130deg,#fff0e8,#fff4ee 52%,#fff9e8)}
+.daily-card.theme-stars{--ink:#4d496e;--accent:#8078b9;--muted:#8c81aa;--border:#dddaf2;--halo:#dadcf9;--glow:#eef5ff;background:linear-gradient(135deg,#eff0ff,#f3ebff 48%,#fff0f6)}
+.daily-card.theme-cheer{--ink:#76524b;--accent:#c1796e;--muted:#ab7d74;--border:#f4d8cb;--halo:#ffe4cb;--glow:#fff1df;background:linear-gradient(135deg,#fff3e6,#ffe8df 49%,#fff6e8)}
+.daily-card.theme-notes{--ink:#5c5e4e;--accent:#899272;--muted:#90957e;--border:#e0e5cf;--halo:#e8ead0;--glow:#fff6e6;background:linear-gradient(135deg,#f7f4e7,#edf2e9 50%,#fff7ee)}
+.daily-card.theme-toys{--ink:#675477;--accent:#af90b3;--muted:#9f8ca8;--border:#e8d7ed;--halo:#efe0f5;--glow:#fff3df;background:linear-gradient(135deg,#fff2f8,#f2eefa 51%,#fff7e8)}
+.daily-card.theme-clouds{--ink:#50677e;--accent:#78a9ba;--muted:#7d98a9;--border:#d9e7ed;--halo:#d9edf7;--glow:#e9f7ff;background:linear-gradient(135deg,#eef9ff,#edf3ff 53%,#fef4f7)}
+.daily-card.theme-love{--ink:#754b69;--accent:#c780a8;--muted:#a87b99;--border:#f0d9e6;--halo:#ffe0eb;--glow:#fff7ea;background:linear-gradient(135deg,#fff0f6,#ffeaf5 48%,#fff7ee)}
+.day-top{display:flex;justify-content:space-between;align-items:center;gap:7px;position:relative;z-index:1}
+.day-kicker{font-size:10px;letter-spacing:1.7px;font-weight:800;color:var(--accent)}
+.day-label{font-size:10px;color:var(--muted);background:#ffffff85;padding:4px 10px;border:1px solid #ffffffaa;border-radius:999px;white-space:nowrap}
+.daily-card h3{font-size:22px;line-height:1.4;margin:15px 0 6px;letter-spacing:-.7px;color:var(--ink)}
+.daily-card .daily-sub{font-size:12px;color:var(--muted);margin:0;line-height:1.75;max-width:100%}
+.hero-art{height:197px;position:relative;display:flex;justify-content:center;align-items:center;margin:0 -12px -3px;isolation:isolate}
+.halo{position:absolute;width:226px;height:155px;left:50%;top:27px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,var(--halo),transparent 68%);z-index:-1;filter:blur(4px)}
+.hero-cat{width:224px;height:195px;overflow:visible;filter:drop-shadow(0 7px 6px #6b525327);transition:transform .2s ease}
+.hero-cat svg{width:100%;height:100%}
+.hero-cat.wiggle{animation:cat-nod .65s ease-in-out}
+@keyframes cat-nod{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg) translateY(-2px)}60%{transform:rotate(4deg) translateY(-3px)}}
+.accessory{position:absolute;top:39px;right:calc(50% - 134px);font-size:37px;transform:rotate(14deg);filter:drop-shadow(0 4px 4px #b9929430);pointer-events:none}
+.art-corner{position:absolute;left:calc(50% - 143px);top:75px;color:var(--accent);font-size:14px;opacity:.5;pointer-events:none}
+.day-message{background:#ffffff9c;border:1px solid #ffffffda;border-radius:16px;padding:12px 14px;display:flex;align-items:flex-start;gap:11px}
+.day-message .mail{font-size:21px;line-height:1.5}.day-message p{font-size:12px;line-height:1.8;margin:0;color:var(--ink);font-weight:590}
+.day-attribution{display:block;margin-top:6px;font-size:10px;color:var(--muted);font-weight:440}
+.surprise{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-top:13px}
+.surprise button{border:1px solid #ffffffdd;border-radius:999px;background:#ffffffb8;color:var(--ink);font-weight:750;font-size:11px;padding:9px 14px;min-height:39px;box-shadow:0 2px 8px #aa77991a}
+.surprise .theme-name{font-size:10px;color:var(--muted);white-space:nowrap}
+.surprise-note{font-size:12px;font-weight:700;color:var(--ink);background:#ffffffbf;border-radius:13px;padding:10px 13px;margin-top:10px;animation:fade-in .18s ease}
+@keyframes fade-in{from{opacity:.2;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.promise{border:1px solid #f0dae0;background:linear-gradient(125deg,#fff3f6,#fffaf1);padding:16px;border-radius:22px;margin:14px 0 13px;box-shadow:0 6px 15px #cb9bad12}
+.promise-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;color:#b2708e;font-size:11px;font-weight:780;letter-spacing:.3px}
+.promise strong{font-size:17px;line-height:1.75;color:#915b73;display:block;letter-spacing:.2px}
+.promise .promise-source{font-size:10px;color:#b2959e;display:block;margin-top:7px}
+.anniversary{display:flex;align-items:center;justify-content:space-between;gap:7px;background:#fff9f2;border:1px solid #f2e6db;border-radius:19px;padding:13px 15px;margin-bottom:13px;color:#9e7584}
+.anniversary p{margin:0;font-size:11px}.anniversary .day-count{font-size:19px;font-weight:870;color:#a36f89;font-variant-numeric:tabular-nums}
+.mock-block{border:1px solid #ede2e4;border-radius:20px;background:#fff;padding:13px 16px;margin-bottom:12px}
+.mock-caption{font-size:11px;color:#a38c96;font-weight:730}
+.mock-amount{font-size:25px;color:#9c818c;font-weight:860;margin:5px 0 2px;letter-spacing:-.4px}
+.mock-amount small{font-size:11px;font-weight:450}
+.mock-desc{font-size:10px;color:#b09aa3}
+.quick-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:15px}
+.quick-row .quick-tile{background:#fff;border:1px solid #eee0e4;border-radius:17px;min-height:65px;padding:12px;font-size:12px;color:#986c80;font-weight:800;display:flex;align-items:center;gap:9px;text-align:left}
+.quick-row .quick-tile span:first-child{font-size:23px}
+.quick-row .quick-tile:disabled{cursor:not-allowed;opacity:.85}
+.foot-note{font-size:11px;color:#af95a1;text-align:center;margin:19px auto 0;line-height:1.9}
+.bottom-tabs{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid #f3e6e9;padding:12px 0 3px;margin:16px -17px -2px;gap:3px}
+.bottom-tabs div{font-size:10px;color:#b09da3;display:grid;justify-items:center;gap:4px}
+.bottom-tabs div .ico{font-size:20px}
+.bottom-tabs div.active{color:#a76787;font-weight:800}
+@media(max-width:360px){.page{padding:14px 12px 26px}.brand h1{font-size:21px}.brand-tag{font-size:9px}.daily-card{padding:17px 14px}.day-picker{gap:3px}.day-picker button{font-size:9px}.promise strong{font-size:15px}.hero-art{height:187px}.hero-cat{height:186px}.bottom-tabs{margin-left:-12px;margin-right:-12px}}
+@media(min-width:650px){body{padding:28px}.page{border:1px solid #f2e4e7;border-radius:30px;min-height:0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="page" id="app">
+  <p class="preview-notice"><strong>🔒 v0.1 · 纯虚构在线预览</strong>　没有真实登录、D1、余额或私密记录。只看设计，不要输入私人资料。</p>
+  <header class="brand"><div class="brand-logo" aria-hidden="true">🌻</div><div class="brand-text"><h1>葵哈币银行</h1><small>OUR LITTLE LOVE BANK ♡</small></div><span class="brand-tag">🐾 豆豆值班中</span></header>
+  <div class="role-switch" role="group" aria-label="虚构视角切换">
+    <button id="view-kui" aria-pressed="true" type="button">🌻 小葵视角</button><button id="view-shiniu" aria-pressed="false" type="button">🐮 什钮视角</button>
+  </div>
+  <section class="greeting" aria-label="首页问候"><h2 id="hello">小葵，今天也要开开心心 ♡</h2><p id="hello-sub">豆豆正抱着一份小惊喜，等你来拆开 🌷</p></section>
+  <div class="day-control"><span class="caption">💌 试试未来七天的小心意</span><span class="date-pill" id="date-label">北京时间 · 每天换一张</span></div>
+  <div class="day-picker" id="day-picker" role="group" aria-label="模拟查看连续七天的每日惊喜"></div>
+  <article id="daily-card" class="daily-card theme-doudou" aria-label="豆豆的每日小心意">
+    <div class="day-top"><span class="day-kicker">DOUDOU'S LITTLE SURPRISE</span><span class="day-label" id="day-label">🐾 豆豆日</span></div>
+    <h3 id="story-title">豆豆的小小早安礼物</h3>
+    <p id="story-sub" class="daily-sub">让每一天，都有一点不一样的喜欢。</p>
+    <div class="hero-art" aria-label="原创卡通猫豆豆的主题插画，非真实猫咪照片">
+      <span class="halo" aria-hidden="true"></span>
+      <div class="hero-cat" id="hero-cat" aria-hidden="true">
+        <svg viewBox="0 0 270 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+          <defs>
+            <linearGradient id="fur" x1=".04" y1="0" x2=".83" y2="1"><stop stop-color="#d2c6b9"/><stop offset=".46" stop-color="#b9aa9e"/><stop offset="1" stop-color="#968b87"/></linearGradient>
+            <linearGradient id="lightfur" x1=".1" y1="0" x2=".75" y2="1"><stop stop-color="#fffaf0"/><stop offset="1" stop-color="#f6eadd"/></linearGradient>
+            <linearGradient id="greeneye" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9dcba3"/><stop offset=".6" stop-color="#547d62"/><stop offset="1" stop-color="#2e5442"/></linearGradient>
+          </defs>
+          <ellipse cx="135" cy="223" rx="95" ry="11" fill="#9a7b7430"/>
+          <path d="M204 155 C253 123 259 162 245 193 C240 208 220 215 210 205" stroke="#80746d" stroke-width="31" stroke-linecap="round" fill="none"/>
+          <path d="M205 157 C248 130 250 165 237 185" stroke="#beb1a5" stroke-width="20" stroke-linecap="round" fill="none"/>
+          <path d="M60 189 Q59 131 110 129 L173 125 Q222 130 218 185 Q218 219 180 218 L94 218 Q59 219 60 189Z" fill="url(#fur)" stroke="#655853" stroke-width="3"/>
+          <ellipse cx="140" cy="176" rx="62" ry="44" fill="url(#lightfur)"/>
+          <path d="M93 152 Q99 168 95 195 M179 150 Q170 173 178 196" stroke="#a4978c" stroke-width="7" stroke-linecap="round" opacity=".32" fill="none"/>
+          <path d="M66 60 Q44 12 65 9 Q93 15 114 45 L173 45 Q197 11 224 11 Q235 14 213 71" fill="url(#fur)" stroke="#655853" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M74 22 Q70 42 87 58 L101 51Q83 29 74 22" fill="#f4c8bf"/>
+          <path d="M216 21 Q212 41 196 56L184 49Q200 29 216 21" fill="#f0c1ba"/>
+          <ellipse cx="143" cy="104" rx="94" ry="80" fill="url(#fur)" stroke="#655853" stroke-width="3.5"/>
+          <path d="M60 100 Q70 66 103 55 Q130 49 144 56 Q175 43 204 67 Q226 88 222 117 Q212 152 189 167 Q164 176 140 174 Q100 180 72 156 Q53 136 60 100" fill="url(#lightfur)" opacity=".97"/>
+          <path d="M94 49 Q108 66 126 70 M142 43 Q144 56 145 67 M186 48 Q177 63 163 70" stroke="#958a82" stroke-width="8" stroke-linecap="round" opacity=".68" fill="none"/>
+          <path d="M60 104 Q70 112 80 112 M215 103 Q206 112 198 113" stroke="#a4978c" stroke-width="7" stroke-linecap="round" opacity=".4"/>
+          <ellipse cx="102" cy="115" rx="19" ry="23" fill="#f8f9e8" stroke="#6e6862" stroke-width="2.7"/>
+          <ellipse cx="177" cy="115" rx="19" ry="23" fill="#f8f9e8" stroke="#6e6862" stroke-width="2.7"/>
+          <ellipse cx="104" cy="116" rx="13.5" ry="18" fill="url(#greeneye)"/>
+          <ellipse cx="175" cy="116" rx="13.5" ry="18" fill="url(#greeneye)"/>
+          <ellipse cx="108" cy="117" rx="6" ry="12" fill="#1f302a"/>
+          <ellipse cx="172" cy="117" rx="6" ry="12" fill="#1f302a"/>
+          <circle cx="100" cy="106" r="6" fill="#fff"/><circle cx="172" cy="106" r="6" fill="#fff"/>
+          <circle cx="110" cy="125" r="3" fill="#d7ead6"/><circle cx="179" cy="126" r="3" fill="#d7ead6"/>
+          <ellipse cx="82" cy="139" rx="15" ry="8" fill="#f3b0b5" opacity=".32"/>
+          <ellipse cx="199" cy="139" rx="15" ry="8" fill="#f3b0b5" opacity=".32"/>
+          <path d="M130 140 Q140 134 150 140 L141 148Z" fill="#e8a7a6" stroke="#b98385" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M141 148 Q137 158 131 158 M141 148 Q145 158 152 157" stroke="#846966" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+          <path d="M112 149 Q92 146 67 146 M115 155 Q94 156 71 164 M169 149 Q189 144 216 146 M167 155 Q190 156 215 166" stroke="#786d67" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+          <ellipse cx="103" cy="210" rx="28" ry="18" fill="url(#lightfur)" stroke="#6c5d58" stroke-width="2.6"/>
+          <ellipse cx="173" cy="210" rx="28" ry="18" fill="url(#lightfur)" stroke="#6c5d58" stroke-width="2.6"/>
+          <path d="M99 208 L99 220 M106 208 L106 220 M169 208L169 220 M177 208L177 220" stroke="#a68a83" stroke-width="1.8" stroke-linecap="round" opacity=".5"/>
+        </svg>
+      </div>
+      <span id="accessory" class="accessory" aria-hidden="true">🌷</span><span class="art-corner" aria-hidden="true">✦ ✧ ✦</span>
+    </div>
+    <div class="day-message"><span class="mail" aria-hidden="true">💌</span><div><p id="story-text">今天的第一朵小花，豆豆帮你收好了。</p><span class="day-attribution">网站今日问候 · 不冒充什钮亲笔留言</span></div></div>
+    <div class="surprise"><button id="tap-cat" type="button">🐾 点点豆豆，拆开小彩蛋</button><span class="theme-name" id="theme-hint">豆豆专属日</span></div>
+    <div id="surprise-note" class="surprise-note" role="status" aria-live="polite" hidden></div>
+  </article>
+  <section class="promise" aria-label="什钮亲自给葵的原话"><div class="promise-head"><span>🐮❤️🌻 什钮给葵的小承诺</span><span>一直都在 ♡</span></div><strong>什钮要一直好好照顾葵。<br>无论什么时候，什钮都喜欢葵🐮❤️🌻</strong><span class="promise-source">这是什钮亲自提供的固定承诺 · 每天都不变</span></section>
+  <section class="anniversary" aria-label="恋爱纪念日示意"><div><p>💗 小葵 ♡ 什钮 · 在一起的</p><span class="day-count" id="love-days">第 ··· 天</span></div><span aria-hidden="true" style="font-size:32px">💞</span></section>
+  <section class="mock-block" aria-label="银行功能示意，不包含真实余额"><div class="mock-caption">🌻 葵哈币余额 · 模拟占位</div><div class="mock-amount">— <small>葵哈币</small></div><div class="mock-desc">真正的余额与账本仍由日常银行安全同步；预览不读取任何私人数据</div></section>
+  <div class="quick-row" aria-label="银行原有功能占位"><button class="quick-tile" type="button" disabled><span>🌷</span><span>赚币任务</span></button><button class="quick-tile" type="button" disabled><span>🎁</span><span>心愿商店</span></button></div>
+  <p class="foot-note" id="footer-quote">🐾 豆豆今天也替什钮守护这份喜欢。</p>
+  <nav class="bottom-tabs" aria-label="原银行导航占位，仅展示"><div class="active"><span class="ico">🏠</span>首页</div><div><span class="ico">🌷</span>赚币</div><div><span class="ico">🎁</span>商店</div><div><span class="ico">💌</span>悄悄话</div><div><span class="ico">🐾</span>我的</div></nav>
+</main>
+<script>
+'use strict';
+/* Fully fictional static design preview. No API, no D1, no storage. */
+const themes=[
+ {name:'豆豆日',slug:'doudou',icon:'🎀',accessory:'🎀',hint:'小猫的纸箱时光',hello:'小葵，豆豆今天又来撒娇啦 ♡',sub:'一只软乎乎的小猫，守着一份软乎乎的喜欢。',title:'豆豆的早安小礼物',subtitle:'从今天开始，豆豆接任甜蜜小管家。',msg:'今天的第一朵小花，豆豆已经替你收好了。希望葵遇到好多开心的小事。',surprise:'喵呜～ 豆豆把今天的第一份温柔，放进葵的口袋啦 ♡',footer:'🐾 幸福有时候，就是一只豆豆在身边打呼噜。'},
+ {name:'星空日',slug:'stars',icon:'🌌',accessory:'🌟',hint:'莫娜灵感 · 星盘与水纹',hello:'小葵，今天的星星特别亮 ✨',sub:'豆豆仰起小脑袋，在星空里为你找了一颗小星星。',title:'豆豆的秘密星象',subtitle:'一颗星星，一点水光，一整天的小幸运。',msg:'今天的星盘上写着：不管多遥远的星光，都不如此刻的你闪亮。',surprise:'叮！豆豆找到了属于葵的幸运星 ✦',footer:'✨ 每颗星星都在发光，葵也是。'},
+ {name:'加油日',slug:'cheer',icon:'🥊',accessory:'🏆',hint:'卢卡灵感 · 暖红与胜利小旗',hello:'小葵，今天也要元气满满呀！',sub:'豆豆戴上小小拳套，准备为葵加油。',title:'豆豆的加油应援站',subtitle:'今天不比赛，只把加油声都送给葵。',msg:'如果今天有什么想做的事，就勇敢试试看。豆豆举着旗子，什钮也一直为葵加油。',surprise:'砰！豆豆成功打出一记「今天也超棒」小拳拳！',footer:'🥊 喜欢葵，是每天都站在葵这一边。'},
+ {name:'故事日',slug:'notes',icon:'📜',accessory:'📸',hint:'小说家/记者灵感 · 手账与胶片',hello:'小葵，今天的故事翻到新一页啦。',sub:'豆豆蹲在书页上，假装自己是今日的记录员。',title:'豆豆的秘密故事书',subtitle:'咔嚓！拍下一张属于今天的温柔。',msg:'今日头条：一只叫豆豆的小猫，认真记录葵的每一个可爱瞬间。',surprise:'今日小报：豆豆的稿件只有一句——「葵，今天也很可爱！」',footer:'📚 今天的普通小事，也可以成为温柔的好故事。'},
+ {name:'玩具日',slug:'toys',icon:'🎠',accessory:'🧸',hint:'击球手×玩具商灵感 · 小球与玩具箱',hello:'小葵，豆豆找到了新的玩具箱！',sub:'小球、木马和一对翅膀，藏着两个人的小默契。',title:'豆豆的双人玩具箱',subtitle:'陪伴可以是轻轻递过来的一颗小球。',msg:'今天的小玩具箱里，藏着一颗给葵的心意，和一张「一直陪你玩」的入场券。',surprise:'啪嗒！豆豆打开玩具箱，送你一颗想象中的爱心小球 ♡',footer:'🎠 有人一起分享开心，就更开心一点。'},
+ {name:'云朵日',slug:'clouds',icon:'☁️',accessory:'☁️',hint:'柔软云朵 · 豆豆打盹',hello:'小葵，今天也可以慢慢来。',sub:'豆豆窝在云朵上，找了个舒服的角落。',title:'给葵一朵软绵绵的云',subtitle:'愿今天既有开心，也有轻松放松的时刻。',msg:'云朵飘得慢一点也没关系。希望葵每天都能拥有属于自己的小小快乐。',surprise:'呼噜呼噜～ 豆豆把云朵叠成了一张很舒服的小毯子。',footer:'☁️ 好好休息，也是认真生活的一部分。'},
+ {name:'心意日',slug:'love',icon:'💝',accessory:'💗',hint:'什钮与葵 · 专属爱心',hello:'小葵，今天又多了一天喜欢。',sub:'豆豆抱着心心，跑来宣布一件重要的小事。',title:'藏在今天的喜欢',subtitle:'不管今天是什么日子，都有一份不变的心意。',msg:'今天的心意卡没有任务和条件，只有一句：葵值得被一直温柔地爱着。',surprise:'豆豆偷偷盖章：什钮对葵的喜欢，今天依然有效 ♡',footer:'❤️ 一天一天的喜欢，会慢慢变成很长很长的故事。'}
+];
+const oneDay=86400000;const MS_MINUTES=8*60*60000;
+function todayChina(){const pts=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));return `${pts.year}-${pts.month}-${pts.day}`}
+const startIso=todayChina(),base=Date.parse(startIso+'T00:00:00Z');const dayLabels=['今天','明天','后天','第4天','第5天','第6天','第7天'];
+let role='kui',dayOffset=0;
+const $=id=>document.getElementById(id);
+const cnWeek=['日','一','二','三','四','五','六'];
+const fmtDay=n=>new Date(base+n*oneDay).toISOString().slice(0,10);
+const serial=iso=>Math.floor(Date.parse(iso+'T00:00:00Z')/oneDay);
+const themeFor=iso=>themes[((serial(iso)+5)%themes.length+themes.length)%themes.length];
+function dateLabel(iso){const d=new Date(iso+'T00:00:00Z');return `${d.getUTCMonth()+1}月${d.getUTCDate()}日 · 周${cnWeek[d.getUTCDay()]}`}
+function apply(){
+ const day=fmtDay(dayOffset),theme=themeFor(day);const own=role==='kui';
+ $('view-kui').setAttribute('aria-pressed',String(own));$('view-shiniu').setAttribute('aria-pressed',String(!own));
+ $('hello').textContent=own?theme.hello:'什钮，今天也记得好好照顾葵 ♡';
+ $('hello-sub').textContent=own?theme.sub:'豆豆今天又替你准备了一张给葵的小心意。';
+ $('date-label').textContent=dateLabel(day);$('day-label').textContent=theme.icon+' '+theme.name;
+ $('story-title').textContent=theme.title;$('story-sub').textContent=theme.subtitle;
+ $('story-text').textContent=theme.msg;$('theme-hint').textContent=theme.hint;
+ $('accessory').textContent=theme.accessory;
+ $('daily-card').className='daily-card theme-'+theme.slug;
+ $('surprise-note').hidden=true;$('surprise-note').textContent='';
+ const diff=serial(day)-Math.floor(Date.UTC(2024,10,23)/oneDay)+1;
+ $('love-days').textContent='第 '+Math.max(1,diff)+' 天';
+ $('footer-quote').textContent=theme.footer;
+ for(const button of document.querySelectorAll('#day-picker button')){
+  button.setAttribute('aria-pressed',String(Number(button.dataset.day)===dayOffset));
+  button.setAttribute('aria-current',Number(button.dataset.day)===dayOffset?'date':'false');
+ }
+}
+function renderDays(){
+ const picker=$('day-picker');picker.replaceChildren();
+ for(let i=0;i<7;i++){
+  const day=fmtDay(i),d=new Date(day+'T00:00:00Z');
+  const b=document.createElement('button');b.type='button';b.dataset.day=String(i);
+  const txt=document.createTextNode(dayLabels[i]);const count=document.createElement('span');count.textContent=String(d.getUTCDate());
+  b.append(txt,count);b.setAttribute('aria-label',`${dayLabels[i]}，${dateLabel(day)}，${themeFor(day).name}`);
+  b.addEventListener('click',()=>{dayOffset=i;apply();});picker.append(b);
+ }
+}
+$('view-kui').addEventListener('click',()=>{role='kui';apply()});
+$('view-shiniu').addEventListener('click',()=>{role='shiniu';apply()});
+$('tap-cat').addEventListener('click',()=>{
+ const day=fmtDay(dayOffset),msg=themeFor(day).surprise;
+ $('surprise-note').textContent=msg;$('surprise-note').hidden=false;
+ const cat=$('hero-cat');cat.classList.remove('wiggle');void cat.offsetWidth;cat.classList.add('wiggle');
+});
+renderDays();apply();
+</script>
+</body>
+</html>
