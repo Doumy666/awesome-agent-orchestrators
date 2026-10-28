@@ -2,7 +2,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow,noarchive">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; font-src 'none'; media-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
-<title>🌷 小葵天气站 v5｜交互验收（100% 虚构离线）</title>
+<meta name="kuiha-demo-build" content="2026-10-28-weather-v5-layout-v2">
+<title>🌷 小葵天气站 v5｜在线交互验收 · 版式优化（全虚构）</title>
 <style>
 /* Inline weather v5 UI from isolated candidate */
 /* Weather v5 isolated UI CSS; do not deploy to banking app without review. */
@@ -43,11 +44,51 @@
 .wv5-note-form textarea{width:100%;min-height:86px;resize:vertical;font:inherit;font-size:16px;line-height:1.6;padding:10px;background:#fff;border:1px solid var(--line);border-radius:10px;box-sizing:border-box}
 .wv5-note-body{white-space:pre-wrap;overflow-wrap:anywhere;background:#fff;padding:12px;border-radius:10px;line-height:1.75}
 
-/* v5 final visual regression: calendar state colors must override base button rule. */
-.wv5 .wv5-days button.wv5-day.actual{background:#f6c5d8;color:#624254}
-.wv5 .wv5-days button.wv5-day.estimated{background:#ffe5ad;color:#745c28}
-.wv5 .wv5-days button.wv5-day.today{outline:2px solid #c0799a;outline-offset:-3px}
-.wv5 .wv5-days button.wv5-day.selected{box-shadow:inset 0 0 0 3px #94506c}
+/* V5 版式优化：七列日历使用渐变柔角方块，保留清楚的颜色语义。 */
+.wv5 .wv5-days button.wv5-day{
+ border-radius:12px;transition:background-color .16s ease,box-shadow .16s ease,transform .16s ease;
+ -webkit-tap-highlight-color:transparent;
+}
+.wv5 .wv5-days button.wv5-day.actual{
+ background:linear-gradient(143deg,#fff0f6 0%,#f7ccdd 46%,#e9aec7 100%);
+ color:#693e53;box-shadow:inset 0 1px 0 #ffffffbd,0 2px 6px #d38aa624;
+}
+.wv5 .wv5-days button.wv5-day.estimated{
+ background:linear-gradient(143deg,#fffaf0 0%,#ffe7ba 51%,#f3d490 100%);
+ color:#735521;box-shadow:inset 0 1px 0 #ffffffc7,0 2px 6px #c5a56f25;
+}
+.wv5 .wv5-days button.wv5-day.today{
+ outline:2px solid #bd7c99;outline-offset:-3px;
+}
+.wv5 .wv5-days button.wv5-day.selected{
+ box-shadow:inset 0 0 0 3px #995571,0 3px 9px #bc80952f;
+}
+@media(hover:hover){.wv5 .wv5-days button.wv5-day:not(:disabled):hover{transform:translateY(-1px)}}
+
+/* 两张历史入口同排，iPhone 小屏时标题/数量上下排，避免挤压。 */
+.wv5-secondary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:10px;margin:12px 0}
+.wv5-secondary-grid > .wv5-box{min-width:0;margin:0;padding:12px;border-radius:18px}
+.wv5 .wv5-secondary-grid .wv5-history summary{
+ min-width:0;min-height:88px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+ gap:6px;line-height:1.45;position:relative;padding-right:7px;overflow-wrap:anywhere;
+}
+.wv5 .wv5-secondary-grid .wv5-history summary span{font-size:11px;line-height:1.5;color:#9c7789;white-space:normal}
+.wv5 .wv5-secondary-grid .wv5-history[open]{box-shadow:0 5px 18px #c887a015}
+.wv5 .wv5-secondary-grid .wv5-record{overflow-wrap:anywhere}
+.wv5 .wv5-secondary-grid .wv5-actions{gap:5px}
+.wv5 .wv5-secondary-grid .wv5-actions button{min-height:40px;padding:7px 9px;font-size:11px}
+
+/* 「想抱抱 / 听我说 / 想静静」三个按钮横向平分容器宽度。 */
+.wv5 .wv5-care-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;margin:12px 0}
+.wv5 .wv5-care-choices button{width:100%;min-width:0;min-height:46px;padding:10px 4px;white-space:nowrap;text-align:center}
+@media(max-width:360px){
+ .wv5-secondary-grid{gap:8px}
+ .wv5-secondary-grid > .wv5-box{padding:10px}
+ .wv5 .wv5-secondary-grid .wv5-history summary{font-size:13px}
+ .wv5 .wv5-days button.wv5-day{border-radius:10px}
+ .wv5 .wv5-care-choices{gap:5px}
+ .wv5 .wv5-care-choices button{font-size:12px;padding:9px 2px}
+}
 
 :root{color-scheme:light;--paper:#fffcfb;--rose:#f3b6c8;--ink:#604659}
 *{box-sizing:border-box}
@@ -82,7 +123,7 @@ body{margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Pin
 <footer class="review-end">🌷 这个版本用于设计和交互验收，不是正式银行，不处理任何真钱、葵哈币或个人健康数据。<p>预计窗口仅供参考，不能用于避孕、排卵判断或医学诊断。</p></footer>
 </main>
 <script>
-/* OFFLINE CANDIDATE ONLY — NOT AUTHORIZED FOR PUBLIC DEPLOYMENT. */
+/* PUBLIC FICTION-ONLY PREVIEW — NEVER DEPLOY INTO LIVE BANK OR D1. */
 (function(root){
 'use strict';
 /**
@@ -280,7 +321,7 @@ function proposalsPanel(role, proposals){
    `<div class="wv5-actions"><button data-act="weather-review" data-id="${htmlEsc(p.id)}">审核</button><button data-act="weather-reject" data-id="${htmlEsc(p.id)}">退回</button></div>`:'';
   return `<article class="wv5-record"><strong>💌 日期建议 ${htmlEsc(formatDay(p.proposed_start_day))} ～ ${htmlEsc(formatDay(p.proposed_end_day))}</strong>${actions}</article>`;
  }).join('');
- return `<details class="wv5-box wv5-history"><summary>💌 日期建议与审核 <span>${pending.length} 条待处理</span></summary>
+ return `<details class="wv5-box wv5-history wv5-proposals"><summary>💌 日期建议与审核 <span>${pending.length} 条待处理</span></summary>
   ${content||'<p>没有待处理建议 ♡</p>'}</details>`;
 }
 function renderWeatherV5({role, periods=[], proposals=[], alerts=[], ui=null, hasMore=false,
@@ -301,8 +342,12 @@ function renderWeatherV5({role, periods=[], proposals=[], alerts=[], ui=null, ha
  <header><p>🌷 小葵天气站</p><h2>${holder?'今天也记得温柔照顾她 ♡':'今天也要好好照顾自己 ♡'}</h2>
  <small>天气只是温柔的参考，真实日期和主动关怀由小葵本人决定</small></header>
  ${dateCalendar(role,periods,safeUi,now)}
- ${newAction}${historyPanel(role,periods,safeUi,hasMore)}
- ${prediction}${alertsPanel(role,alerts,now)}${proposalsPanel(role,proposals)}
+ ${newAction}
+ <div class="wv5-secondary-grid" aria-label="历史记录与日期建议">
+  ${historyPanel(role,periods,safeUi,hasMore)}
+  ${proposalsPanel(role,proposals)}
+ </div>
+ ${prediction}${alertsPanel(role,alerts,now)}
  ${role==='admin'?`<div class="wv5-box wv5-private"><strong>🌷 我的小小心愿（默认私密）</strong>
   <p>这些是我自己选择的需要；不因为打开天气站就推测我的心情。</p>
   <div class="wv5-care-choices" role="group" aria-label="只在本机选择的关怀愿望">
@@ -687,7 +732,7 @@ $('#app-page').addEventListener('change',e=>{
  if(e.target?.name==='weather-month')client.setMonth(e.target.value)
 });
 $('#app-page').addEventListener('toggle',e=>{
- if(e.target?.classList?.contains('wv5-history'))client.setHistoryOpen(e.target.open);
+ if(e.target?.classList?.contains('wv5-history')&&!e.target.classList.contains('wv5-proposals'))client.setHistoryOpen(e.target.open);
 },true);
 $('#app-page').addEventListener('submit',async e=>{
  if(e.target?.id==='weather-v5-note-form'){
