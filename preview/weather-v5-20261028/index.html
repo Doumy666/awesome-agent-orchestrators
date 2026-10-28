@@ -1,0 +1,718 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow,noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; font-src 'none'; media-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<title>🌷 小葵天气站 v5｜交互验收（100% 虚构离线）</title>
+<style>
+/* Inline weather v5 UI from isolated candidate */
+/* Weather v5 isolated UI CSS; do not deploy to banking app without review. */
+.wv5{--ink:#593f4e;--line:#efdde4;--muted:#947d88;--rose:#ac6380;max-width:720px;margin:auto;color:var(--ink);line-height:1.6}
+.wv5 header{padding:8px 4px 14px}.wv5 h2{font-size:24px;margin:6px 0}.wv5 header p{color:#96627c;font-size:13px}.wv5 small{font-size:12px;color:var(--muted)}
+.wv5-box{margin:12px 0;padding:15px;background:#fffdfa;border:1px solid var(--line);border-radius:20px}
+.wv5 button{border:1px solid #e8ccda;border-radius:12px;background:#fff8fb;color:#884e69;padding:10px 13px;min-height:44px;cursor:pointer}
+.wv5 button:focus-visible,.wv5 input:focus-visible,.wv5 summary:focus-visible{outline:3px solid #cb89a6;outline-offset:2px}
+.wv5 .wv5-cal-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.wv5-cal-top div{display:flex;gap:8px}.wv5-cal-top button{font-size:23px;min-width:44px}
+.wv5-month-label{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted);margin:8px 0 12px}
+.wv5 input[type=month]{font-size:16px;padding:8px;min-height:44px;border:1px solid #ecd4df;border-radius:9px;max-width:185px}
+.wv5-week,.wv5-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;text-align:center}
+.wv5-week{font-size:11px;margin:12px 0 7px;color:var(--muted)}
+.wv5 .wv5-days button.wv5-day{min-width:0;width:100%;padding:0;aspect-ratio:1;border:0;border-radius:50%;background:transparent;color:var(--ink);font-size:14px}
+.wv5 .wv5-day.actual{background:#f6c5d8}.wv5 .wv5-day.estimated{background:#ffe5ad}.wv5 .wv5-day.today{outline:2px solid #c0799a;outline-offset:-3px}
+.wv5 .wv5-day.selected{box-shadow:inset 0 0 0 3px #94506c}.wv5 .wv5-day:disabled{opacity:.45;cursor:not-allowed}
+.wv5-legend{font-size:11px;color:var(--muted)}.wv5-selected{background:#fff3f6;border-radius:13px;padding:12px;margin-top:10px;font-size:13px}
+.wv5-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.wv5-actions button{font-size:12px}
+.wv5 .wv5-main-action{margin:12px 0;display:flex;flex-direction:column;gap:6px}
+.wv5-main-action button{background:#f7d8e4!important;font-weight:750}
+.wv5-history summary{cursor:pointer;font-weight:750;min-height:44px;display:flex;gap:6px;align-items:center;justify-content:space-between}
+.wv5-history summary span{font-size:11px;color:var(--muted);font-weight:500}
+.wv5-record{padding:12px 2px;border-top:1px solid #f3e9ed;display:flex;flex-direction:column;gap:4px}.wv5-record small{display:block}
+.wv5-delete-confirm{background:#fff0f3;padding:12px;border-radius:12px;margin-top:8px}.wv5-delete-confirm p{font-size:12px;line-height:1.6}
+.wv5-signal{padding:14px;border-radius:17px;margin:10px 0;background:#fff1f5;border:1px solid #eed1dc}
+.wv5-signal.wv5-care{background:#fff2e9}.wv5-signal p{font-size:13px;margin:5px 0}
+.wv5-prediction{background:#fff8e6}.wv5-prediction p{margin:4px 0;font-size:13px}
+.wv5-private{background:#fff6fa}.wv5-letter{background:#fffaf0}
+@media(max-width:385px){.wv5-box{padding:11px}.wv5 .wv5-days button.wv5-day{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.wv5 *{transition:none!important;animation:none!important}}
+/* Optional personal moments: distinct from actual dates and period warnings. */
+.wv5-care-choices{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.wv5 .wv5-care-choices button[aria-pressed="true"]{background:#f6dce8;border-color:#b46987;font-weight:750}
+.wv5-care-preview{padding:12px;background:#fff2f6;border-radius:12px;margin-top:8px}
+.wv5-note-form{display:grid;gap:8px;margin:12px 0}
+.wv5-note-form label{display:grid;gap:5px;font-size:13px;color:var(--ink)}
+.wv5-note-form textarea{width:100%;min-height:86px;resize:vertical;font:inherit;font-size:16px;line-height:1.6;padding:10px;background:#fff;border:1px solid var(--line);border-radius:10px;box-sizing:border-box}
+.wv5-note-body{white-space:pre-wrap;overflow-wrap:anywhere;background:#fff;padding:12px;border-radius:10px;line-height:1.75}
+
+/* v5 final visual regression: calendar state colors must override base button rule. */
+.wv5 .wv5-days button.wv5-day.actual{background:#f6c5d8;color:#624254}
+.wv5 .wv5-days button.wv5-day.estimated{background:#ffe5ad;color:#745c28}
+.wv5 .wv5-days button.wv5-day.today{outline:2px solid #c0799a;outline-offset:-3px}
+.wv5 .wv5-days button.wv5-day.selected{box-shadow:inset 0 0 0 3px #94506c}
+
+:root{color-scheme:light;--paper:#fffcfb;--rose:#f3b6c8;--ink:#604659}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse at 10% -10%,#fce3ec 0%,transparent 44%),linear-gradient(165deg,#f9fbff,#fff8f7 60%,#fffdf9);min-height:100vh}
+.review{width:min(100%,520px);min-height:100vh;margin:auto;padding:20px 15px 90px}
+.review-top{display:flex;align-items:center;gap:12px;margin:5px 1px 18px}.review-logo{border-radius:18px;width:54px;height:54px;display:grid;place-items:center;background:#fff1c8;font-size:28px;box-shadow:0 8px 20px #edcf8c42}
+.review-brand{flex:1}.review-brand h1{margin:0 0 3px;font-size:24px;letter-spacing:-.8px}.review-brand small{color:#b59baa;font-size:11px;letter-spacing:1.2px}.review-pill{font-size:11px;color:#398d69;background:#ebfff4;border:1px solid #d6f0df;padding:7px 9px;border-radius:999px;font-weight:800}
+.review-guard{padding:13px 16px;background:#fff; border:1px solid #ecdde3;border-radius:18px;line-height:1.7;font-size:12px;margin-bottom:17px}
+.review-guard strong{display:block;color:#9b5773;margin-bottom:2px}.review-guard code{white-space:nowrap}
+.review-switch{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 0 15px}.review-switch button{font:inherit;border:1px solid #e9dce3;background:white;color:#ab8197;font-size:13px;font-weight:850;border-radius:15px;padding:13px 8px;min-height:50px;cursor:pointer}.review-switch button[aria-pressed="true"]{background:#ffe9f1;color:#87536a;border-color:#ecc9d6;box-shadow:0 6px 15px #d99bb52a}.review-switch button:focus-visible{outline:3px solid #aa7db6;outline-offset:2px}
+.review-status{min-height:30px;font-size:12px;margin:7px 2px 10px;color:#805f7b}.review-scene{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:18px}.review-scene .title{font-size:11px;color:#8b7182;font-weight:750;min-width:70px}.review-scene button{border:1px solid #f0dbe5;border-radius:999px;background:#fffafa;color:#9b7182;font-size:11px;padding:8px 11px;min-height:40px;cursor:pointer}
+.review-steps{padding:12px 16px;margin:13px 0 14px;border:1px dashed #efd5df;border-radius:15px;background:#fffdfa}.review-steps summary{cursor:pointer;font-size:13px;font-weight:850;color:#895d72}.review-steps p{font-size:11.5px;line-height:1.8;color:#9a7e8b}.review-steps li{margin:7px 0;font-size:11.5px;line-height:1.75}
+.review-end{margin:24px 4px 20px;color:#a7919d;font-size:11px;line-height:1.7;text-align:center}
+#fake-home{display:none}
+.wv5{font-family:inherit}.wv5 header{border-radius:18px}.wv5 h2{font-size:21px}.wv5 .wv5-history summary{min-height:52px}
+@media(max-width:380px){.review{padding:14px 12px 70px}.review-brand h1{font-size:21px}.review-logo{width:46px;height:46px}.review-pill{padding:5px 6px;font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style></head><body>
+<main class="review">
+<header class="review-top"><div class="review-logo" aria-hidden="true">🌻</div><div class="review-brand"><h1>葵哈币银行</h1><small>OUR LITTLE LOVE BANK ♡</small></div><span class="review-pill">纯虚构预览</span></header>
+<div class="review-guard" role="note"><strong>🔒 天气站 v5 · 验收版</strong>无需账号，没有真实 D1、健康资料或网络连接。所有日期、人物和纸条均为虚构。操作只存在此页面内存，关闭后全部消失。<b>请不要输入真实健康日期或私人留言。</b></div>
+<div class="review-switch" role="group" aria-label="模拟身份切换"><button id="show-admin" aria-pressed="true">🌻 小葵视角</button><button id="show-holder" aria-pressed="false">🐷 猪钮视角</button></div>
+<details class="review-steps"><summary>💌 这里都可以体验什么？（点击展开）</summary>
+<ol><li><b>小葵：</b>在日历选择开始/结束日期、补记、修改，展开历史后双确认删除；选择关怀但暂不分享。</li>
+<li><b>小葵：</b>明确确认分享「想抱抱 / 听我说 / 想静静」，切到猪钮视角查看。</li>
+<li><b>猪钮：</b>查看黄色预计（可关闭）、提交新日期建议、主动写一张虚构小纸条。</li>
+<li><b>切回小葵：</b>审核猪钮的建议，看到虚构纸条的真实作者标记。</li>
+<li><b>独立提醒：</b>按下方按钮演示两种提醒可以同时显示；不会生成真实经期日期。</li></ol></details>
+<div class="review-scene"><span class="title">演示场景</span><button id="simulate-alerts" type="button">🌺 切换两种主动提醒</button><button id="open-weather" type="button">🔄 同步虚构数据</button><button id="simulate-history" type="button">📚 大量历史演示</button><button id="reset-demo" type="button">重新打开初始状态</button></div>
+<p class="review-status" id="status" role="status" aria-live="polite"></p>
+<div id="fake-home"></div><div id="app-page"></div>
+<footer class="review-end">🌷 这个版本用于设计和交互验收，不是正式银行，不处理任何真钱、葵哈币或个人健康数据。<p>预计窗口仅供参考，不能用于避孕、排卵判断或医学诊断。</p></footer>
+</main>
+<script>
+/* OFFLINE CANDIDATE ONLY — NOT AUTHORIZED FOR PUBLIC DEPLOYMENT. */
+(function(root){
+'use strict';
+/**
+ * Weather Station v5: pure, fictional-data-only model.
+ * Does not call network, persist data, read health records or access D1.
+ * Not merged into the bank; no Cloudflare Preview deployment.
+ */
+const DAY_MS = 86_400_000;
+const MIN_START = '2000-01-01';
+
+function parseDay(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  const ms = Date.parse(`${value}T00:00:00.000Z`);
+  if (!Number.isFinite(ms)) return null;
+  const d = new Date(ms);
+  return d.toISOString().slice(0, 10) === value ? d : null;
+}
+function beijingToday(now = Date.now()) {
+  return new Date(now + 8 * 60 * 60 * 1000).toISOString().slice(0, 10);
+}
+function shiftDay(value, delta) {
+  const d = parseDay(value);
+  if (!d || !Number.isSafeInteger(delta)) return null;
+  return new Date(d.getTime() + delta * DAY_MS).toISOString().slice(0, 10);
+}
+function dayDiff(a, b) {
+  const da = parseDay(a), db = parseDay(b);
+  return da && db ? (da.getTime() - db.getTime()) / DAY_MS : NaN;
+}
+function validatedRange(start, end, {today = beijingToday()} = {}) {
+  if (!parseDay(start) || start < MIN_START || start > today) throw new Error('INVALID_START_DAY');
+  if (end === '' || end === undefined) end = null;
+  if (end !== null) {
+    if (!parseDay(end) || end < start || end > today || dayDiff(end, start) > 90) throw new Error('INVALID_END_DAY');
+  }
+  return {start, end};
+}
+function activePeriods(rows) {
+  return (Array.isArray(rows) ? rows : [])
+    .filter(x => x && !x.deleted_at && parseDay(x.start_day))
+    .slice().sort((a, b) => a.start_day.localeCompare(b.start_day));
+}
+function forecast(rows, {today = beijingToday()} = {}) {
+  const active = activePeriods(rows);
+  const complete = active.filter(x => parseDay(x.end_day) && x.end_day >= x.start_day);
+  if (complete.length < 4) return {status: 'insufficient', samples: complete.length};
+  if (active.at(-1).start_day !== complete.at(-1).start_day) return {status: 'ongoing', samples: complete.length};
+  const recent = complete.slice(-4), gaps = [];
+  for (let i = 1; i < recent.length; i++) gaps.push(dayDiff(recent[i].start_day, recent[i-1].start_day));
+  if (gaps.some(x => x < 15 || x > 60) || Math.max(...gaps) - Math.min(...gaps) > 14) {
+    return {status: 'irregular', samples: complete.length};
+  }
+  const median = gaps.slice().sort((a, b) => a - b)[1];
+  const expected = shiftDay(recent.at(-1).start_day, median);
+  const spread = Math.max(3, Math.min(7, 3 + Math.ceil((Math.max(...gaps) - Math.min(...gaps)) / 2)));
+  const first = shiftDay(expected, -spread), last = shiftDay(expected, spread);
+  if (last < today) return {status: 'outdated', samples: complete.length};
+  return {status: 'estimate', expected, first, last, samples: complete.length};
+}
+function weatherSignals({role, periods = [], alerts = [], now = Date.now(), today = beijingToday(now)} = {}) {
+  const isHolder = role === 'holder';
+  if (!['admin', 'holder'].includes(role)) throw new Error('UNAUTHENTICATED');
+  const care = alerts.find(x => x?.kind === 'care' && x.active && typeof x.expires_at === 'string' && Date.parse(x.expires_at) > now) ?? null;
+  const period = alerts.find(x => x?.kind === 'period' && x.active) ?? null;
+  return {
+    forecast: isHolder ? forecast(periods, {today}) : null,
+    care: Boolean(care),
+    period: Boolean(period),
+    // Never synthesize care from predictions; never infer or diagnose mood.
+  };
+}
+function initialUi(role) {
+  if (!['admin', 'holder'].includes(role)) throw new Error('UNAUTHENTICATED');
+  return {role, showEstimate: role === 'holder', historyOpen: false,
+    selection: null, careChoice: null, careChoiceShared: false};
+}
+function chooseCalendarDay(current, day, {today = beijingToday()} = {}) {
+  if (!parseDay(day) || day > today || day < MIN_START) return current;
+  const selection = current?.selection;
+  if (!selection || !selection.start || day < selection.start) {
+    return {...current, selection: {start: day, end: null, complete: false}};
+  }
+  return {...current, selection: {start: selection.start, end: day, complete: true}};
+}
+function chooseCarePrivately(current, choice) {
+  if (current?.role !== 'admin') throw new Error('FORBIDDEN');
+  if (!['抱抱', '听我说', '想静静', null].includes(choice)) throw new Error('INVALID_CHOICE');
+  return {...current, careChoice: choice, careChoiceShared: false};
+}
+function shareCareExplicitly(current) {
+  if (current?.role !== 'admin') throw new Error('FORBIDDEN');
+  if (!current.careChoice) throw new Error('NO_CHOICE');
+  return {...current, careChoiceShared: true};
+}
+function calendarMonth({role, year, month, periods = [], showEstimate, today = beijingToday()} = {}) {
+  if (!['admin', 'holder'].includes(role)) throw new Error('UNAUTHENTICATED');
+  if (!Number.isSafeInteger(year) || year < 2000 || year > 2100 || !Number.isInteger(month) || month < 1 || month > 12) throw new Error('INVALID_MONTH');
+  const active = activePeriods(periods), f = role === 'holder' && showEstimate ? forecast(active, {today}) : null;
+  const numDays = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  const dates = [];
+  for (let i=1; i<=numDays; i++) {
+    const d = `${year}-${String(month).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+    const actual = active.some(x => x.start_day <= d && d <= (x.end_day ?? today));
+    const estimated = !actual && f?.status === 'estimate' && f.first <= d && d <= f.last;
+    dates.push({day: d, actual, estimated: Boolean(estimated), today: d === today});
+  }
+  return dates;
+}
+
+/**
+ * Weather v5 accessible view adapter: offline integration candidate only.
+ * Caller MUST authenticate before providing any weather records. No fetch,
+ * storage or credentials. This file is intentionally not in a Pages deployment.
+ */
+
+const htmlEsc = v => String(v ?? '').replace(/[&<>"']/g, c => ({
+  '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+})[c]);
+const formatDay = v => typeof v === 'string' && parseDay(v) ? `${Number(v.slice(5,7))}月${Number(v.slice(8,10))}日` : '尚未填写';
+function alertActive(a, now){return a?.active && (a.kind!=='care'||(a.expires_at&&Date.parse(a.expires_at)>now))}
+function alertsPanel(role, alerts, now){
+ const active=(Array.isArray(alerts)?alerts:[]).filter(a=>alertActive(a,now));
+ return active.map(a => {
+  const care=a.kind==='care';if(!care&&a.kind!=='period')return '';
+  const name=care?'小葵主动表示需要照顾':'小葵主动通知小日子开始';
+  const text=care?(a.care_note||'今天希望得到一点关怀'):'这是一条主动提醒，不能替代经本人确认的真实日期记录';
+  return `<section class="wv5-signal ${care?'wv5-care':'wv5-period'}" aria-label="${name}">
+    <strong>${care?'🫂':'🌺'} ${role==='admin'?(care?'我想要一点照顾':'我主动分享小日子开始'):name}</strong>
+    <p>${htmlEsc(text)}</p>
+    ${role==='admin'?care?'<button data-act="weather-care-end-ask" type="button">结束这条关怀分享</button>':'<small>小日子开始提醒需由本人主动结束（后续安全接入）</small>':''}</section>`;
+ }).join('');
+}
+function dateCalendar(role, rows, ui, now){
+ const today=beijingToday(now),rawMonth=ui?.month ?? today.slice(0,7);
+ const match=/^(\d{4})-(\d{2})$/.exec(rawMonth);
+ const month=match && Number(match[2])>=1&&Number(match[2])<=12?rawMonth:today.slice(0,7);
+ const year=Number(month.slice(0,4)),monthNum=Number(month.slice(5,7));
+ const current=initialUi(role);
+ const showEstimate=role==='holder'?(typeof ui?.showEstimate==='boolean'?ui.showEstimate:current.showEstimate):false;
+ const days=calendarMonth({role,year,month:monthNum,periods:rows,showEstimate,today});
+ const weekOffset=(new Date(Date.UTC(year,monthNum-1,1)).getUTCDay()+6)%7;
+ const blanks='<span aria-hidden="true"></span>'.repeat(weekOffset);
+ const selected=ui?.selection;
+ const cells=days.map(item=>{
+  const chosen=selected?.start && item.day>=selected.start && item.day<=(selected.end||selected.start);
+  const icon=item.actual?'已确认真实日期':item.estimated?'黄色预计窗口，仅作参考':'普通日期';
+  const canUse=item.day<=today;
+  return `<button type="button" class="wv5-day ${item.actual?'actual ':''}${item.estimated?'estimated ':''}${item.today?'today ':''}${chosen?'selected':''}"
+    data-act="weather-pick-day" data-day="${item.day}" ${canUse?'':'disabled'} aria-label="${item.day} ${icon}${item.today?'，今天':''}"
+    aria-pressed="${Boolean(chosen)}">${Number(item.day.slice(-2))}</button>`;
+ }).join('');
+ const switching=role==='holder'?`<button data-act="weather-estimate-toggle" aria-pressed="${showEstimate}" type="button">
+    🌼 黄色预计：${showEstimate?'开启':'关闭'}</button>`:'';
+ const selection=selected?.start?`<div class="wv5-selected" role="status">已选 ${htmlEsc(formatDay(selected.start))}${selected.complete?' ～ '+htmlEsc(formatDay(selected.end)):'，请选择结束日期'}
+   <div class="wv5-actions"><button data-act="weather-save-open" type="button">尚未结束</button>
+   ${selected.complete?`<button data-act="weather-save-selected" type="button">${role==='admin'?'确认保存日期（演示）':'提交日期建议（演示）'}</button>`:''}
+   <button data-act="weather-cancel-selection" type="button">取消选择</button></div></div>`:'';
+ return `<section class="wv5-box wv5-calendar" aria-label="小葵天气日历">
+  <div class="wv5-cal-top"><strong>🌸 ${year} 年 ${monthNum} 月</strong><div>
+   <button type="button" data-act="weather-prev-month" aria-label="上个月">‹</button>
+   <button type="button" data-act="weather-next-month" aria-label="下个月">›</button></div></div>
+  <label class="wv5-month-label">快速选择月份 <input name="weather-month" type="month" value="${month}" min="2000-01" max="${today.slice(0,7)}"></label>
+  <div class="wv5-week">${['一','二','三','四','五','六','日'].map(x=>`<span>${x}</span>`).join('')}</div>
+  <div class="wv5-days">${blanks}${cells}</div>
+  <p class="wv5-legend">🌸 已确认的实际日期${role==='holder'?' · 🌼 黄色仅代表预计参考':''}</p>
+  ${switching}${selection}
+ </section>`;
+}
+function historyPanel(role, rows, ui, hasMore){
+ const open=Boolean(ui?.historyOpen);
+ const items=rows.map(p=>{
+  const name=`${formatDay(p.start_day)} ～ ${p.end_day?formatDay(p.end_day):'未结束'}`;
+  const safeName=htmlEsc(name),id=htmlEsc(p.id);
+  const confirmDelete=role==='admin'&&ui?.deleteTargetId===p.id;
+  const controls=role==='admin'?`<div class="wv5-actions"><button type="button" data-act="weather-edit" data-id="${id}">修改</button>
+     <button type="button" data-act="weather-delete-ask" data-id="${id}">删除</button></div>`:'';
+  const warning=confirmDelete?`<div class="wv5-delete-confirm" role="alert"><strong>确认移除 ${safeName}？</strong>
+    <p>将从双方日历及预测移除，保留必要的历史建议关联；这不是永久抹除后台健康历史。</p>
+    <div class="wv5-actions"><button type="button" data-act="weather-delete-cancel">先不删</button>
+    <button type="button" data-act="weather-delete-confirm" data-id="${id}" data-version="${Number(p.version)}" data-expected-start="${htmlEsc(p.start_day)}" data-expected-end="${htmlEsc(p.end_day??'')}">确认移除这一条</button></div></div>`:'';
+  return `<article class="wv5-record"><div><strong>🌸 ${safeName}</strong><small>小葵已确认</small></div>${controls}${warning}</article>`;
+ }).join('');
+ return `<details class="wv5-box wv5-history" ${open?'open':''}>
+   <summary>🌸 已确认的记录 <span>${rows.length} 条${hasMore?'（还有更多）':''}</span></summary>
+   <div class="wv5-history-items">${items||'<p>尚无已确认记录 ♡</p>'}
+   ${hasMore?'<button type="button" data-act="weather-history-more">查看更多历史</button>':''}</div>
+ </details>`;
+}
+function proposalsPanel(role, proposals){
+ const all=Array.isArray(proposals)?proposals:[];
+ const pending=all.filter(p=>p.status==='pending');
+ const content=pending.map(p=>{
+  const removed=Boolean(p.original_removed);
+  const actions=role==='admin'?removed?'<span>原记录已移除，不能直接通过</span>':
+   `<div class="wv5-actions"><button data-act="weather-review" data-id="${htmlEsc(p.id)}">审核</button><button data-act="weather-reject" data-id="${htmlEsc(p.id)}">退回</button></div>`:'';
+  return `<article class="wv5-record"><strong>💌 日期建议 ${htmlEsc(formatDay(p.proposed_start_day))} ～ ${htmlEsc(formatDay(p.proposed_end_day))}</strong>${actions}</article>`;
+ }).join('');
+ return `<details class="wv5-box wv5-history"><summary>💌 日期建议与审核 <span>${pending.length} 条待处理</span></summary>
+  ${content||'<p>没有待处理建议 ♡</p>'}</details>`;
+}
+function renderWeatherV5({role, periods=[], proposals=[], alerts=[], ui=null, hasMore=false,
+  latestNote=null,noteFeatureAvailable=false,now=Date.now()}={}) {
+ if(!['admin','holder'].includes(role))throw new Error('UNAUTHENTICATED');
+ if(!Number.isFinite(now))throw new Error('INVALID_TIME');
+ const safeUi=ui||initialUi(role),holder=role==='holder';
+ const f=holder?forecast(periods,{today:beijingToday(now)}):null;
+ const prediction=holder?`<section class="wv5-box wv5-prediction" aria-label="黄色预计范围">
+  <strong>🌼 ${f.status==='estimate'?'仅供参考的黄色预计窗口':'暂不预测'}</strong>
+  <p>${f.status==='estimate'?`可能的时间范围：${htmlEsc(formatDay(f.first))} ～ ${htmlEsc(formatDay(f.last))}`:
+  '至少需要四次完整、规律且由小葵确认的历史记录。'}</p>
+  <small>仅供参考，不能用于避孕、排卵判断或医学诊断。</small>
+ </section>`:'';
+ const newAction=`<div class="wv5-main-action"><button type="button" data-act="${holder?'weather-suggest-new':'weather-record-new'}">
+  ${holder?'💌 向小葵提出日期建议':'🌸 记录或补记小日子'}</button><small>${holder?'须经小葵审核后才会显示为真实日期':'在日历选择开始和结束日期，历史记录也可以修改'}</small></div>`;
+ return `<section class="wv5" aria-label="小葵天气站 v5">
+ <header><p>🌷 小葵天气站</p><h2>${holder?'今天也记得温柔照顾她 ♡':'今天也要好好照顾自己 ♡'}</h2>
+ <small>天气只是温柔的参考，真实日期和主动关怀由小葵本人决定</small></header>
+ ${dateCalendar(role,periods,safeUi,now)}
+ ${newAction}${historyPanel(role,periods,safeUi,hasMore)}
+ ${prediction}${alertsPanel(role,alerts,now)}${proposalsPanel(role,proposals)}
+ ${role==='admin'?`<div class="wv5-box wv5-private"><strong>🌷 我的小小心愿（默认私密）</strong>
+  <p>这些是我自己选择的需要；不因为打开天气站就推测我的心情。</p>
+  <div class="wv5-care-choices" role="group" aria-label="只在本机选择的关怀愿望">
+   ${[['hug','抱抱'],['listen','听我说'],['space','想静静']].map(([key,label])=>`<button type="button" data-act="weather-care-pick" data-choice="${key}" aria-pressed="${safeUi.careChoice===label}">${label}</button>`).join('')}
+  </div>
+  ${safeUi.careChoice?`<div class="wv5-care-preview"><p>当前选择：${htmlEsc(safeUi.careChoice)} · ${safeUi.careChoiceShared?'已由我主动分享':'仅我自己知道，尚未发送'}</p>
+     ${safeUi.careShareConfirm?`<p>确定要把「${htmlEsc(safeUi.careChoice)}」主动分享给猪钮吗？不会生成真实日期，也不会自动发币。</p>
+        <div class="wv5-actions"><button type="button" data-act="weather-care-share-cancel">先不分享</button><button type="button" data-act="weather-care-share-confirm">确认分享给猪钮</button></div>`:
+        `<button type="button" data-act="weather-care-share-ask">主动分享给猪钮</button>`}</div>`:'<small>先选一项也不会通知猪钮或保存到云端。</small>'}
+  ${safeUi.careEndConfirm?'<div class="wv5-care-preview"><p>确定结束已经分享的关怀吗？</p><div class="wv5-actions"><button type="button" data-act="weather-care-end-cancel">先保留</button><button type="button" data-act="weather-care-end-confirm">确认结束分享</button></div></div>':''}
+ </div>`:''}
+ <div class="wv5-box wv5-letter"><strong>💌 猪钮亲手写的小纸条</strong>
+  ${noteFeatureAvailable ? latestNote?.author_role==='holder'&&typeof latestNote.content==='string'
+    ? `<p class="wv5-note-body">${htmlEsc(latestNote.content)}</p><small>🐷 来自猪钮账号亲自发送 · ${htmlEsc(String(latestNote.created_at||'').slice(0,10))}</small>`
+    : '<p>还没有收到猪钮在这里亲手发送的小纸条 ♡</p>'
+    : '<p>小纸条仍在隔离开发，尚未开放发送。</p>'}
+  ${role==='holder'&&noteFeatureAvailable?`<form id="weather-v5-note-form" class="wv5-note-form">
+    <label>给小葵写一句话<textarea name="content" maxlength="160" minlength="1" rows="3" required placeholder="由猪钮自己写，不会自动生成内容"></textarea></label>
+    <button type="submit">🐷 确认送给小葵</button>
+    <small>每天最多 3 条。只有你主动按发送才保存；不会在锁屏通知显示正文。</small>
+   </form>`:''}
+  <small>网站自动问候与猪钮亲写的纸条是两回事，系统不会冒充猪钮。</small>
+ </div>
+ </section>`;
+}
+
+/**
+ * Weather v5 authenticated BANK UI adapter (offline integration proposal).
+ * No network here except injected bank requestJSON / perform; no localStorage,
+ * cookies, fake authentication, HTML DOM globals, Cloudflare or D1 access.
+ * The real app.js must pass an already-authenticated {id,role} from /api/state.
+ */
+
+
+const VALID_ROLES=new Set(['admin','holder']);
+const MAX_HISTORY=5000;
+function identity(u){
+ return u && typeof u.id==='string' && u.id && VALID_ROLES.has(u.role)?{id:u.id,role:u.role}:null;
+}
+function monthShift(value,delta){
+ const day=/^\d{4}-\d{2}$/.test(value||'')?value+'-01':beijingToday().slice(0,7)+'-01';
+ const d=new Date(day+'T00:00:00Z');
+ if(!Number.isFinite(d.getTime()))return null;
+ const shifted=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+delta,1));
+ const m=shifted.toISOString().slice(0,7);
+ return m>='2000-01' && m<='2100-12'?m:null;
+}
+function validRow(r){
+ return r && typeof r.id==='string' && r.id.length<=100 && parseDay(r.start_day) &&
+ (r.end_day===null||parseDay(r.end_day)) && Number.isSafeInteger(Number(r.version));
+}
+function rowsFrom(r){return (Array.isArray(r)?r:[]).filter(validRow)}
+function mergeHistory(existing,more){
+ const seen=new Set();const all=[];
+ for(const r of [...existing,...more])if(!seen.has(r.id)){
+  all.push(r);seen.add(r.id);
+ }
+ return all.sort((a,b)=>b.start_day.localeCompare(a.start_day)||b.id.localeCompare(a.id));
+}
+function encodeCursor(last,limit){
+ if(!last||!parseDay(last.start_day)||!/^[A-Za-z0-9_-]{1,100}$/.test(last.id))throw Error('INVALID_HISTORY_CURSOR');
+ return `/api/weather/history?limit=${limit}&cursor_day=${encodeURIComponent(last.start_day)}&cursor_id=${encodeURIComponent(last.id)}`;
+}
+const DATE_ACTIONS=new Set(['weather-save-selected','weather-save-open','weather-delete-confirm','weather-review','weather-reject',
+ 'weather-care-share-confirm','weather-care-end-confirm']);
+const CHOICE_KEYS=Object.freeze({'抱抱':'hug','听我说':'listen','想静静':'space'});
+const KEY_CHOICES=Object.freeze({hug:'抱抱',listen:'听我说',space:'想静静'});
+
+function createWeatherBankController({requestJSON, perform, onChange=()=>{}, now=Date.now, uuid=()=>crypto.randomUUID(), onNotice=()=>{}}={}){
+ if(typeof requestJSON!=='function'||typeof perform!=='function')throw Error('MISSING_BANK_IO');
+ let who=null,generation=0,ui=null,rows=[],proposals=[],alerts=[],hasMore=false,total=0,ready=false,busy=false,uncertain=false,loadError=null,reviewTargetId=null,latestNote=null,noteFeatureAvailable=false;
+ const update=()=>{try{onChange()}catch{}};
+ const warn=s=>{try{onNotice(s)}catch{}};
+ function reset(){generation++;who=null;ui=null;rows=[];proposals=[];alerts=[];latestNote=null;noteFeatureAvailable=false;hasMore=false;total=0;ready=false;busy=false;uncertain=false;loadError=null;reviewTargetId=null;update();}
+ function acceptUser(user){
+  const next=identity(user);
+  if(!next){if(who)reset();return false;}
+  if(!who || who.id!==next.id || who.role!==next.role){
+   generation++;who=next;ui=initialUi(next.role);ui.month=beijingToday(now()).slice(0,7);
+   rows=[];proposals=[];alerts=[];latestNote=null;noteFeatureAvailable=false;hasMore=false;total=0;ready=false;busy=false;uncertain=false;loadError=null;reviewTargetId=null;
+  }
+  return true;
+ }
+ function current(user){return acceptUser(user) && !!who && who.id===user.id && who.role===user.role}
+ function isAdmin(){return who?.role==='admin'}
+ function period(id){return rows.find(p=>p.id===id)||null}
+ function proposal(id){return proposals.find(p=>p.id===id)||null}
+ function status(){return {ready,busy,uncertain,hasMore,total,accountId:who?.id??null,role:who?.role??null,error:loadError}}
+ async function load(user){
+  if(!current(user))return false;
+  const active=++generation,owner=who.id,role=who.role;
+  loadError=null;busy=true;update();
+  try{
+   const response=await requestJSON('/api/weather/state');
+   if(active!==generation||who?.id!==owner||who?.role!==role)return false;
+   if(!response||response.ok!==true||!response.weather||typeof response.weather!=='object')throw Error('INVALID_WEATHER_RESPONSE');
+   const data=response.weather;
+   rows=rowsFrom(data.periods);
+   proposals=Array.isArray(data.proposals)?data.proposals:[];
+   alerts=Array.isArray(data.alerts)?data.alerts:[];
+   noteFeatureAvailable=data.noteFeatureAvailable===true;
+   latestNote=noteFeatureAvailable&&data.latestNote?.author_role==='holder'&&typeof data.latestNote.content==='string'?data.latestNote:null;
+   hasMore=Boolean(data.hasMore)||Number(data.total)>rows.length;
+   total=Number.isSafeInteger(Number(data.total))?Number(data.total):rows.length;
+   ready=true;uncertain=false;return true;
+  }catch{
+   if(active===generation && who?.id===owner){loadError='天气站暂时不可用；请稍后手动刷新。';}
+   return false;
+  }finally{
+   if(active===generation){busy=false;update();}
+  }
+ }
+ async function loadMore(user){
+  if(!current(user)||!ready||!hasMore||busy||rows.length>=MAX_HISTORY)return false;
+  const last=rows.at(-1),currentGeneration=generation,owner=who.id;
+  if(!last)return false;
+  busy=true;update();
+  try{
+   const response=await requestJSON(encodeCursor(last,30));
+   if(currentGeneration!==generation || who?.id!==owner)return false;
+   if(!response||response.ok!==true||!Array.isArray(response.rows)||typeof response.hasMore!=='boolean')throw Error('INVALID_HISTORY_RESPONSE');
+   const next=rowsFrom(response.rows);const before=rows.length;
+   rows=mergeHistory(rows,next).slice(0,MAX_HISTORY);
+   hasMore=response.hasMore;
+   if(hasMore && rows.length<=before){loadError='历史记录未能继续加载，请手动同步。';hasMore=false;return false;}
+   return true;
+  }catch{if(currentGeneration===generation)loadError='历史读取失败，可以稍后再尝试';return false;}
+  finally{if(currentGeneration===generation){busy=false;update();}}
+ }
+ function page(user){
+  if(!current(user))return '<section class="wv5" role="status">请先登录自己的银行账号。</section>';
+  if(!ready){return `<section class="wv5" role="status"><h2>🌷 小葵天气站</h2><p>${htmlEsc(loadError||'天气数据尚未验证，暂不显示私人日期。')}</p><button type="button" data-act="weather-refresh">安全刷新</button></section>`;}
+  const view=renderWeatherV5({role:who.role,periods:rows,proposals,alerts,ui,hasMore,latestNote,noteFeatureAvailable,now:now()});
+  const conflict=uncertain?'<p class="wv5-warning" role="alert">上次保存结果尚未确认，请先刷新天气站，不要重复提交。</p>':'';
+  const alert=loadError?`<p class="wv5-warning" role="status">${htmlEsc(loadError)}</p>`:'';
+  let review='';
+  if(isAdmin()&&reviewTargetId){
+   const p=proposal(reviewTargetId);
+   if(p?.status==='pending'&&!p.original_removed){
+    review=`<section class="wv5-box" aria-label="审核日期建议"><h3>💌 审核猪钮的日期建议</h3>
+    <form id="weather-v5-review-form" data-id="${htmlEsc(p.id)}">
+      <label>确认开始日期<input name="start_day" type="date" required value="${htmlEsc(p.proposed_start_day)}"></label>
+      <label>确认结束日期（可留空）<input name="end_day" type="date" value="${htmlEsc(p.proposed_end_day||'')}"></label>
+      <label>回复（可选）<textarea name="note" maxlength="160"></textarea></label>
+      <div class="wv5-actions"><button type="submit">🌷 确认日期并通过</button><button type="button" data-act="weather-review-cancel">暂不审核</button></div>
+    </form></section>`;
+   }
+  }
+  return conflict+alert+view+review;
+ }
+ function home(user){
+  if(!current(user))return '';
+  return '<button class="diary-home-card" data-act="tab" data-tab="weather" type="button"><span class="diary-home-icon">🌷</span><span class="diary-home-copy"><strong>小葵天气站</strong><small>温柔记录日期 · 自己决定要分享什么</small></span><span class="diary-home-arrow">›</span></button>';
+ }
+ async function submit(op,payload,message,button,user){
+  if(!current(user)||!ready||busy||uncertain)return false;
+  busy=true;update();
+  const owner=who.id,startGeneration=generation;
+  let result=false;
+  try{
+   // Reuse the bank's uncertainty/retry protection. Never duplicate a bank write.
+   result=await perform(op,payload,message,button);
+  }catch{result=false;}
+  finally{if(startGeneration===generation)busy=false;}
+  if(startGeneration!==generation||who?.id!==owner)return false;
+  if(!result){uncertain=true;warn('操作结果暂时无法确认，请先同步核实，不要重复提交。');update();return false;}
+  ui.selection=null;ui.editingId=null;ui.deleteTargetId=null;reviewTargetId=null;
+  return await load(user);
+ }
+ function clickDay(day){
+  const today=beijingToday(now());if(!parseDay(day)||day>today)return;
+  const prev=rows.find(p=>p.start_day<=day&&day<=(p.end_day||today));
+  if(prev&&!ui.selection){ui.editingId=prev.id;ui.selection={start:prev.start_day,end:prev.end_day,complete:!!prev.end_day};ui.historyOpen=true;ui.month=day.slice(0,7);return;}
+  ui=chooseCalendarDay(ui,day,{today});
+ }
+ async function action(a,d,user,button=null){
+  if(!current(user))return false;
+  if(!a?.startsWith('weather-'))return false;
+  const isWrite=DATE_ACTIONS.has(a);
+  if(busy||uncertain&&isWrite){warn('请先同步核对天气站记录，避免重复提交。');return true;}
+  const id=typeof d?.id==='string'?d.id:null,day=typeof d?.day==='string'?d.day:null;
+  switch(a){
+   case 'weather-refresh':await load(user);break;
+   case 'weather-prev-month':case 'weather-next-month':{
+     const m=monthShift(ui.month,a==='weather-prev-month'?-1:1);
+     if(m && m<=beijingToday(now()).slice(0,7))ui.month=m;break;
+   }
+   case 'weather-pick-day':if(day)clickDay(day);break;
+   case 'weather-record-new':case 'weather-suggest-new':ui.selection=null;ui.editingId=null;break;
+   case 'weather-cancel-selection':ui.selection=null;ui.editingId=null;break;
+   case 'weather-history-more':await loadMore(user);break;
+   case 'weather-care-pick':if(isAdmin()&&Object.hasOwn(KEY_CHOICES,d?.choice)){ui=chooseCarePrivately(ui,KEY_CHOICES[d.choice]);ui.careShareConfirm=false;}break;
+   case 'weather-care-share-ask':if(isAdmin()&&ui.careChoice){ui.careShareConfirm=true;}break;
+   case 'weather-care-share-cancel':if(isAdmin())ui.careShareConfirm=false;break;
+   case 'weather-care-share-confirm':{
+    if(!isAdmin()||!ui.careShareConfirm||!ui.careChoice)break;
+    const choice=CHOICE_KEYS[ui.careChoice];if(!choice)break;
+    const ok=await submit('weather_share_care',{choice,confirm_share:true,request_token:uuid()},
+       '关怀选择已由小葵主动分享 ♡',button,user);
+    if(ok&&current(user)){ui.careChoiceShared=true;ui.careShareConfirm=false;}
+    break;
+   }
+   case 'weather-care-end-ask':if(isAdmin())ui.careEndConfirm=true;break;
+   case 'weather-care-end-cancel':if(isAdmin())ui.careEndConfirm=false;break;
+   case 'weather-care-end-confirm':{
+    if(!isAdmin()||!ui.careEndConfirm)break;
+    const ok=await submit('weather_end_shared_care',{confirm_end:true},'关怀分享已经结束 ♡',button,user);
+    if(ok&&current(user)){ui.careChoiceShared=false;ui.careEndConfirm=false;}
+    break;
+   }
+   case 'weather-estimate-toggle':if(who.role==='holder')ui.showEstimate=!ui.showEstimate;break;
+   case 'weather-edit':{
+    if(!isAdmin())break;
+    const p=period(id);if(!p)break;
+    ui.editingId=p.id;ui.selection={start:p.start_day,end:p.end_day,complete:!!p.end_day};ui.month=p.start_day.slice(0,7);ui.historyOpen=true;break;
+   }
+   case 'weather-delete-ask':if(isAdmin()&&period(id)){ui.deleteTargetId=id;ui.historyOpen=true;}break;
+   case 'weather-delete-cancel':ui.deleteTargetId=null;break;
+   case 'weather-delete-confirm':{
+     if(!isAdmin())break;
+     const p=period(id);
+     if(!p||Number(d?.version)!==Number(p.version)||d?.expectedStart!==p.start_day||
+        (d?.expectedEnd||null)!==(p.end_day||null)){
+       warn('日期已经改变，请先同步；没有删除任何记录。');break;
+     }
+     await submit('weather_delete_period',{id:p.id,version:Number(p.version),confirm_delete:true,
+       expected_start_day:p.start_day,expected_end_day:p.end_day??null},'这条日期已从日历移除（仍保留必要的历史关联）',button,user);
+     break;
+   }
+   case 'weather-save-selected':case 'weather-save-open':{
+     const selection=ui.selection,open=a==='weather-save-open';
+     if(!selection?.start||(!open&&!selection.complete)){warn('请在日历选择开始与结束日期。');break;}
+     const payload={start_day:selection.start,end_day:open?null:selection.end};
+     if(isAdmin()){
+      if(ui.editingId){const original=period(ui.editingId);if(!original){warn('记录已改变，请先刷新');break;}payload.id=original.id;payload.version=Number(original.version);}
+      await submit('weather_save_period',payload,'真实日期已确认保存 🌷',button,user);
+     }else{
+      payload.request_token=uuid();if(ui.editingId)payload.period_id=ui.editingId;
+      await submit('weather_propose_period',payload,'日期建议已交给小葵审核 💌',button,user);
+     }
+     break;
+   }
+   case 'weather-review':if(isAdmin()&&proposal(id)?.status==='pending'&&!proposal(id).original_removed)reviewTargetId=id;break;
+   case 'weather-reject':{
+     if(!isAdmin()||proposal(id)?.status!=='pending')break;
+     await submit('weather_review_period',{id,decision:'reject',note:''},'日期建议已退回',button,user);break;
+   }
+   case 'weather-review-cancel':reviewTargetId=null;break;
+   case 'weather-end-alert':warn('关怀提醒控制尚未接入本轮离线候选。');break;
+   default:return false;
+  }
+  update();return true;
+ }
+ async function submitReview(user,fields,button){
+  if(!current(user)||!isAdmin()||!reviewTargetId||busy||uncertain)return false;
+  const p=proposal(reviewTargetId);
+  if(!p||p.status!=='pending'||p.original_removed){warn('原日期已经改变，请刷新');return false;}
+  return await submit('weather_review_period',{id:p.id,decision:'approve',
+   start_day:fields.start_day,end_day:fields.end_day||null,note:fields.note||''},'日期建议已确认 🌷',button,user);
+ }
+ async function submitNote(user,fields,button){
+  if(!current(user)||isAdmin()||!noteFeatureAvailable||!ready||busy||uncertain)return false;
+  const content=typeof fields?.content==='string'?fields.content.trim():'';
+  if(!content||[...content].length>160){warn('请输入 1～160 字你亲手写的话。');return false;}
+  return submit('weather_send_note',{content,confirm_send:true,request_token:uuid()},'猪钮的小纸条已亲自送出 ♡',button,user);
+ }
+ function setHistoryOpen(value){if(ui)ui.historyOpen=Boolean(value)}
+ function setMonth(value){if(!ui||typeof value!=='string')return;
+  if(/^\d{4}-\d{2}$/.test(value)&&value<=beijingToday(now()).slice(0,7)&&value>='2000-01'){ui.month=value;update()}}
+ function choosePrivateCare(value){if(isAdmin()){ui=chooseCarePrivately(ui,value);update();}}
+ return Object.freeze({reset,acceptUser,load,loadMore,page,home,action,submitReview,submitNote,setMonth,setHistoryOpen,choosePrivateCare,status});
+}
+
+root.KuihaWeatherV5=Object.freeze({createWeatherBankController});
+})(window);
+
+</script>
+<script>
+/* Pure fictional fixture ONLY. Never include this file in a bank deployment. */
+const TIME=Date.parse('2026-10-28T01:00:00Z'),TODAY='2026-10-28';
+let identity={id:'fake-admin',role:'admin'};
+let show='weather',counter=0;
+const records=[
+ ['p1','2026-07-08','2026-07-11'],['p2','2026-08-05','2026-08-08'],
+ ['p3','2026-09-02','2026-09-05'],['p4','2026-09-30','2026-10-03']
+].map(([id,start_day,end_day])=>({id,start_day,end_day,version:1,created_at:'2026-10-01T01:00:00Z'}));
+const proposals=[];let alerts=[],latestNote=null;
+const $=sel=>document.querySelector(sel);
+const note=s=>{$('#status').textContent=s};
+let client;
+function render(){
+ $('#show-admin').setAttribute('aria-pressed',String(identity.role==='admin'));
+ $('#show-holder').setAttribute('aria-pressed',String(identity.role==='holder'));
+ $('#fake-home').innerHTML=client.home(identity);
+ $('#app-page').innerHTML=client.page(identity);
+}
+const load=async()=>{await client.load(identity);render()};
+// All data in this fixture lives in this single page's temporary JS memory.
+const activeRecords=()=>records.filter(x=>!x.deleted_at).sort((a,b)=>b.start_day.localeCompare(a.start_day)||b.id.localeCompare(a.id));
+const visibleProposals=()=>proposals.filter(x=>identity.role==='admin'||x.requester_id===identity.id).map(q=>({
+ ...q, original_removed:!!(q.period_id&&!records.some(r=>r.id===q.period_id&&!r.deleted_at))
+}));
+const requestJSON=async url=>{
+ if(url==='/api/weather/state'){
+  const visible=activeRecords();return {ok:true,weather:{periods:visible.slice(0,30),proposals:visibleProposals(),alerts,
+   latestNote,noteFeatureAvailable:true,total:visible.length,hasMore:visible.length>30}};
+ }
+ if(url.startsWith('/api/weather/history')){
+  const query=new URL(url,'https://offline.example.invalid').searchParams;
+  const day=query.get('cursor_day'),id=query.get('cursor_id'),limit=Math.min(50,Number(query.get('limit'))||30);
+  const prior=activeRecords().filter(x=>!day||x.start_day<day||(x.start_day===day&&x.id<id));
+  return {ok:true,rows:prior.slice(0,limit),hasMore:prior.length>limit,nextCursor:null};
+ }
+ throw Error('FAKE_ROUTE_NOT_AVAILABLE');
+};
+const sentNotes=[];
+const clashes=(start,end,excludeId=null)=>records.some(r=>!r.deleted_at&&r.id!==excludeId&&
+ r.start_day<=(end||'9999-12-31')&&(r.end_day||'9999-12-31')>=start);
+const perform=async(op,payload)=>{
+ // Pure in-memory demonstration. NO network, DB connection or persistent storage.
+ if(op==='weather_save_period'&&identity.role==='admin'){
+  if(clashes(payload.start_day,payload.end_day,payload.id||null))return false;
+  if(payload.id){
+   const p=records.find(x=>x.id===payload.id&&!x.deleted_at);
+   if(!p||p.version!==payload.version)return false;
+   p.start_day=payload.start_day;p.end_day=payload.end_day;p.version++;
+  }else records.push({id:'fake-added-'+(++counter),start_day:payload.start_day,end_day:payload.end_day,version:1});
+ }else if(op==='weather_delete_period'&&identity.role==='admin'){
+  const p=records.find(x=>x.id===payload.id&&!x.deleted_at);
+  if(!p||p.version!==payload.version||p.start_day!==payload.expected_start_day||
+     (p.end_day??null)!==(payload.expected_end_day??null)||payload.confirm_delete!==true)return false;
+  p.deleted_at=new Date(TIME).toISOString();p.version++;
+ }else if(op==='weather_propose_period'&&identity.role==='holder'){
+  const target=payload.period_id?records.find(x=>x.id===payload.period_id&&!x.deleted_at):null;
+  if(payload.period_id&&!target)return false;
+  proposals.push({id:'fake-proposal-'+(++counter),status:'pending',requester_id:identity.id,
+   period_id:target?.id||null,period_version:target?.version||null,
+   proposed_start_day:payload.start_day,proposed_end_day:payload.end_day,request_token:payload.request_token});
+ }else if(op==='weather_review_period'&&identity.role==='admin'){
+  const q=proposals.find(x=>x.id===payload.id&&x.status==='pending');if(!q)return false;
+  if(payload.decision==='approve'){
+   const target=q.period_id?records.find(x=>x.id===q.period_id&&!x.deleted_at):null;
+   if(q.period_id&&(!target||target.version!==q.period_version))return false;
+   if(clashes(payload.start_day,payload.end_day,target?.id||null))return false;
+   if(target){target.start_day=payload.start_day;target.end_day=payload.end_day;target.version++;}
+   else records.push({id:'fake-reviewed-'+(++counter),start_day:payload.start_day,end_day:payload.end_day,version:1});
+   q.status='approved';
+  }else q.status='rejected';
+ }else if(op==='weather_share_care'&&identity.role==='admin'&&payload.confirm_share===true){
+  const kinds={hug:'我今天想要一个抱抱 ♡',listen:'我今天想让你听我说说话 ♡',space:'我今天想静静待一会儿 ♡'};
+  if(!Object.hasOwn(kinds,payload.choice))return false;
+  alerts=alerts.filter(x=>x.kind!=='care');
+  alerts.push({kind:'care',active:1,care_note:kinds[payload.choice],expires_at:'2026-10-29T01:00:00Z'});
+ }else if(op==='weather_end_shared_care'&&identity.role==='admin'&&payload.confirm_end===true){
+  alerts=alerts.filter(x=>x.kind!=='care');
+ }else if(op==='weather_send_note'&&identity.role==='holder'&&payload.confirm_send===true){
+  if(sentNotes.length>=3)return false;
+  const raw=String(payload.content||'').trim();if(!raw||[...raw].length>160)return false;
+  sentNotes.push({id:'fake-note-'+(++counter),author_role:'holder',content:raw,created_at:new Date(TIME).toISOString()});
+  latestNote=sentNotes.at(-1);
+ }else return false;
+ note('已完成仅内存中的虚构操作，不曾访问真实银行。');return true;
+};
+client=window.KuihaWeatherV5.createWeatherBankController({requestJSON,perform,onChange:render,now:()=>TIME,
+ uuid:()=>`fake-token-${++counter}`,onNotice:note});
+async function switchTo(role){identity={id:role==='admin'?'fake-admin':'fake-holder',role};await load();note('仅切换虚构视角，不是登录她的账号。')}
+$('#show-admin').addEventListener('click',()=>switchTo('admin'));
+$('#show-holder').addEventListener('click',()=>switchTo('holder'));
+$('#simulate-alerts').addEventListener('click',async()=>{
+ alerts=alerts.length?[]:[
+  {kind:'care',active:1,care_note:'虚构示例：今天希望休息一下',expires_at:'2026-10-29T01:00:00Z'},
+  {kind:'period',active:1,care_note:'',expires_at:null}
+ ];await load();note('两个独立提醒仅在虚构内存里切换。')
+});
+$('#open-weather').addEventListener('click',async()=>{show='weather';await load()});
+$('#app-page').addEventListener('click',async e=>{
+ const el=e.target.closest?.('[data-act]');if(!el)return;
+ if(el.dataset.act==='tab'){note('模拟返回首页。');return;}
+ if(el.dataset.act.startsWith('weather-'))await client.action(el.dataset.act,el.dataset,identity,el);
+});
+$('#app-page').addEventListener('change',e=>{
+ if(e.target?.name==='weather-month')client.setMonth(e.target.value)
+});
+$('#app-page').addEventListener('toggle',e=>{
+ if(e.target?.classList?.contains('wv5-history'))client.setHistoryOpen(e.target.open);
+},true);
+$('#app-page').addEventListener('submit',async e=>{
+ if(e.target?.id==='weather-v5-note-form'){
+  e.preventDefault();const form=new FormData(e.target);
+  await client.submitNote(identity,{content:form.get('content')},e.submitter);return;
+ }
+ if(e.target?.id!=='weather-v5-review-form')return;
+ e.preventDefault();const form=new FormData(e.target);
+ await client.submitReview(identity,{start_day:form.get('start_day'),end_day:form.get('end_day'),note:form.get('note')},e.submitter);
+});
+void load();
+
+// Optional fictional long-history scenario to test visible paging (not generated by real D1).
+document.getElementById('simulate-history').addEventListener('click',async()=>{
+ if(!records.some(x=>x.id==='fake-history-0')){
+  for(let i=0;i<130;i++){
+   const startDate=new Date(Date.UTC(2010,0,10+i*30));
+   const endDate=new Date(startDate.getTime()+3*86400000);
+   records.push({id:'fake-history-'+i,start_day:startDate.toISOString().slice(0,10),
+     end_day:endDate.toISOString().slice(0,10),version:1});
+  }
+ }
+ await load();note('虚构历史已扩展到 130+ 条；展开「已确认的记录」并点击查看更多。');
+});
+
+document.getElementById('reset-demo').addEventListener('click',()=>{location.reload()});
+</script>
+</body></html>
