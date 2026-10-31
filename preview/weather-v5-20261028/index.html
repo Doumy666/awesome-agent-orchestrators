@@ -2,8 +2,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow,noarchive">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; font-src 'none'; media-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
-<meta name="kuiha-demo-build" content="2026-10-28-weather-v5-layout-v2">
-<title>🌷 小葵天气站 v5｜在线交互验收 · 版式优化（全虚构）</title>
+<meta name="kuiha-demo-build" content="2026-10-31-weather-v5-copy-clean-v3">
+<title>🌷 小葵天气站 v5｜在线交互验收 · 清爽文案（全虚构）</title>
 <style>
 /* Inline weather v5 UI from isolated candidate */
 /* Weather v5 isolated UI CSS; do not deploy to banking app without review. */
@@ -120,7 +120,7 @@ body{margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Pin
 <div class="review-scene"><span class="title">演示场景</span><button id="simulate-alerts" type="button">🌺 切换两种主动提醒</button><button id="open-weather" type="button">🔄 同步虚构数据</button><button id="simulate-history" type="button">📚 大量历史演示</button><button id="reset-demo" type="button">重新打开初始状态</button></div>
 <p class="review-status" id="status" role="status" aria-live="polite"></p>
 <div id="fake-home"></div><div id="app-page"></div>
-<footer class="review-end">🌷 这个版本用于设计和交互验收，不是正式银行，不处理任何真钱、葵哈币或个人健康数据。<p>预计窗口仅供参考，不能用于避孕、排卵判断或医学诊断。</p></footer>
+<footer class="review-end">🌷 这个版本用于设计和交互验收，不是正式银行，不处理任何真钱、葵哈币或个人健康数据。<p>预计只是大致范围，涉及健康或避孕的决定请咨询专业人士。</p></footer>
 </main>
 <script>
 /* PUBLIC FICTION-ONLY PREVIEW — NEVER DEPLOY INTO LIVE BANK OR D1. */
@@ -249,11 +249,11 @@ function alertsPanel(role, alerts, now){
  return active.map(a => {
   const care=a.kind==='care';if(!care&&a.kind!=='period')return '';
   const name=care?'小葵主动表示需要照顾':'小葵主动通知小日子开始';
-  const text=care?(a.care_note||'今天希望得到一点关怀'):'这是一条主动提醒，不能替代经本人确认的真实日期记录';
+  const text=care?(a.care_note||'今天希望得到一点关怀'):'小日子开始啦，今天也想被温柔照顾 🌺';
   return `<section class="wv5-signal ${care?'wv5-care':'wv5-period'}" aria-label="${name}">
     <strong>${care?'🫂':'🌺'} ${role==='admin'?(care?'我想要一点照顾':'我主动分享小日子开始'):name}</strong>
     <p>${htmlEsc(text)}</p>
-    ${role==='admin'?care?'<button data-act="weather-care-end-ask" type="button">结束这条关怀分享</button>':'<small>小日子开始提醒需由本人主动结束（后续安全接入）</small>':''}</section>`;
+    ${role==='admin'?care?'<button data-act="weather-care-end-ask" type="button">结束这条关怀分享</button>':'':''}</section>`;
  }).join('');
 }
 function dateCalendar(role, rows, ui, now){
@@ -279,7 +279,7 @@ function dateCalendar(role, rows, ui, now){
     🌼 黄色预计：${showEstimate?'开启':'关闭'}</button>`:'';
  const selection=selected?.start?`<div class="wv5-selected" role="status">已选 ${htmlEsc(formatDay(selected.start))}${selected.complete?' ～ '+htmlEsc(formatDay(selected.end)):'，请选择结束日期'}
    <div class="wv5-actions"><button data-act="weather-save-open" type="button">尚未结束</button>
-   ${selected.complete?`<button data-act="weather-save-selected" type="button">${role==='admin'?'确认保存日期（演示）':'提交日期建议（演示）'}</button>`:''}
+   ${selected.complete?`<button data-act="weather-save-selected" type="button">${role==='admin'?'确认保存日期':'提交日期建议'}</button>`:''}
    <button data-act="weather-cancel-selection" type="button">取消选择</button></div></div>`:'';
  return `<section class="wv5-box wv5-calendar" aria-label="小葵天气日历">
   <div class="wv5-cal-top"><strong>🌸 ${year} 年 ${monthNum} 月</strong><div>
@@ -288,7 +288,7 @@ function dateCalendar(role, rows, ui, now){
   <label class="wv5-month-label">快速选择月份 <input name="weather-month" type="month" value="${month}" min="2000-01" max="${today.slice(0,7)}"></label>
   <div class="wv5-week">${['一','二','三','四','五','六','日'].map(x=>`<span>${x}</span>`).join('')}</div>
   <div class="wv5-days">${blanks}${cells}</div>
-  <p class="wv5-legend">🌸 已确认的实际日期${role==='holder'?' · 🌼 黄色仅代表预计参考':''}</p>
+  <p class="wv5-legend">🌸 已确认的日期${role==='holder'?' · 🌼 黄色预计':''}</p>
   ${switching}${selection}
  </section>`;
 }
@@ -301,7 +301,7 @@ function historyPanel(role, rows, ui, hasMore){
   const controls=role==='admin'?`<div class="wv5-actions"><button type="button" data-act="weather-edit" data-id="${id}">修改</button>
      <button type="button" data-act="weather-delete-ask" data-id="${id}">删除</button></div>`:'';
   const warning=confirmDelete?`<div class="wv5-delete-confirm" role="alert"><strong>确认移除 ${safeName}？</strong>
-    <p>将从双方日历及预测移除，保留必要的历史建议关联；这不是永久抹除后台健康历史。</p>
+    <p>这条记录会从日历和预计中移除，相关审核记录仍会保留。</p>
     <div class="wv5-actions"><button type="button" data-act="weather-delete-cancel">先不删</button>
     <button type="button" data-act="weather-delete-confirm" data-id="${id}" data-version="${Number(p.version)}" data-expected-start="${htmlEsc(p.start_day)}" data-expected-end="${htmlEsc(p.end_day??'')}">确认移除这一条</button></div></div>`:'';
   return `<article class="wv5-record"><div><strong>🌸 ${safeName}</strong><small>小葵已确认</small></div>${controls}${warning}</article>`;
@@ -317,7 +317,7 @@ function proposalsPanel(role, proposals){
  const pending=all.filter(p=>p.status==='pending');
  const content=pending.map(p=>{
   const removed=Boolean(p.original_removed);
-  const actions=role==='admin'?removed?'<span>原记录已移除，不能直接通过</span>':
+  const actions=role==='admin'?removed?'<span>原记录已移除，请重新提交建议</span>':
    `<div class="wv5-actions"><button data-act="weather-review" data-id="${htmlEsc(p.id)}">审核</button><button data-act="weather-reject" data-id="${htmlEsc(p.id)}">退回</button></div>`:'';
   return `<article class="wv5-record"><strong>💌 日期建议 ${htmlEsc(formatDay(p.proposed_start_day))} ～ ${htmlEsc(formatDay(p.proposed_end_day))}</strong>${actions}</article>`;
  }).join('');
@@ -334,13 +334,13 @@ function renderWeatherV5({role, periods=[], proposals=[], alerts=[], ui=null, ha
   <strong>🌼 ${f.status==='estimate'?'仅供参考的黄色预计窗口':'暂不预测'}</strong>
   <p>${f.status==='estimate'?`可能的时间范围：${htmlEsc(formatDay(f.first))} ～ ${htmlEsc(formatDay(f.last))}`:
   '至少需要四次完整、规律且由小葵确认的历史记录。'}</p>
-  <small>仅供参考，不能用于避孕、排卵判断或医学诊断。</small>
+  <small>预计只是大致范围，涉及健康的决定请咨询专业人士。</small>
  </section>`:'';
  const newAction=`<div class="wv5-main-action"><button type="button" data-act="${holder?'weather-suggest-new':'weather-record-new'}">
-  ${holder?'💌 向小葵提出日期建议':'🌸 记录或补记小日子'}</button><small>${holder?'须经小葵审核后才会显示为真实日期':'在日历选择开始和结束日期，历史记录也可以修改'}</small></div>`;
+  ${holder?'💌 向小葵提出日期建议':'🌸 记录或补记小日子'}</button><small>${holder?'小葵确认后，会收进我们的日期记录':'在日历选择开始和结束日期，历史记录也可以修改'}</small></div>`;
  return `<section class="wv5" aria-label="小葵天气站 v5">
  <header><p>🌷 小葵天气站</p><h2>${holder?'今天也记得温柔照顾她 ♡':'今天也要好好照顾自己 ♡'}</h2>
- <small>天气只是温柔的参考，真实日期和主动关怀由小葵本人决定</small></header>
+ <small>小日子的点滴，和想要的关心，都温柔记在这里 ♡</small></header>
  ${dateCalendar(role,periods,safeUi,now)}
  ${newAction}
  <div class="wv5-secondary-grid" aria-label="历史记录与日期建议">
@@ -348,28 +348,28 @@ function renderWeatherV5({role, periods=[], proposals=[], alerts=[], ui=null, ha
   ${proposalsPanel(role,proposals)}
  </div>
  ${prediction}${alertsPanel(role,alerts,now)}
- ${role==='admin'?`<div class="wv5-box wv5-private"><strong>🌷 我的小小心愿（默认私密）</strong>
-  <p>这些是我自己选择的需要；不因为打开天气站就推测我的心情。</p>
+ ${role==='admin'?`<div class="wv5-box wv5-private"><strong>🌷 我想要的小关心</strong>
+  <p>此刻想要怎样的小关心？选一个就好 ♡</p>
   <div class="wv5-care-choices" role="group" aria-label="只在本机选择的关怀愿望">
    ${[['hug','抱抱'],['listen','听我说'],['space','想静静']].map(([key,label])=>`<button type="button" data-act="weather-care-pick" data-choice="${key}" aria-pressed="${safeUi.careChoice===label}">${label}</button>`).join('')}
   </div>
-  ${safeUi.careChoice?`<div class="wv5-care-preview"><p>当前选择：${htmlEsc(safeUi.careChoice)} · ${safeUi.careChoiceShared?'已由我主动分享':'仅我自己知道，尚未发送'}</p>
-     ${safeUi.careShareConfirm?`<p>确定要把「${htmlEsc(safeUi.careChoice)}」主动分享给猪钮吗？不会生成真实日期，也不会自动发币。</p>
+  ${safeUi.careChoice?`<div class="wv5-care-preview"><p>我选了：${htmlEsc(safeUi.careChoice)} · ${safeUi.careChoiceShared?'已告诉猪钮':'只对自己可见'}</p>
+     ${safeUi.careShareConfirm?`<p>要把「${htmlEsc(safeUi.careChoice)}」告诉猪钮吗？</p>
         <div class="wv5-actions"><button type="button" data-act="weather-care-share-cancel">先不分享</button><button type="button" data-act="weather-care-share-confirm">确认分享给猪钮</button></div>`:
-        `<button type="button" data-act="weather-care-share-ask">主动分享给猪钮</button>`}</div>`:'<small>先选一项也不会通知猪钮或保存到云端。</small>'}
+        `<button type="button" data-act="weather-care-share-ask">主动分享给猪钮</button>`}</div>`:'<small>先选好小心意，想告诉猪钮时再分享 ♡</small>'}
   ${safeUi.careEndConfirm?'<div class="wv5-care-preview"><p>确定结束已经分享的关怀吗？</p><div class="wv5-actions"><button type="button" data-act="weather-care-end-cancel">先保留</button><button type="button" data-act="weather-care-end-confirm">确认结束分享</button></div></div>':''}
  </div>`:''}
  <div class="wv5-box wv5-letter"><strong>💌 猪钮亲手写的小纸条</strong>
   ${noteFeatureAvailable ? latestNote?.author_role==='holder'&&typeof latestNote.content==='string'
-    ? `<p class="wv5-note-body">${htmlEsc(latestNote.content)}</p><small>🐷 来自猪钮账号亲自发送 · ${htmlEsc(String(latestNote.created_at||'').slice(0,10))}</small>`
-    : '<p>还没有收到猪钮在这里亲手发送的小纸条 ♡</p>'
-    : '<p>小纸条仍在隔离开发，尚未开放发送。</p>'}
+    ? `<p class="wv5-note-body">${htmlEsc(latestNote.content)}</p><small>🐷 猪钮亲手写于 ${htmlEsc(String(latestNote.created_at||'').slice(0,10))}</small>`
+    : '<p>猪钮的小纸条，还在路上 ♡</p>'
+    : '<p>期待猪钮送来一张小纸条 ♡</p>'}
   ${role==='holder'&&noteFeatureAvailable?`<form id="weather-v5-note-form" class="wv5-note-form">
-    <label>给小葵写一句话<textarea name="content" maxlength="160" minlength="1" rows="3" required placeholder="由猪钮自己写，不会自动生成内容"></textarea></label>
+    <label>给小葵写一句话<textarea name="content" maxlength="160" minlength="1" rows="3" required placeholder="把想说的话悄悄写在这里 ♡"></textarea></label>
     <button type="submit">🐷 确认送给小葵</button>
-    <small>每天最多 3 条。只有你主动按发送才保存；不会在锁屏通知显示正文。</small>
+    <small>每天可以送三张小纸条，把喜欢和关心慢慢写给小葵 ♡</small>
    </form>`:''}
-  <small>网站自动问候与猪钮亲写的纸条是两回事，系统不会冒充猪钮。</small>
+  
  </div>
  </section>`;
 }
@@ -718,7 +718,7 @@ $('#show-admin').addEventListener('click',()=>switchTo('admin'));
 $('#show-holder').addEventListener('click',()=>switchTo('holder'));
 $('#simulate-alerts').addEventListener('click',async()=>{
  alerts=alerts.length?[]:[
-  {kind:'care',active:1,care_note:'虚构示例：今天希望休息一下',expires_at:'2026-10-29T01:00:00Z'},
+  {kind:'care',active:1,care_note:'今天希望休息一下',expires_at:'2026-10-29T01:00:00Z'},
   {kind:'period',active:1,care_note:'',expires_at:null}
  ];await load();note('两个独立提醒仅在虚构内存里切换。')
 });
