@@ -437,6 +437,8 @@ body{background:linear-gradient(110deg,#fff5f1,#fffaf5 55%,#fff5fa);color:#67455
   }
  }
  function say(text){
+  // 仅供独立预览验收较长文案，正常地址仍然按108句随机洗牌
+  if(new URLSearchParams(location.search).has('long-bubble-check'))text='偷偷告诉你 什钮告诉我他很想你';
   const wallet=flower.closest('.bank-wallet');
   if(!wallet)return;
   bubble.textContent=text;
