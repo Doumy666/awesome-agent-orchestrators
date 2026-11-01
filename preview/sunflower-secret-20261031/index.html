@@ -7,7 +7,7 @@
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src data:; font-src 'none'; media-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
-<meta name="kuiha-demo-build" content="sunflower-secret-sticker-v4-inline"><title>🌻 向日葵暗号｜第六账户·偷心大案（可点击试玩）</title>
+<meta name="kuiha-demo-build" content="sunflower-secret-108-lines-shuffle-v5"><title>🌻 向日葵暗号｜第六账户·偷心大案（可点击试玩）</title>
 <style>
 :root{color-scheme:light;--ink:#6b4b57;--muted:#9f8891;--rose:#b86d89;--sun:#e9af4b;--paper:#fffdf9;--edge:#f4e0df}
 *{box-sizing:border-box}html{min-height:100%;background:#fff9f4}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft Yahei",sans-serif;color:var(--ink);background:radial-gradient(circle at 90% 6%,#ffe1e8 0,transparent 34%),radial-gradient(circle at 12% 30%,#fff0bd 0,transparent 40%),#fffaf6;min-height:100dvh;line-height:1.52}button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}button:focus-visible,summary:focus-visible{outline:3px solid #d8899e;outline-offset:3px}[hidden]{display:none!important}
@@ -149,7 +149,7 @@
  // 逐拍状态机：不使用“最近五次点击”的滑动窗口。
  // 合法间隔：第一→第二中速；第二→第三停顿；第三→第五两次快速。
  const windows=[[240,560],[400,1000],[85,310],[85,310]];
- let step=0,lastAt=0,timeoutId=null,taps=0,locked=false,bubbleTimer=null,demoActive=false;
+ let step=0,lastAt=0,timeoutId=null,locked=false,bubbleTimer=null,demoActive=false;
 
  const sprite=document.getElementById('flower-sprite');
  // 2D表情顺序：待机/被戳/开心/眨眼/害羞/疑惑/倾听/打盹/闪耀/惊讶。
@@ -166,7 +166,132 @@
  setInterval(function(){
   if(step===0&&!locked&&!demoActive&&!document.hidden)showFace(7,850);
  },7600);
- const lines=['嗯？谁戳我？','哎呀！花瓣歪啦！','噗叽～♡','再戳我要收费啦！','收费标准：一个抱抱','这是什么神秘手法？','我只是路过的向日葵！','报告！检测到甜度！','小猪正在偷偷观察…','太阳都被你逗笑啦！','我可没有藏东西噢～','好啦好啦，别挠痒痒！'];
+ // 🌻 用户确认的108句原文，每轮洗牌后无重复。文案不参与暗号判定。
+ const lines=[
+  "嗯？ovo",
+  "你又来啦～",
+  "轻一点嘛 qwq",
+  "花花醒着呢",
+  "诶嘿 >w<",
+  "被你发现啦",
+  "我是芋头什葵",
+  "我有认真开花哦",
+  "葵葵葵葵葵",
+  "你好呀～",
+  "哎呀 QwQ",
+  "你是什么葵",
+  "你手速不错呀",
+  "刚刚吓我一跳 owo",
+  "我晃了一下",
+  "花瓣差点飞走 qwq",
+  "我要变成什钮",
+  "这里有一点暖",
+  "好像有风",
+  "你是不是在偷笑？",
+  "我听见啦 ovo",
+  "我想要吸收阳光葵",
+  "有点痒痒 qwp",
+  "为什葵要一直摸我葵",
+  "泥好葵",
+  "你在和我打招呼吗？",
+  "我看见你啦",
+  "花心情 +1",
+  "今日可爱值 +1",
+  "阳光到账！",
+  "葵哈币上升中",
+  "收到一点喜欢",
+  "再靠近一点点",
+  "今天适合吃火鸡面",
+  "你点得我想摇一摇",
+  "花花没有走神",
+  "好吧，被你逗到了 qwq",
+  "芋头葵正在努力营业",
+  "本花状态良好 ovo",
+  "有被认真对待的感觉",
+  "这一下像轻轻碰了碰太阳",
+  "花瓣整理中",
+  "你是不是心情不错？",
+  "让我偷偷高兴一下",
+  "今天也想软绵绵",
+  "再一下我就要晃晕啦 QwQ",
+  "欸，原来是你",
+  "被点到会开心",
+  "我只是小小地抖一下",
+  "今天的云很软",
+  "你让这里亮了一点",
+  "花花正在蓄力可爱",
+  "别担心，我接得住",
+  "阳光储存成功",
+  "这一下很有礼貌",
+  "我可以再可爱一点！",
+  "你的点击已送达",
+  "向日葵发呆中",
+  "轻触成功 ovo",
+  "本次互动很可爱",
+  "听起来像小小的咚",
+  "咚！",
+  "据说按特定的频率点击 会有神秘的事情发生",
+  "微风刚刚路过啦",
+  "花瓣们正在偷偷聊天",
+  "这一下很像在说嗨",
+  "我是芋头什钮",
+  "你好呀 qwq",
+  "又见面啦",
+  "我还在原地等你",
+  "花花今天状态在线",
+  "听说什钮埋了一个彩蛋",
+  "太阳会喜欢你的",
+  "我喜欢晴天",
+  "如果今天累了，就慢一点",
+  "被轻轻碰一下也很幸福",
+  "我把这一下收好了",
+  "向日葵也会记得温柔",
+  "这一下是暖暖的",
+  "感觉有一点点开心掉下来",
+  "你点得我想发呆",
+  "让我先转个小圈",
+  "花花正在眨眼 owo",
+  "嘘，我在认真可爱",
+  "今天适合软软地过",
+  "一点点喜欢，收到",
+  "你让空气都变甜了",
+  "这里正在慢慢亮起来",
+  "你有发现我今天特别圆吗？",
+  "本花今天心情不错",
+  "再碰一下也没关系",
+  "我没有意见，我很配合 qwp",
+  "别戳太快，我会晕 QwQ",
+  "这一下像棉花糖",
+  "我是小葵鼠",
+  "我会乖乖待在这里",
+  "这一点有被安慰到",
+  "有人在认真点我",
+  "我正在慢慢摇",
+  "今天也闪闪的 ✨",
+  "我好像被夸了一下 owo",
+  "咦，风又来了",
+  "你点我，我就开心",
+  "保持发光！",
+  "我有在认真开开心心",
+  "花花营业中，请多关照～",
+  "太阳说今天很好",
+  "我是可爱葵ovo"
+];
+ let pendingLines=[],previousLine=null;
+ function nextSunflowerLine(){
+  if(!pendingLines.length){
+   pendingLines=lines.slice();
+   for(let i=pendingLines.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [pendingLines[i],pendingLines[j]]=[pendingLines[j],pendingLines[i]];
+   }
+   // 跨轮也避免最后一句与新一轮第一句恰巧相同。
+   if(previousLine!==null && pendingLines.length>1 && pendingLines[pendingLines.length-1]===previousLine){
+    [pendingLines[0],pendingLines[pendingLines.length-1]]=[pendingLines[pendingLines.length-1],pendingLines[0]];
+   }
+  }
+  const chosen=pendingLines.pop();previousLine=chosen;return chosen;
+ }
  function boop(){
   flower.classList.remove('boop');void flower.offsetWidth;flower.classList.add('boop');
   for(let i=0;i<5;i++){
@@ -231,7 +356,7 @@
  }
  flower.addEventListener('click',function(){
   if(locked || demoActive)return;
-  boop();say(lines[taps%lines.length]);taps++;
+  boop();say(nextSunflowerLine());
   registerTap(performance.now());
  });
  const names=['unlock','wanted','court','garden'];
