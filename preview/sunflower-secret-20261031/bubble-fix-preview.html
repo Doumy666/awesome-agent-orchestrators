@@ -131,14 +131,18 @@ body{background:linear-gradient(110deg,#fff5f1,#fffaf5 55%,#fff5fa);color:#67455
  transform:translateY(7px) scale(.92);
 }
 .bank-wallet .bubble.wallet-bubble::after{
- content:"";position:absolute;right:26px;bottom:-6px;
- width:10px;height:10px;background:#fffdfc;
- border-right:1px solid #f0d7da;border-bottom:1px solid #f0d7da;
+ content:"";position:absolute;right:22px;bottom:-7px;
+ width:12px;height:12px;background:#fffdfc;
+ border-right:1.5px solid #e3a7ba;border-bottom:1.5px solid #e3a7ba;
  transform:rotate(45deg);
+ filter:drop-shadow(1px 1px 1px rgba(160,90,117,.16));
 }
 @media(max-width:360px){
  .bank-wallet .bubble.wallet-bubble{font-size:11px;padding:7px 9px}
 }
+
+/* 仅供审阅时模拟320px手机宽度，正常预览不受影响 */
+.narrow-bubble-check .bank-shell{max-width:320px;width:320px}
 </style>
 </head>
 <body>
@@ -436,6 +440,7 @@ body{background:linear-gradient(110deg,#fff5f1,#fffaf5 55%,#fff5fa);color:#67455
    setTimeout(function(){p.remove();},950);
   }
  }
+ if(new URLSearchParams(location.search).has('narrow-bubble-check'))document.documentElement.classList.add('narrow-bubble-check');
  function say(text){
   // 仅供独立预览验收较长文案，正常地址仍然按108句随机洗牌
   if(new URLSearchParams(location.search).has('long-bubble-check'))text='偷偷告诉你 什钮告诉我他很想你';
