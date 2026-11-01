@@ -86,7 +86,7 @@
     <span class="case">🌻 葵哈银行秘密调查局</span>
     <h2>恋爱通缉令！</h2>
     <span class="pig" aria-hidden="true">🐷</span>
-    <div class="seal">高度可疑 · 甜度超标</div>
+    <div class="seal">高度可疑</div>
     <p>发现一名重大嫌疑猪！<br>涉嫌长期偷走小葵的心 ♡</p>
    </div>
    <p style="margin-bottom:0">嫌疑猪辩解：「我没有偷！是她自己跑进我心里的！」</p>
@@ -98,9 +98,9 @@
    <div class="evidence">
     <article><b>1</b> 看见小葵，就忍不住偷偷傻笑</article>
     <article><b>2</b> 明明很想她，却假装「只是刚好路过」</article>
-    <article><b>3</b> 对同一个人，进行长期无条件偏爱</article>
+    <article><b>3</b> 只对一个人长期偏爱</article>
    </div>
-   <div class="verdict">判决：偷心罪名成立！<br>罚每次见面主动讨一个抱抱 ♡</div>
+   <div class="verdict">判决：偷心罪名成立！</div>
    <button class="btn soft" type="button" id="appeal">🐷 不服判决，我要上诉！</button>
    <div class="toast" id="court-toast" role="status" aria-live="polite"></div>
    <button class="btn" type="button" data-next="garden">💌 接受判决，拆开最后的秘密</button>
@@ -365,7 +365,7 @@
   btn.addEventListener('click',function(){showScene(btn.getAttribute('data-next'));});
  });
  const appeal=document.getElementById('appeal'),ct=document.getElementById('court-toast');
- appeal.addEventListener('click',function(){ct.textContent='⚖️ 上诉驳回！因为法官也被你们甜到了！';appeal.textContent='🐷 我选择乖乖认罪…';});
+ appeal.addEventListener('click',function(){ct.textContent='⚖️ 上诉驳回！因为法官也是猪';appeal.textContent='🐷 我选择乖乖认罪…';});
  function chooseRole(role){
   const admin=role==='admin';
   document.getElementById('role-admin').setAttribute('aria-pressed',String(admin));
