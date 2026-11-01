@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff6f2">
+<title>💌 悄悄话「对方已读」｜纯虚构独立预览</title>
+<style>
+:root{color-scheme:light;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:#6a4857;--accent:#ce7194;--muted:#a88695}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:radial-gradient(circle at 15% 2%,#ffe0e9 0,transparent 35%),radial-gradient(circle at 90% 25%,#fff1cb 0,transparent 44%),#fff8f5;padding:25px 13px 42px}
+.wrap{max-width:470px;margin:auto}
+.overline{font-size:11px;letter-spacing:2.5px;color:#be7994;font-weight:800;text-transform:uppercase}
+h1{font-size:23px;line-height:1.4;margin:9px 0 8px;color:#9e526f}
+.subtitle{font-size:12px;line-height:1.8;margin:0 0 17px;color:#a07e8c}
+.flag{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid #f1d5de;border-radius:99px;background:#fff9fc;color:#a15c7a;font-size:11px;font-weight:800;margin-bottom:12px}
+.phone{background:#fffdfc;border:1px solid #f6e4e5;box-shadow:0 16px 46px #bd8e9d30;border-radius:29px;padding:15px 14px 17px}
+.brand{display:flex;align-items:center;gap:11px;padding:5px 5px 12px}
+.brand-emoji{width:40px;height:40px;display:grid;place-items:center;background:linear-gradient(145deg,#fff4bd,#ffdcde);border-radius:15px;font-size:24px}
+.brand-title{font-size:15px;font-weight:850;color:#8c516b}
+.brand-small{color:#aa8996;font-size:11px;margin-top:3px}
+.role-controls{display:flex;gap:7px;padding:5px;background:#fff1f4;border-radius:17px}
+.role-btn{border:0;border-radius:13px;background:transparent;color:#a0768a;flex:1;min-width:0;padding:12px 6px;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.role-btn.active{background:#fff;box-shadow:0 2px 9px #bc8e9d24;color:#9b506f}
+.role-btn:focus-visible,.action:focus-visible{outline:3px solid #d0779a;outline-offset:3px}
+.note{margin:12px 2px 9px;color:#ac8c98;font-size:10.5px;line-height:1.7}
+.chatshell{border:1px solid #f2dfe7;border-radius:21px;background:linear-gradient(#fff9fc,#fffdf9);overflow:hidden;position:relative}
+.scroll{height:min(57dvh,440px);min-height:310px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:15px 12px;scrollbar-width:thin}
+.day{text-align:center;color:#ad91a0;font-size:10px;font-weight:800;margin:18px auto 14px}
+.day:first-child{margin-top:5px}
+.message{display:flex;flex-direction:column;max-width:83%;margin:9px 0;gap:4px}
+.message.mine{margin-left:auto;align-items:flex-end}
+.message.theirs{margin-right:auto;align-items:flex-start}
+.who{font-size:10px;color:#b393a0;padding:0 5px}
+.bubble{padding:11px 13px;border-radius:16px;background:#fff;border:1px solid #f0e4e5;font-size:12.5px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 3px 10px #bd95a20e}
+.mine .bubble{background:#ffe8f1;border-color:#f6d5e4;border-bottom-right-radius:5px}
+.theirs .bubble{border-bottom-left-radius:5px}
+.meta{display:flex;align-items:center;gap:7px;font-size:10px;color:#aa8d9a;padding:0 3px;flex-wrap:wrap}
+.receipt{font-weight:800;color:#bd5d85}
+.receipt.pending{font-weight:550;color:#aa8d9a}
+.demo-bottom{background:#fff;padding:12px 13px;border-top:1px solid #f5e6e7;font-size:11px;line-height:1.7;color:#9e7b8a}
+.actions{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+.action{flex:1;border:1px solid #eecfda;border-radius:13px;padding:11px 9px;background:#fff;color:#a45979;font-weight:750;font-size:11.5px;cursor:pointer}
+.action.active{background:#fbe3ed;border-color:#dba3ba}
+.status{min-height:37px;padding:11px 6px 2px;font-size:11px;line-height:1.7;color:#916d7e;text-align:center}
+.guide{margin-top:14px;background:#fffdfb;border:1px solid #f3e6e2;padding:14px 16px;border-radius:20px}
+.guide strong{font-size:12px;color:#a55c7b}
+.guide p{margin:7px 0 0;color:#9b7e8a;font-size:11px;line-height:1.8}
+footer{margin:18px 5px 0;text-align:center;color:#ac919b;font-size:10.5px;line-height:1.7}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="overline">OUR LITTLE LOVE BANK</div>
+  <h1>悄悄话，也有小小的已读啦 💌</h1>
+  <p class="subtitle">小葵 🌻 × 猪钮 🐷 · 双向已读第一版交互演示</p>
+  <span class="flag">🔒 全部虚构数据 · 不连接真实银行</span>
+  <section class="phone" aria-label="独立聊天试玩">
+    <div class="brand"><div class="brand-emoji">💌</div><div><div class="brand-title">我们的悄悄话</div><div class="brand-small">把喜欢轻轻放进每一天 ♡</div></div></div>
+    <div class="role-controls" aria-label="切换虚构账号视角">
+      <button class="role-btn active" id="role-admin" type="button" aria-pressed="true">🌻 小葵视角</button>
+      <button class="role-btn" id="role-holder" type="button" aria-pressed="false">🐷 猪钮视角</button>
+    </div>
+    <div class="note">切换到收件人视角，看到气泡并停留约半秒，再切回来查看发送者的「已读 ♡」</div>
+    <section class="chatshell">
+      <div class="scroll" id="chat-scroll" role="log" aria-label="虚构悄悄话，向上滚动还有更早的演示消息"></div>
+      <div class="demo-bottom">💗 旧历史不补标已读 · 只有本人发出的新消息显示状态</div>
+    </section>
+    <div class="actions">
+      <button class="action" id="pause" type="button" aria-pressed="false">🌙 模拟后台暂停</button>
+      <button class="action" id="reset" type="button">↺ 重置演示</button>
+    </div>
+    <div class="status" id="status" aria-live="polite">当前是小葵视角，看看自己发出的新消息状态 ♡</div>
+  </section>
+  <section class="guide">
+    <strong>🌷 这里可以验证什么？</strong>
+    <p>真正出现在可见聊天区域的新消息，才会在页面处于前台、没有暂停时产生虚构已读回执</p>
+    <p>旧聊天即使以前有回执，也不会追溯显示已读；锁屏或切走页面时不会继续记录</p>
+  </section>
+  <footer>这是完全独立的设计试玩页，不需要登录、没有 API 请求、不会上传或保存你的任何内容<br>正式葵哈币银行没有因为这个预览而发生变化 ♡</footer>
+</main>
+<script>
+(() => {
+'use strict';
+// This self-contained demo is deliberately fictional and network-free
+const original=[
+ {id:'old1',author:'holder',text:'这是很久以前收藏的一句温柔回忆 ♡',day:'以前的回忆',old:true},
+ {id:'old2',author:'admin',text:'旧聊天就安安静静地留在原来的地方 owo',day:'以前的回忆',old:true},
+ {id:'a',author:'holder',text:'我今天也想把开心偷偷分享给你 qwq',day:'今天',old:false},
+ {id:'b',author:'admin',text:'我刚刚看到一朵很好看的小花 ♡',day:'今天',old:false},
+ {id:'c',author:'holder',text:'那我们把这朵小花藏进小银行好不好 >w<',day:'今天',old:false},
+ {id:'d',author:'admin',text:'好呀，今天也想把温柔留给你 💗',day:'今天',old:false}
+];
+let messages=[],role='admin',paused=false,timer=null;
+const chat=document.querySelector('#chat-scroll'),status=document.querySelector('#status');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','"':'&quot;',"'":'&#39;'}[c]));
+const readAllowed=()=>!paused&&!document.hidden&&document.visibilityState==='visible';
+function enoughVisible(node){
+ const r=node.getBoundingClientRect(),c=chat.getBoundingClientRect(),v=window.visualViewport;
+ const left=Math.max(c.left,v?.offsetLeft||0),top=Math.max(c.top,v?.offsetTop||0);
+ const right=Math.min(c.right,(v?.offsetLeft||0)+(v?.width||innerWidth));
+ const bottom=Math.min(c.bottom,(v?.offsetTop||0)+(v?.height||innerHeight));
+ if(right<=left||bottom<=top||r.width<=0||r.height<=0)return false;
+ const w=Math.max(0,Math.min(right,r.right)-Math.max(left,r.left));
+ const h=Math.max(0,Math.min(bottom,r.bottom)-Math.max(top,r.top));
+ return w/r.width>=.6&&h/Math.min(r.height,bottom-top)>=.6;
+}
+function cancel(){if(timer!==null)clearTimeout(timer);timer=null}
+function scan(){
+ cancel();
+ if(!readAllowed())return;
+ const viewer=role;
+ timer=setTimeout(()=>{
+  timer=null;
+  if(!readAllowed()||role!==viewer)return;
+  let changed=0;
+  for(const node of chat.querySelectorAll('.message.theirs[data-read-id]')){
+   if(!enoughVisible(node.querySelector('.bubble')))continue;
+   const message=messages.find(x=>x.id===node.dataset.readId);
+   if(!message||message.old||message.author===viewer||message.readBy[viewer])continue;
+   message.readBy[viewer]=true;changed++;
+  }
+  if(changed)status.textContent='💗 已有 '+changed+' 条虚构消息在当前视角确认可见，切回发送者视角看看 ♡';
+ },500);
+}
+function render(){
+ cancel();
+ document.querySelector('#role-admin').classList.toggle('active',role==='admin');
+ document.querySelector('#role-holder').classList.toggle('active',role==='holder');
+ document.querySelector('#role-admin').setAttribute('aria-pressed',String(role==='admin'));
+ document.querySelector('#role-holder').setAttribute('aria-pressed',String(role==='holder'));
+ document.querySelector('#pause').classList.toggle('active',paused);
+ document.querySelector('#pause').setAttribute('aria-pressed',String(paused));
+ document.querySelector('#pause').textContent=paused?'☀️ 恢复前台阅读':'🌙 模拟后台暂停';
+ let lastDay='';
+ chat.innerHTML=messages.map(m=>{
+   const head=m.day!==lastDay?'<div class="day">'+esc(m.day)+'</div>':'';
+   lastDay=m.day;
+   const own=m.author===role;
+   const tag=m.old?'':own?(m.readBy[role==='admin'?'holder':'admin']?'已读 ♡':'已发送'):'';
+   return head+'<div class="message '+(own?'mine':'theirs')+'"'+(!own&&!m.old?' data-read-id="'+m.id+'"':'')+'>'+
+    '<div class="who">'+(m.author==='admin'?'小葵 🌻':'猪钮 🐷')+'</div>'+
+    '<div class="bubble">'+esc(m.text)+'</div>'+
+    '<div class="meta"><span>16:20</span>'+(tag?'<span class="receipt '+(tag==='已发送'?'pending':'')+'">'+tag+'</span>':'')+'</div>'+
+    '</div>';
+ }).join('');
+ chat.scrollTop=chat.scrollHeight;
+ scan();
+}
+function reset(){
+ messages=original.map(m=>({...m,readBy:{admin:false,holder:false}}));
+ role='admin';paused=false;
+ status.textContent='当前是小葵视角，看看自己发出的新消息状态 ♡';
+ render();
+}
+document.querySelector('#role-admin').addEventListener('click',()=>{role='admin';status.textContent='🌻 小葵视角：右侧是我发出的虚构消息';render()});
+document.querySelector('#role-holder').addEventListener('click',()=>{role='holder';status.textContent='🐷 猪钮视角：看看小葵发来的气泡';render()});
+document.querySelector('#pause').addEventListener('click',()=>{paused=!paused;status.textContent=paused?'🌙 已模拟后台暂停，不会新增已读':'☀️ 已恢复前台，实际可见的气泡才会计入';render()});
+document.querySelector('#reset').addEventListener('click',reset);
+chat.addEventListener('scroll',scan,{passive:true});
+window.addEventListener('resize',scan);
+window.addEventListener('blur',cancel);
+window.addEventListener('focus',scan);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)cancel();else scan()});
+reset();
+})();
+</script>
+</body>
+</html>
