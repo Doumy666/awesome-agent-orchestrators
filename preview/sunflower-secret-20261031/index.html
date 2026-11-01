@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#fff9f4">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex,nofollow,noarchive">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; font-src 'none'; media-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
-<meta name="kuiha-demo-build" content="sunflower-secret-cute-v2-rhythm-fsm"><title>🌻 向日葵暗号｜第六账户·偷心大案（可点击试玩）</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'self'; font-src 'none'; media-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="kuiha-demo-build" content="sunflower-secret-sticker-v3-expressions"><link rel="preload" as="image" href="./sunflower-expression-sheet-v1.png"><title>🌻 向日葵暗号｜第六账户·偷心大案（可点击试玩）</title>
 <style>
 :root{color-scheme:light;--ink:#6b4b57;--muted:#9f8891;--rose:#b86d89;--sun:#e9af4b;--paper:#fffdf9;--edge:#f4e0df}
 *{box-sizing:border-box}html{min-height:100%;background:#fff9f4}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft Yahei",sans-serif;color:var(--ink);background:radial-gradient(circle at 90% 6%,#ffe1e8 0,transparent 34%),radial-gradient(circle at 12% 30%,#fff0bd 0,transparent 40%),#fffaf6;min-height:100dvh;line-height:1.52}button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}button:focus-visible,summary:focus-visible{outline:3px solid #d8899e;outline-offset:3px}[hidden]{display:none!important}
@@ -23,6 +23,13 @@
 @keyframes arrive{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}@keyframes pigwiggle{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
 @media(max-width:340px){.wrap{padding-left:12px;padding-right:12px}.brand h1{font-size:14px}.stage-title{font-size:18px}.flower-wrap{transform:scale(.9);margin:-9px auto -19px}.demo{font-size:9px}.story-card{padding-left:16px;padding-right:16px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* 用户选定的2D向日葵原始表情素材：10帧透明精灵图，静态纯展示，不含帐号数据。 */
+.flower{display:flex;align-items:center;justify-content:center}
+.flower-sprite{display:block;width:100%;height:auto;aspect-ratio:1/1;background-image:url("./sunflower-expression-sheet-v1.png");background-size:500% 200%;background-position:0% 0%;background-repeat:no-repeat;transform-origin:50% 57%;animation:breathe 3.5s ease-in-out infinite;filter:drop-shadow(0 8px 9px rgba(164,119,62,.13))}
+.flower.boop .flower-sprite{animation:boop .53s cubic-bezier(.18,1.03,.33,1.04) both}
+.flower:disabled{cursor:default;opacity:1}
+@media(prefers-reduced-motion:reduce){.flower-sprite,.flower.boop .flower-sprite{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style>
 </head>
 <body>
@@ -46,82 +53,20 @@
   <div class="flower-wrap" id="flower-wrap">
    <div class="bubble" id="bubble" role="status" aria-live="polite">嘿嘿，被发现啦！</div>
    <button type="button" class="flower" id="flower" aria-label="轻点向日葵，每点击一下它都会弹跳；按隐藏节奏可开启彩蛋" title="点点向日葵">
-    <svg viewBox="0 0 250 282" role="img" aria-label="圆圆脸、粉红脸颊、亮黄色软花瓣的 Q 萌向日葵">
-     <defs>
-      <linearGradient id="petal-cute" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#fff2a3"/><stop offset=".6" stop-color="#ffda6e"/><stop offset="1" stop-color="#ffb852"/></linearGradient>
-      <linearGradient id="petal-inner" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4b1"/><stop offset="1" stop-color="#ffe082"/></linearGradient>
-      <radialGradient id="face-cute" cx=".35" cy=".23" r=".84"><stop stop-color="#fff5cf"/><stop offset=".62" stop-color="#ffdbab"/><stop offset="1" stop-color="#ffbd90"/></radialGradient>
-      <linearGradient id="stem-cute" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#83c68e"/><stop offset="1" stop-color="#65a877"/></linearGradient>
-     </defs>
-     <ellipse cx="125" cy="265" rx="62" ry="7" fill="#bc9977" opacity=".12"/>
-     <path d="M125 162 Q119 207 126 261" fill="none" stroke="#598d5b" stroke-width="14" stroke-linecap="round" opacity=".16"/>
-     <path d="M125 157 Q119 207 126 260" fill="none" stroke="url(#stem-cute)" stroke-width="10" stroke-linecap="round"/>
-     <g class="leaves">
-      <path d="M124 225 Q82 175 57 207 Q69 243 124 225Z" fill="#82c391" stroke="#62ad7a" stroke-width="2.5"/>
-      <path d="M126 222 Q164 172 193 198 Q183 238 126 222Z" fill="#8fd09b" stroke="#62ad7a" stroke-width="2.5"/>
-      <path d="M72 211 Q97 214 122 225 M179 202 Q152 209 130 220" fill="none" stroke="#5ca374" stroke-width="2.5" opacity=".65"/>
-      <ellipse cx="87" cy="192" rx="4" ry="2" fill="#d5ffe0" transform="rotate(-20 87 192)"/>
-     </g>
-     <g class="headg">
-      <g fill="url(#petal-cute)" stroke="#f8be60" stroke-width="1.7">
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(0 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(30 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(60 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(90 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(120 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(150 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(180 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(210 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(240 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(270 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(300 125 118)"/>
-      <ellipse cx="125" cy="55" rx="21" ry="42" transform="rotate(330 125 118)"/>
-      </g>
-      <g fill="url(#petal-inner)" opacity=".78">
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(15 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(45 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(75 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(105 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(135 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(165 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(195 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(225 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(255 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(285 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(315 125 118)"/>
-      <ellipse cx="125" cy="67" rx="15" ry="32" transform="rotate(345 125 118)"/>
-      </g>
-      <circle cx="125" cy="118" r="59" fill="#ffc56e" stroke="#ffd48a" stroke-width="3"/>
-      <circle cx="125" cy="116" r="53.5" fill="url(#face-cute)" stroke="#fff3c7" stroke-width="2.5"/>
-      <ellipse cx="110" cy="77" rx="28" ry="12" transform="rotate(-20 110 77)" fill="#fffce8" opacity=".26"/>
-      <ellipse cx="104" cy="119" rx="5.3" ry="6.9" fill="#554350"/>
-      <ellipse cx="145" cy="119" rx="5.3" ry="6.9" fill="#554350"/>
-      <circle cx="105.8" cy="116.2" r="2.1" fill="#fff"/>
-      <circle cx="146.8" cy="116.2" r="2.1" fill="#fff"/>
-      <ellipse cx="92" cy="136" rx="12" ry="7.6" fill="#fa9fa4" opacity=".78"/>
-      <ellipse cx="158" cy="136" rx="12" ry="7.6" fill="#fa9fa4" opacity=".78"/>
-      <ellipse cx="89" cy="132" rx="4.5" ry="2" fill="#ffd6d7" opacity=".82"/>
-      <ellipse cx="155" cy="132" rx="4.5" ry="2" fill="#ffd6d7" opacity=".82"/>
-      <path d="M114 137 Q125 152 136 137" fill="#9f5964" stroke="#975b66" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M120 145 Q125 140 131 145" fill="none" stroke="#ec91a0" stroke-width="4.4" stroke-linecap="round"/>
-      <circle cx="106" cy="151" r="1.7" fill="#fff2d2"/><circle cx="144" cy="150" r="1.7" fill="#fff2d2"/>
-      <path d="M70 86 Q63 79 60 87 Q57 95 70 102 Q82 94 79 88 Q76 81 70 86Z" fill="#f7a7ba" stroke="#f5b6c4" stroke-width="1.4"/>
-      <path d="M177 76 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3Z" fill="#fff2bd" opacity=".9"/>
-     </g>
-    </svg>
+    <span id="flower-sprite" class="flower-sprite" data-face="idle" aria-hidden="true"></span>
    </button>
   </div>
   <p class="taplabel">👆 点一下，花花就 Q 弹一下</p>
   <p class="hint">每一声都会有悄悄话 · 试试敲出一个暗号</p>
   <div class="beat" id="beat" aria-label="五个节奏位置">
-   <span class="beat-dot"></span><span class="beat-dot"></span><span class="beat-gap">停 0.8s</span><span class="beat-dot"></span><span class="beat-dot"></span><span class="beat-dot"></span>
+   <span class="beat-dot"></span><span class="beat-dot"></span><span class="beat-gap">停 0.4～1s</span><span class="beat-dot"></span><span class="beat-dot"></span><span class="beat-dot"></span>
   </div>
   <p class="rhythm-state" id="rhythm-state" aria-live="polite">每一拍都要对，点错立刻重新开始 ♡</p>
  </main>
  <details class="rhythm-details">
   <summary>🌷 悄悄看看暗号的提示</summary>
   <div class="details-body">
-   <div>先中速敲两下，停约 0.8 秒，然后快速敲三下。</div>
+   <div>先中速敲两下，第 2 → 第 3 下间隔 0.4～1 秒，然后快速敲三下。</div>
    <div class="meter">哒　哒　 · · ·　哒哒哒</div>
    <button class="demo-btn" id="demo-beat" type="button">▷ 看一次节奏示范</button>
    <div style="margin-top:8px;font-size:10px">示范仅演示节奏，不会自动解锁；用自己的手指敲才算数。</div>
@@ -203,8 +148,24 @@
  const story=document.getElementById('story');
  // 逐拍状态机：不使用“最近五次点击”的滑动窗口。
  // 合法间隔：第一→第二中速；第二→第三停顿；第三→第五两次快速。
- const windows=[[240,560],[630,1090],[85,310],[85,310]];
+ const windows=[[240,560],[400,1000],[85,310],[85,310]];
  let step=0,lastAt=0,timeoutId=null,taps=0,locked=false,bubbleTimer=null,demoActive=false;
+
+ const sprite=document.getElementById('flower-sprite');
+ // 2D表情顺序：待机/被戳/开心/眨眼/害羞/疑惑/倾听/打盹/闪耀/惊讶。
+ const frames=['idle','tap','happy','wink','shy','curious','listen','sleepy','sparkle','surprise'];
+ let faceTimer=null;
+ function showFace(index,returnAfter=0){
+  clearTimeout(faceTimer);
+  if(!sprite)return;
+  const n=Math.max(0,Math.min(9,Number(index)||0));
+  sprite.style.backgroundPosition=(n%5*25)+'% '+(n<5?'0%':'100%');
+  sprite.dataset.face=frames[n];
+  if(returnAfter)faceTimer=setTimeout(function(){showFace(0);},returnAfter);
+ }
+ setInterval(function(){
+  if(step===0&&!locked&&!demoActive&&!document.hidden)showFace(7,850);
+ },7600);
  const lines=['嗯？谁戳我？','哎呀！花瓣歪啦！','噗叽～♡','再戳我要收费啦！','收费标准：一个抱抱','这是什么神秘手法？','我只是路过的向日葵！','报告！检测到甜度！','小猪正在偷偷观察…','太阳都被你逗笑啦！','我可没有藏东西噢～','好啦好啦，别挠痒痒！'];
  function boop(){
   flower.classList.remove('boop');void flower.offsetWidth;flower.classList.add('boop');
@@ -235,6 +196,7 @@
  function stopRhythm(message){
   clearTimer();step=0;lastAt=0;mark(0);
   if(message)state.textContent=message;
+  showFace(0);
  }
  function scheduleTimeout(){
   clearTimer();
@@ -243,11 +205,12 @@
   const expectedStep=step,expectedAt=lastAt;
   timeoutId=setTimeout(function(){
    if(step===expectedStep && lastAt===expectedAt && !locked && !demoActive)
-    stopRhythm('这拍没有及时接上，重新从第一下开始 ♡');
+    {stopRhythm('这拍没有及时接上，重新从第一下开始 ♡');showFace(7,1000);}
   },max+16);
  }
  function openSecret(){
   locked=true;stopRhythm('✦ 暗号正确，秘密账户正在开启…');
+  showFace(8);
   say('啊！你居然找到了！');
   setTimeout(function(){showScene('unlock');story.hidden=false;document.body.style.overflow='hidden';document.getElementById('close-story').focus();},550);
  }
@@ -256,10 +219,12 @@
   const next=nextStep(previous,at-lastAt);
   step=next;lastAt=at;mark(step);
   if(step===5){openSecret();return;}
+  if(previous>0 && next===1)showFace(9,650);
+  else showFace([1,3,6,4][step-1]??0,700);
   if(previous>0 && next===1)
    state.textContent='这一下节奏不对！已从当前点击重新开始 ♡';
   else if(step===1)state.textContent='第一拍 ✓ 等下一下中速点击 ♡';
-  else if(step===2)state.textContent='第二拍 ✓ 现在停约 0.8 秒 ♪';
+  else if(step===2)state.textContent='第二拍 ✓ 第三下等 0.4～1 秒 ♪';
   else if(step===3)state.textContent='第三拍 ✓ 快速再点两下！';
   else if(step===4)state.textContent='第四拍 ✓ 最后一拍，快！';
   scheduleTimeout();
@@ -301,8 +266,9 @@
   if(demoActive || locked)return;
   stopRhythm('♪ 示范开始：哒、哒、停……哒哒哒');
   demoActive=true;flower.disabled=true;practice.disabled=true;practice.textContent='♪ 正在示范节奏';
-  const intervals=[0,380,1210,1390,1570];
-  intervals.forEach(function(ms,i){setTimeout(function(){mark(i+1);boop();},ms);});
+  const intervals=[0,380,1120,1300,1480];
+  const expressions=[1,3,6,4,8];
+  intervals.forEach(function(ms,i){setTimeout(function(){mark(i+1);showFace(expressions[i]);boop();},ms);});
   setTimeout(function(){
    demoActive=false;flower.disabled=false;practice.disabled=false;
    practice.textContent='▷ 再看一次节奏示范';
