@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff8f5">
+<title>🏡 我们的小金库｜独立互动预览</title>
+<style>
+:root{color-scheme:light;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:#594650;--muted:#9e8792;--line:#f0e1e5;--green:#548c72;--pink:#c96d8c;--pink-dark:#a95172;--shadow:0 18px 48px rgba(143,94,112,.12)}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(circle at 8% 0%,#ffe7ed 0,transparent 34%),radial-gradient(circle at 100% 28%,#fff0d9 0,transparent 38%),#fff9f6;padding:24px 13px 42px}
+button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #d995af;outline-offset:2px}
+.wrap{width:min(100%,520px);margin:0 auto}.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 3px 10px}.kicker{font-size:10px;letter-spacing:2px;font-weight:850;color:#b77b91}.preview-tag{font-size:10px;font-weight:750;color:#9a6880;border:1px solid #efd7e0;background:#fff9fb;padding:7px 10px;border-radius:99px;white-space:nowrap}
+h1{font-size:25px;letter-spacing:-.6px;line-height:1.35;color:#92546e;margin:8px 3px 5px}.subtitle{font-size:12px;line-height:1.8;color:var(--muted);margin:0 3px 17px}
+.phone{border:1px solid #f3e3e5;background:rgba(255,253,251,.96);border-radius:29px;padding:15px;box-shadow:var(--shadow)}
+.rolebar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 1px 12px}.rolehint{font-size:10px;color:var(--muted)}.roles{display:flex;gap:5px;background:#fff0f3;padding:4px;border-radius:14px}
+.role{border:0;border-radius:11px;background:transparent;padding:8px 10px;color:#a47c8e;font-size:11px;font-weight:800}.role.active{background:white;color:var(--pink-dark);box-shadow:0 2px 8px #a66d801c}
+.balance{position:relative;overflow:hidden;border-radius:23px;padding:21px 19px 17px;background:linear-gradient(135deg,#fff0e9 0%,#ffe8ef 57%,#f9edf6 100%);border:1px solid #f6dfe5}.balance:after{content:"♡";position:absolute;right:14px;top:-28px;font-size:112px;line-height:1;color:#fff9;transform:rotate(13deg);pointer-events:none}
+.balance-label{position:relative;z-index:1;font-size:11px;color:#9e7183;font-weight:750}.balance-value{position:relative;z-index:1;font-size:36px;line-height:1.25;letter-spacing:-1.2px;color:#8f4e6b;font-weight:850;margin:8px 0 4px;font-variant-numeric:tabular-nums}.balance-note{position:relative;z-index:1;font-size:10px;color:#a47e8d;line-height:1.65}
+.opening-row{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:15px;padding-top:12px;border-top:1px solid #eacbd6}.opening-text{font-size:10px;color:#9e7183}.text-button{border:0;background:transparent;color:#a65f7b;font-size:10px;font-weight:800;padding:6px 2px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:11px 0}.stat{border:1px solid var(--line);border-radius:16px;padding:11px 9px;background:#fff}.stat-label{font-size:9px;color:var(--muted);white-space:nowrap}.stat-value{font-size:15px;font-weight:850;letter-spacing:-.3px;font-variant-numeric:tabular-nums;margin-top:6px;white-space:nowrap}.stat-value.income{color:var(--green)}.stat-value.expense{color:#b46b78}.stat-value.net{color:#9b6480}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0 18px}.action{border:0;border-radius:16px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:850;box-shadow:0 4px 12px #b77e8b15}.action.income{background:#eaf5ed;color:#477b62}.action.expense{background:#fbe9ed;color:#a85d78}.action .symbol{font-size:18px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 2px 10px}.section-head h2{font-size:14px;margin:0;color:#795666}.count{font-size:10px;color:var(--muted)}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.filter{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;color:#785c6a;padding:10px 11px;font-size:11px;min-width:0}
+.list{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}.record{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border:0;border-bottom:1px solid #f5eaec;background:white;width:100%;text-align:left;color:inherit}.record:last-child{border-bottom:0}.record:active{background:#fff8fa}
+.record-left{display:flex;align-items:center;gap:10px;min-width:0}.record-icon{width:38px;height:38px;flex:0 0 38px;border-radius:13px;background:#fff2f4;display:grid;place-items:center;font-size:18px}.record-icon.income{background:#edf7ef}.record-info{min-width:0}.record-title{font-size:11px;font-weight:800;color:#654d5b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.record-meta{font-size:9px;color:#a58e98;margin-top:4px;line-height:1.5}.record-right{text-align:right;flex:0 0 auto}.record-amount{font-size:12px;font-weight:850;font-variant-numeric:tabular-nums}.record-amount.income{color:var(--green)}.record-amount.expense{color:#a95c72}.record-date{font-size:9px;color:#ae9ba3;margin-top:4px}
+.empty{padding:30px 15px;text-align:center;color:var(--muted);font-size:11px;line-height:1.8}.empty-emoji{font-size:26px;margin-bottom:8px}.rules{margin-top:13px;border-radius:16px;padding:12px 13px;background:#fff8f2;border:1px solid #f2e5d9}.rules-title{font-size:10px;font-weight:850;color:#9d735c}.rules p{font-size:10px;line-height:1.8;color:#a0877c;margin:6px 0 0}.foot{text-align:center;color:#ad969f;font-size:9px;line-height:1.8;padding:15px 9px 0}
+.overlay{position:fixed;inset:0;background:rgba(67,43,56,.28);display:none;align-items:flex-end;justify-content:center;padding:12px;z-index:10}.overlay.show{display:flex}.sheet{width:min(100%,500px);max-height:min(88dvh,720px);overflow:auto;background:#fffdfb;border:1px solid #f2e2e7;border-radius:24px;padding:18px 17px calc(18px + env(safe-area-inset-bottom));box-shadow:0 20px 70px #57384c35;animation:rise .18s ease-out}
+@keyframes rise{from{transform:translateY(18px);opacity:.6}to{transform:translateY(0);opacity:1}}.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.sheet-head h3{font-size:16px;color:#88546c;margin:0}.close{border:0;background:#f8edf1;color:#94677b;border-radius:50%;width:32px;height:32px;font-size:17px}
+.type-switch{display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#fff1f4;padding:4px;border-radius:13px;margin-bottom:15px}.type-option{border:0;border-radius:10px;padding:10px;background:transparent;color:#a17c8e;font-size:11px;font-weight:850}.type-option.active[data-type="income"]{background:#fff;color:#4e8066;box-shadow:0 2px 8px #9a9a8b20}.type-option.active[data-type="expense"]{background:#fff;color:#a85e78;box-shadow:0 2px 8px #9a9a8b20}
+.field{display:flex;flex-direction:column;gap:6px;margin:11px 0}.field label{font-size:10px;font-weight:800;color:#8c6a7a}.field input,.field select,.field textarea{width:100%;border:1px solid #eadde2;background:white;border-radius:12px;padding:12px;color:#614c58;font-size:12px;min-height:43px}.field textarea{min-height:72px;resize:vertical}.amount-wrap{display:flex;align-items:center;gap:8px;border:1px solid #eadde2;background:white;border-radius:13px;padding:0 12px}.amount-wrap span{font-size:19px;color:#b16f88;font-weight:800}.amount-wrap input{border:0;outline:0!important;padding-left:0;font-size:21px;font-weight:850;min-height:50px}.form-hint{font-size:9px;color:#a38c96;line-height:1.6;margin-top:2px}.submit{width:100%;border:0;border-radius:14px;padding:13px;margin-top:9px;background:linear-gradient(100deg,#cb7997,#b96888);color:white;font-size:12px;font-weight:850}.secondary{width:100%;border:1px solid #ecdde2;border-radius:14px;padding:11px;margin-top:8px;background:white;color:#9a7485;font-size:11px;font-weight:800}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.detail-cell{border:1px solid var(--line);border-radius:13px;padding:11px;background:#fff}.detail-label{font-size:9px;color:var(--muted)}.detail-value{font-size:12px;font-weight:800;margin-top:5px;overflow-wrap:anywhere}.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,15px);opacity:0;pointer-events:none;z-index:30;background:#64495a;color:white;padding:10px 15px;border-radius:99px;font-size:11px;box-shadow:0 7px 24px #56384c38;transition:.2s;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:600px){body{padding-top:35px}.overlay{align-items:center}.sheet{border-radius:24px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+ <div class="topline"><div class="kicker">OUR LITTLE SHARED FUND</div><div class="preview-tag">🔒 纯虚构互动预览</div></div>
+ <h1>🏡 我们的小金库</h1>
+ <p class="subtitle">只记我们共同的收入和共同支出，把两个人的小日子认真存起来 ♡</p>
+ <section class="phone">
+  <div class="rolebar"><div class="rolehint">当前演示记录人</div><div class="roles" aria-label="切换虚构演示身份"><button class="role active" type="button" data-role="admin" aria-pressed="true">🌻 小葵</button><button class="role" type="button" data-role="holder" aria-pressed="false">🐷 猪钮</button></div></div>
+  <section class="balance">
+   <div class="balance-label">我们的共同账面余额</div><div class="balance-value" id="balance">¥1,450.00</div>
+   <div class="balance-note">期初余额 + 累计共同收入 − 累计共同支出<br>这是网站里的共同账本数字，不代表银行卡实时余额</div>
+   <div class="opening-row"><div class="opening-text" id="openingText">期初余额 · ¥1,000.00</div><button class="text-button" id="openingButton" type="button">设置期初余额 ↗</button></div>
+  </section>
+  <section class="stats" aria-label="本月共同收支">
+   <div class="stat"><div class="stat-label">本月共同收入</div><div class="stat-value income" id="monthIncome">+¥800.00</div></div>
+   <div class="stat"><div class="stat-label">本月共同支出</div><div class="stat-value expense" id="monthExpense">−¥450.00</div></div>
+   <div class="stat"><div class="stat-label">本月净变化</div><div class="stat-value net" id="monthNet">+¥350.00</div></div>
+  </section>
+  <section class="actions" aria-label="新增共同流水"><button class="action income" type="button" data-add="income"><span class="symbol">＋</span> 记一笔共同收入</button><button class="action expense" type="button" data-add="expense"><span class="symbol">－</span> 记一笔共同支出</button></section>
+  <div class="section-head"><h2>💗 共同收支流水</h2><span class="count" id="recordCount">7 笔记录</span></div>
+  <div class="filters"><select class="filter" id="monthFilter" aria-label="选择月份"><option value="all">全部月份</option><option value="2026-11" selected>2026 年 11 月</option><option value="2026-10">2026 年 10 月</option></select><select class="filter" id="typeFilter" aria-label="选择流水类型"><option value="all">全部收支</option><option value="income">共同收入</option><option value="expense">共同支出</option></select></div>
+  <div class="list" id="records" aria-live="polite"></div>
+  <section class="rules"><div class="rules-title">♡ 我们的小金库约定</div><p>只记录双方认可的共同收入和共同用途支出，不记录个人消费，也不记录实际付款人</p><p>所有记录都由两个人手动填写，网站不连接银行卡、支付宝或微信，也不会自动对账或转账</p></section>
+ </section>
+ <div class="foot">演示身份切换只用于体验记录人显示，正式版本会自动使用当前登录账号<br>所有金额和记录均为虚构数据 · 刷新页面会恢复示例 · 不连接真实银行或保存任何内容</div>
+</main>
+
+<div class="overlay" id="transactionOverlay" aria-hidden="true"><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="transactionTitle">
+ <div class="sheet-head"><h3 id="transactionTitle">新增共同记录</h3><button class="close" type="button" data-close="transactionOverlay" aria-label="关闭">×</button></div>
+ <div class="type-switch"><button class="type-option active" type="button" data-type="income">＋ 共同收入</button><button class="type-option" type="button" data-type="expense">－ 共同支出</button></div>
+ <form id="transactionForm">
+  <div class="field"><label for="titleInput">这笔钱是做什么的</label><input id="titleInput" maxlength="40" required placeholder="例如：一起收到的礼金 / 周末一起吃饭"></div>
+  <div class="field"><label for="amountInput">金额</label><div class="amount-wrap"><span>¥</span><input id="amountInput" inputmode="decimal" type="number" min="0.01" max="99999999.99" step="0.01" required placeholder="0.00"></div><div class="form-hint">按人民币填写，最多精确到分</div></div>
+  <div class="field"><label for="categoryInput">分类</label><select id="categoryInput" required></select></div>
+  <div class="field"><label for="dateInput">发生日期</label><input id="dateInput" type="date" required value="2026-11-08"></div>
+  <div class="field"><label for="noteInput">备注（选填）</label><textarea id="noteInput" maxlength="300" placeholder="想留给未来的我们一点小记忆…"></textarea></div>
+  <div class="form-hint">记录人会自动显示为当前演示身份，不需要填写实际付款人</div>
+  <button class="submit" type="submit">保存这笔共同记录 ♡</button><button class="secondary" type="button" data-close="transactionOverlay">先不记啦</button>
+ </form>
+</section></div>
+
+<div class="overlay" id="openingOverlay" aria-hidden="true"><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="openingTitle">
+ <div class="sheet-head"><h3 id="openingTitle">🌷 设置账本期初余额</h3><button class="close" type="button" data-close="openingOverlay" aria-label="关闭">×</button></div>
+ <form id="openingForm"><div class="field"><label for="openingInput">从记账起点开始，我们已有多少共同余额？</label><div class="amount-wrap"><span>¥</span><input id="openingInput" type="number" inputmode="decimal" min="0" max="99999999.99" step="0.01" required></div></div><div class="form-hint">期初余额只作为账本起点，不计入当月共同收入，正式版本会保留起点调整记录</div><button class="submit" type="submit">确认期初余额</button><button class="secondary" type="button" data-close="openingOverlay">取消</button></form>
+</section></div>
+
+<div class="overlay" id="detailOverlay" aria-hidden="true"><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+ <div class="sheet-head"><h3 id="detailTitle">共同流水详情</h3><button class="close" type="button" data-close="detailOverlay" aria-label="关闭">×</button></div><div id="detailBody"></div><button class="secondary" type="button" data-close="detailOverlay">关闭</button>
+</section></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+ 'use strict';
+ const $=s=>document.querySelector(s);
+ const money=cents=>'¥'+(cents/100).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+ const signed=(cents,type)=>(type==='income'?'+':'−')+money(cents);
+ const labels={income:'共同收入',expense:'共同支出'};
+ const categories={income:[['gift','共同礼金'],['project','共同项目收入'],['other-income','其他共同收入']],expense:[['food','餐饮'],['date','约会娱乐'],['travel','旅行交通'],['shopping','共同购物'],['living','共同生活'],['other-expense','其他共同支出']]};
+ const icons={gift:'🎁',project:'🌱','other-income':'💗',food:'🍜',date:'🎬',travel:'🚗',shopping:'🛍️',living:'🏡','other-expense':'✨'};
+ const actors={admin:'小葵 🌻',holder:'猪钮 🐷'};
+ let role='admin',type='income',opening=100000,toastTimer=null;
+ let records=[
+  {id:'r7',type:'income',title:'一起收到的小礼金',amount:30000,category:'gift',date:'2026-11-08',note:'留给我们的小小惊喜',creator:'holder'},
+  {id:'r6',type:'expense',title:'一起吃晚餐',amount:12600,category:'food',date:'2026-11-07',note:'今天的饭很好吃 ♡',creator:'admin'},
+  {id:'r5',type:'expense',title:'周末电影和零食',amount:7800,category:'date',date:'2026-11-05',note:'一起看了一场电影',creator:'holder'},
+  {id:'r4',type:'income',title:'共同小项目收入',amount:50000,category:'project',date:'2026-11-03',note:'两个人一起完成的小项目',creator:'admin'},
+  {id:'r3',type:'expense',title:'一起买生活用品',amount:24600,category:'living',date:'2026-11-02',note:'家里需要补充的小东西',creator:'holder'},
+  {id:'r2',type:'expense',title:'一起打车回家',amount:10000,category:'travel',date:'2026-10-30',note:'周末出门',creator:'admin'},
+  {id:'r1',type:'income',title:'两个人一起收到的礼金',amount:20000,category:'gift',date:'2026-10-28',note:'共同收到的心意',creator:'holder'}
+ ];
+ const today='2026-11-08';
+ function total(t){return records.filter(r=>!t||r.type===t).reduce((s,r)=>s+r.amount,0)}
+ function balance(){return opening+total('income')-total('expense')}
+ function monthStats(month){const a=records.filter(r=>r.date.slice(0,7)===month),inc=a.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0),exp=a.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);return{inc,exp,net:inc-exp}}
+ function toast(text){const el=$('#toast');el.textContent=text;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2100)}
+ function show(id){const el=document.getElementById(id);el.classList.add('show');el.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+ function hide(id){const el=document.getElementById(id);el.classList.remove('show');el.setAttribute('aria-hidden','true');if(!document.querySelector('.overlay.show'))document.body.style.overflow=''}
+ function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+ function renderCategories(){$('#categoryInput').innerHTML=categories[type].map(c=>'<option value="'+c[0]+'">'+c[1]+'</option>').join('')}
+ function render(){
+  $('#balance').textContent=money(balance());$('#openingText').textContent='期初余额 · '+money(opening);
+  const month=$('#monthFilter').value,stats=month==='all'?null:monthStats(month);
+  const inc=stats?stats.inc:total('income'),exp=stats?stats.exp:total('expense'),net=inc-exp;
+  $('#monthIncome').textContent='+'+money(inc);$('#monthExpense').textContent='−'+money(exp);$('#monthNet').textContent=(net>=0?'+':'−')+money(Math.abs(net));
+  document.querySelectorAll('[data-role]').forEach(b=>{const active=b.dataset.role===role;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
+  const mf=$('#monthFilter').value,tf=$('#typeFilter').value,list=records.filter(r=>(mf==='all'||r.date.slice(0,7)===mf)&&(tf==='all'||r.type===tf)).sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
+  $('#recordCount').textContent=list.length+' 笔记录';
+  $('#records').innerHTML=list.length?list.map(r=>{const cat=(categories[r.type].find(c=>c[0]===r.category)||[])[1]||'其他';return '<button class="record" type="button" data-record="'+r.id+'"><span class="record-left"><span class="record-icon '+r.type+'">'+(icons[r.category]||'💗')+'</span><span class="record-info"><span class="record-title">'+escapeHtml(r.title)+'</span><span class="record-meta">'+cat+' · '+actors[r.creator]+'记录</span></span></span><span class="record-right"><span class="record-amount '+r.type+'">'+signed(r.amount,r.type)+'</span><span class="record-date">'+r.date.slice(5).replace('-','/')+'</span></span></button>'}).join(''):'<div class="empty"><div class="empty-emoji">🌷</div>这个筛选下还没有共同记录<br>一起留下第一笔小小的回忆吧 ♡</div>';
+ }
+ function openTransaction(nextType){type=nextType;document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===type));$('#transactionTitle').textContent=type==='income'?'＋ 记录一笔共同收入':'－ 记录一笔共同支出';renderCategories();$('#transactionForm').reset();$('#dateInput').value=today;show('transactionOverlay');setTimeout(()=>$('#titleInput').focus(),80)}
+ document.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>openTransaction(b.dataset.add)));
+ document.querySelectorAll('[data-role]').forEach(b=>b.addEventListener('click',()=>{role=b.dataset.role;render();toast('当前演示记录人：'+actors[role])}));
+ document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>{type=b.dataset.type;document.querySelectorAll('[data-type]').forEach(x=>x.classList.toggle('active',x.dataset.type===type));renderCategories()}));
+ $('#monthFilter').addEventListener('change',render);$('#typeFilter').addEventListener('change',render);
+ $('#transactionForm').addEventListener('submit',e=>{e.preventDefault();const title=$('#titleInput').value.trim(),amount=Number($('#amountInput').value),date=$('#dateInput').value,category=$('#categoryInput').value;if(!title||!Number.isFinite(amount)||amount<=0||!date){toast('请检查名称、金额和日期 qwq');return}const cents=Math.round(amount*100);if(!Number.isSafeInteger(cents)||cents<=0){toast('金额格式不太对，再检查一下 qwq');return}records.push({id:'demo-'+String(Date.now()),type,title,amount:cents,category,date,note:$('#noteInput').value.trim(),creator:role});$('#monthFilter').value=date.slice(0,7);$('#typeFilter').value='all';hide('transactionOverlay');render();toast('这笔共同记录已经加进演示账本啦 ♡')});
+ $('#openingButton').addEventListener('click',()=>{$('#openingInput').value=(opening/100).toFixed(2);show('openingOverlay');setTimeout(()=>$('#openingInput').focus(),80)});
+ $('#openingForm').addEventListener('submit',e=>{e.preventDefault();const amount=Number($('#openingInput').value);if(!Number.isFinite(amount)||amount<0||!Number.isSafeInteger(Math.round(amount*100))){toast('请填写有效的期初金额 qwq');return}opening=Math.round(amount*100);hide('openingOverlay');render();toast('演示期初余额已更新 ♡')});
+ $('#records').addEventListener('click',e=>{const b=e.target.closest('[data-record]');if(!b)return;const r=records.find(x=>x.id===b.dataset.record);if(!r)return;const cat=(categories[r.type].find(c=>c[0]===r.category)||[])[1]||'其他';$('#detailTitle').textContent=r.type==='income'?'共同收入详情':'共同支出详情';$('#detailBody').innerHTML='<div style="text-align:center;padding:8px 0 16px"><div style="font-size:30px">'+(icons[r.category]||'💗')+'</div><div style="font-size:14px;font-weight:850;margin-top:7px">'+escapeHtml(r.title)+'</div><div style="font-size:23px;font-weight:900;color:'+(r.type==='income'?'#548c72':'#a95c72')+';margin-top:7px">'+signed(r.amount,r.type)+'</div></div><div class="detail-grid"><div class="detail-cell"><div class="detail-label">流水类型</div><div class="detail-value">'+labels[r.type]+'</div></div><div class="detail-cell"><div class="detail-label">分类</div><div class="detail-value">'+cat+'</div></div><div class="detail-cell"><div class="detail-label">发生日期</div><div class="detail-value">'+r.date+'</div></div><div class="detail-cell"><div class="detail-label">记录人</div><div class="detail-value">'+actors[r.creator]+'</div></div></div>'+(r.note?'<div class="detail-cell" style="margin-top:9px"><div class="detail-label">备注</div><div class="detail-value" style="font-weight:500;line-height:1.7">'+escapeHtml(r.note)+'</div></div>':'')+'<div class="form-hint" style="margin-top:12px">这里只记录共同用途，不记录实际付款人或个人消费</div>';show('detailOverlay')});
+ document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>hide(b.dataset.close)));
+ document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)hide(el.id)}));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.show').forEach(el=>hide(el.id))});
+ render();
+})();
+</script>
+</body>
+</html>
