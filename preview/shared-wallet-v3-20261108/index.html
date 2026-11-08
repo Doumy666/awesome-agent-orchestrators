@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<title>🏡 我们的小金库 V3｜葵哈币银行暖色融合预览</title>
+<style>
+:root{
+ color-scheme:light;
+ font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","PingFang SC","Helvetica Neue",sans-serif;
+ color:#25252a;background:#f5f5f7;
+ --muted:#898990;--line:rgba(60,60,67,.10);--card:#fff;--pink:#c87591;--pink-deep:#a95876;
+ --pink-soft:#faedf1;--green:#438467;--green-soft:#edf6f0;--red:#c36c78;--red-soft:#faeef0;
+ --shadow:0 8px 28px rgba(32,25,35,.055);--radius:23px
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:#f5f5f7;padding:env(safe-area-inset-top) 15px calc(30px + env(safe-area-inset-bottom))}
+button,input,textarea{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid rgba(200,117,145,.38);outline-offset:2px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.wrap{width:min(100%,520px);margin:0 auto;padding-top:17px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin:0 3px 19px}
+.brand{display:flex;align-items:center;gap:9px}
+.brand-mark{width:35px;height:35px;border-radius:12px;background:#fff;display:grid;place-items:center;box-shadow:0 2px 9px #25252a0b;font-size:18px}
+.brand-label{font-size:10px;letter-spacing:1.35px;color:#898990;font-weight:750}
+.demo-pill{font-size:10px;font-weight:700;color:#986a7d;background:#f8eaf0;padding:7px 10px;border-radius:99px}
+h1{font-size:25px;letter-spacing:-.55px;line-height:1.28;font-weight:760;margin:0 3px 5px;color:#29272d}
+.subtitle{font-size:12px;line-height:1.7;color:var(--muted);margin:0 3px 19px}
+.role-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 2px 12px}
+.role-caption{font-size:10px;color:var(--muted)}
+.roles{display:flex;gap:3px;background:#e9e9ed;border-radius:12px;padding:3px}
+.role-btn{border:0;background:transparent;color:#77777f;border-radius:9px;padding:7px 11px;font-size:10px;font-weight:750;transition:background .2s,color .2s,box-shadow .2s}
+.role-btn.active{background:#fff;color:#38363c;box-shadow:0 1px 4px #20202718}
+.card{background:var(--card);border:1px solid rgba(60,60,67,.055);border-radius:var(--radius);box-shadow:var(--shadow)}
+.balance-card{padding:20px 19px 16px;position:relative;overflow:hidden}
+.balance-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.balance-label{font-size:11px;color:#7e7d85;font-weight:650}
+.balance-heart{width:32px;height:32px;display:grid;place-items:center;border-radius:11px;background:#fbf0f3;color:var(--pink);font-size:16px}
+.balance-value{font-size:37px;line-height:1.25;letter-spacing:-1.3px;font-weight:780;font-variant-numeric:tabular-nums;color:#25242a;margin:11px 0 4px}
+.balance-note{font-size:10px;color:#99989e;line-height:1.6}
+.opening-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.opening-label{font-size:10px;color:#8b8a91}
+.quiet-button{border:0;background:transparent;padding:6px 2px;color:var(--pink-deep);font-size:10px;font-weight:750}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.stat{padding:12px 10px;border-radius:17px;background:#fff;border:1px solid rgba(60,60,67,.055);box-shadow:0 3px 14px rgba(32,25,35,.025);min-width:0}
+.stat-label{font-size:9px;color:#929198;white-space:nowrap}
+.stat-value{font-size:14px;font-weight:760;letter-spacing:-.2px;font-variant-numeric:tabular-nums;margin-top:7px;white-space:nowrap}
+.stat-value.income{color:var(--green)}.stat-value.expense{color:var(--red)}.stat-value.net{color:#55535c}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0 20px}
+.action{border:0;border-radius:15px;padding:14px 9px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11px;font-weight:780;transition:transform .16s,filter .16s}
+.action:active{transform:scale(.975);filter:brightness(.98)}
+.action.income{background:#e8f3ec;color:#3d795c}.action.expense{background:#f8e9ed;color:#a85873}
+.action-symbol{font-size:16px;line-height:1}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 2px 11px}
+.section-heading h2{font-size:14px;font-weight:760;letter-spacing:-.15px;margin:0;color:#343239}
+.count{font-size:10px;color:#98979e}
+.filter-panel{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.segmented{flex:1;min-width:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;padding:3px;background:#e9e9ed;border-radius:12px}
+.segment{border:0;background:transparent;color:#77767e;padding:9px 4px;border-radius:9px;font-size:10px;font-weight:720;white-space:nowrap;transition:background .18s,color .18s,box-shadow .18s}
+.segment.active{background:#fff;color:#333138;box-shadow:0 1px 4px rgba(30,30,35,.12)}
+.month-button{flex:0 0 auto;display:flex;align-items:center;gap:6px;border:1px solid rgba(60,60,67,.09);background:#fff;color:#56545c;border-radius:12px;padding:9px 10px;font-size:10px;font-weight:720;box-shadow:0 2px 8px rgba(32,25,35,.025)}
+.month-button .chevron{color:#9a999f;font-size:11px}
+.records-card{overflow:hidden}
+.record{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;border:0;border-bottom:1px solid rgba(60,60,67,.075);background:#fff;color:inherit;text-align:left;transition:background .16s}
+.record:last-child{border-bottom:0}.record:active{background:#faf8f9}
+.record-left{display:flex;align-items:center;gap:11px;min-width:0}
+.record-icon{width:39px;height:39px;flex:0 0 39px;display:grid;place-items:center;border-radius:13px;background:#f6f3f4;font-size:17px}
+.record-icon.income{background:#edf5ef}.record-info{min-width:0}
+.record-title{font-size:11px;font-weight:740;color:#38363d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.record-meta{font-size:9px;color:#98979e;margin-top:4px;line-height:1.5}
+.record-right{text-align:right;flex:0 0 auto}
+.record-amount{font-size:12px;font-weight:760;font-variant-numeric:tabular-nums}
+.record-amount.income{color:var(--green)}.record-amount.expense{color:#b76073}
+.record-date{font-size:9px;color:#aaa9af;margin-top:4px}
+.empty{padding:34px 14px;text-align:center;color:#929198;font-size:11px;line-height:1.85}
+.empty-icon{font-size:25px;margin-bottom:8px}
+.rules{margin-top:13px;padding:13px 14px;border-radius:17px;background:#eeedf0;color:#77767d}
+.rules-title{font-size:10px;font-weight:760;color:#5f5d65}
+.rules p{font-size:9px;line-height:1.8;margin:5px 0 0}
+.foot{text-align:center;color:#aaa9af;font-size:9px;line-height:1.8;padding:16px 8px 0}
+.overlay{position:fixed;inset:0;background:rgba(25,23,29,.25);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);display:none;align-items:flex-end;justify-content:center;padding:10px 10px calc(10px + env(safe-area-inset-bottom));z-index:10;opacity:0;transition:opacity .18s}
+.overlay.show{display:flex;opacity:1}
+.sheet{width:min(100%,500px);max-height:min(88dvh,740px);overflow:auto;background:rgba(255,255,255,.97);border:1px solid rgba(255,255,255,.8);border-radius:25px;padding:17px 17px 18px;box-shadow:0 18px 65px rgba(30,25,35,.18);transform:translateY(14px);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.overlay.show .sheet{transform:translateY(0)}
+.sheet-handle{width:34px;height:4px;border-radius:9px;background:#d9d8dd;margin:0 auto 14px}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}
+.sheet-head h3{font-size:16px;font-weight:760;letter-spacing:-.2px;color:#2e2c33;margin:0}
+.close{border:0;background:#f0eff2;color:#77757d;border-radius:50%;width:31px;height:31px;font-size:17px;line-height:1}
+.type-switch{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#eeedf0;padding:3px;border-radius:12px;margin-bottom:15px}
+.type-option{border:0;border-radius:9px;padding:10px;background:transparent;color:#85838b;font-size:11px;font-weight:750}
+.type-option.active[data-type="income"]{background:#fff;color:#42785c;box-shadow:0 1px 4px #25252a18}
+.type-option.active[data-type="expense"]{background:#fff;color:#aa5b72;box-shadow:0 1px 4px #25252a18}
+.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+.field label{font-size:10px;font-weight:730;color:#68666e}
+.field input,.field textarea{width:100%;border:1px solid rgba(60,60,67,.12);background:#f8f8fa;border-radius:12px;padding:12px 13px;color:#333138;font-size:12px;min-height:43px;outline:none;transition:border-color .16s,background .16s}
+.field input:focus,.field textarea:focus{border-color:#d49aae;background:#fff}
+.field textarea{min-height:70px;resize:vertical}
+.amount-wrap{display:flex;align-items:center;gap:8px;border:1px solid rgba(60,60,67,.12);background:#f8f8fa;border-radius:13px;padding:0 12px;transition:border-color .16s,background .16s}
+.amount-wrap:focus-within{border-color:#d49aae;background:#fff}
+.amount-wrap span{font-size:20px;color:#a3a0a8;font-weight:650}
+.amount-wrap input{border:0;background:transparent;outline:0!important;padding-left:0;font-size:23px;font-weight:780;min-height:52px}
+.form-hint{font-size:9px;color:#a09fa5;line-height:1.65;margin-top:2px}
+.category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.category-choice{border:1px solid rgba(60,60,67,.10);background:#faf9fa;color:#77747d;border-radius:11px;padding:10px 5px;font-size:10px;font-weight:680;min-width:0}
+.category-choice.active{border-color:#dfb1c0;background:#fbf0f3;color:#a95876;box-shadow:inset 0 0 0 1px #dfb1c0}
+.submit{width:100%;border:0;border-radius:13px;padding:13px;margin-top:14px;background:#c87591;color:#fff;font-size:12px;font-weight:780;box-shadow:0 4px 12px rgba(200,117,145,.2);transition:filter .16s,transform .16s}
+.submit:active{transform:scale(.985);filter:brightness(.96)}
+.secondary{width:100%;border:1px solid rgba(60,60,67,.10);border-radius:13px;padding:11px;margin-top:8px;background:#f6f5f7;color:#77747d;font-size:11px;font-weight:730}
+.detail-hero{text-align:center;padding:5px 0 17px}
+.detail-icon{width:51px;height:51px;border-radius:17px;background:#f7edf1;display:grid;place-items:center;font-size:23px;margin:0 auto 9px}
+.detail-title{font-size:14px;font-weight:780;color:#333138}
+.detail-amount{font-size:26px;font-weight:790;letter-spacing:-.5px;margin-top:6px;font-variant-numeric:tabular-nums}
+.detail-amount.income{color:var(--green)}.detail-amount.expense{color:#b76073}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.detail-cell{border:1px solid rgba(60,60,67,.09);border-radius:13px;padding:11px;background:#faf9fa;min-width:0}
+.detail-label{font-size:9px;color:#99979f}.detail-value{font-size:11px;font-weight:740;color:#55525b;margin-top:5px;overflow-wrap:anywhere;line-height:1.5}
+.detail-note{margin-top:8px}
+.detail-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.edit-button,.delete-button{border:0;border-radius:12px;padding:12px;font-size:11px;font-weight:760}
+.edit-button{background:#f8eaf0;color:#a95876}.delete-button{background:#f8eeee;color:#b45e6a}
+.month-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.month-option{border:1px solid rgba(60,60,67,.10);background:#faf9fa;color:#55525b;border-radius:13px;padding:13px 10px;font-size:11px;font-weight:720}
+.month-option.active{border-color:#d9a2b6;background:#fbf0f3;color:#a95876}
+.confirm-copy{font-size:11px;line-height:1.8;color:#77747d;margin:2px 0 10px}
+.confirm-highlight{border-radius:13px;background:#f8f5f6;padding:12px;font-size:11px;color:#59555f;font-weight:730;line-height:1.6}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,12px);opacity:0;pointer-events:none;z-index:30;background:rgba(42,40,46,.92);backdrop-filter:blur(10px);color:#fff;padding:10px 15px;border-radius:99px;font-size:10px;box-shadow:0 7px 24px #25252a25;transition:.2s;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:600px){body{padding-top:30px}.overlay{align-items:center}.sheet{border-radius:25px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+:root{color-scheme:light;color:#42343e;background:#faefe8;--muted:#96838d;--line:#f1e7e5;--pink:#e96f91;--pink-deep:#cd5278;--pink-soft:#fff0f5;--green:#4d9878;--red:#c66f7e;--card:#fffdfa;--shadow:0 10px 26px rgba(126,74,86,.075);--radius:23px}
+html{min-height:100%;background:#faefe8}
+body{margin:0;min-height:100dvh;color:#42343e;background:radial-gradient(circle at 8% 4%,#fbe4dc 0,transparent 32%),radial-gradient(circle at 95% 50%,#f5deea 0,transparent 34%),#faefe8;padding:env(safe-area-inset-top) 0 calc(30px + env(safe-area-inset-bottom))}
+.wrap{width:min(100%,480px);min-height:100dvh;margin:0 auto;padding:22px 20px 38px;background:linear-gradient(180deg,#fffaf6 0%,#fffdfa 60%,#fffaf7 100%);box-shadow:0 0 55px rgba(110,65,74,.10)}
+.topbar{margin:0 2px 20px}.brand{gap:11px}.brand-mark{width:43px;height:43px;border-radius:16px;background:linear-gradient(145deg,#ffedbd,#ffe6d4);color:#986c50;font-size:20px;box-shadow:0 5px 13px rgba(245,204,115,.28)}
+.brand-label{color:#a17d8c;letter-spacing:1.45px}.demo-pill{color:#a45b7c;background:#fff8fa;border:1px solid #f1dce4;box-shadow:0 3px 12px rgba(187,126,147,.08)}
+h1{color:#7f435c;font-weight:820;letter-spacing:-.65px}.subtitle{color:#96838d;line-height:1.8}
+.rolebar{margin:0 2px 13px}.role-caption{color:#a18b94}.roles{background:#fff0f4;border-radius:13px}.role-btn{color:#a17d8c;border-radius:10px}.role-btn.active{background:#fff;color:#a65374;box-shadow:0 2px 7px rgba(166,94,123,.13)}
+.card{background:#fffdfa;border:1px solid #f1e7e5;box-shadow:0 8px 22px rgba(126,74,86,.055)}
+.balance-card{padding:21px 20px 17px;border:1px solid #ffe8cd;border-radius:29px;background:linear-gradient(124deg,#ffe6bf 0%,#ffdbdd 67%,#fbe0ef 100%);box-shadow:0 18px 28px rgba(215,128,111,.14)}
+.balance-top{position:relative;z-index:1}.balance-label{color:#855c66;font-size:12px;font-weight:730}.balance-heart{background:rgba(255,255,255,.62);color:#c65e83;border:1px solid rgba(255,255,255,.6);box-shadow:0 3px 10px rgba(179,112,132,.08)}
+.balance-value{color:#743d53;font-size:39px;font-weight:850}.balance-note{color:#946e7c;line-height:1.8}.opening-row{border-top-color:rgba(177,112,130,.20)}.opening-label{color:#906c79}.quiet-button{color:#b34e73;font-weight:780}
+.stats{gap:9px;margin:11px 0}.stat{background:linear-gradient(180deg,#fff 0%,#fffaf8 100%);border:1px solid #f1e7e5;border-radius:19px;box-shadow:0 5px 16px rgba(126,74,86,.045)}.stat-label{color:#9b858e}.stat-value{font-size:14px}.stat-value.income{color:#4d9878}.stat-value.expense{color:#c66f7e}.stat-value.net{color:#986078}
+.actions{gap:9px;margin:13px 0 20px}.action{border-radius:17px;padding:14px 9px;box-shadow:0 5px 14px rgba(126,74,86,.055);transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .2s,box-shadow .2s}.action.income{background:linear-gradient(120deg,#eaf5ed,#f2f7ed);color:#477d61}.action.expense{background:linear-gradient(120deg,#fff0f2,#fbe9ef);color:#a95873}.action:active{transform:scale(.975);filter:saturate(.95)}
+.section-heading h2{color:#765263;font-weight:820}.count{color:#a28c95}.filter-panel{gap:8px}
+.segmented{background:#f7e9ed;border:1px solid #f0dfe4;border-radius:13px;padding:3px}.segment{color:#9c7c8b;border-radius:10px;transition:background .2s,color .2s,box-shadow .2s}.segment.active{color:#a65374;background:#fff;box-shadow:0 2px 7px rgba(153,94,117,.13)}
+.month-button{border:1px solid #f0e1e4;background:#fffdfa;color:#8e5d73;border-radius:13px;box-shadow:0 4px 12px rgba(126,74,86,.045)}.month-button .chevron{color:#b47d91}
+.records-card{border:1px solid #f0e2e4;border-radius:20px;background:#fffdfa;box-shadow:0 7px 20px rgba(126,74,86,.045)}.record{background:#fffdfa;border-bottom-color:#f4e9e9}.record:active{background:#fff7f7}.record-icon{background:#fff0f3}.record-icon.income{background:#edf6ee}.record-info .record-title{color:#684c5a}.record-meta{color:#a18b94}.record-date{color:#ab969e}.record-amount.income{color:#4d9878}.record-amount.expense{color:#bd6878}.empty{color:#a18b94}.empty-icon{color:#d18ba4}
+.rules{margin-top:14px;border:1px solid #f1e5df;border-radius:18px;background:linear-gradient(120deg,#fff7ef,#fff4f7);color:#9a7e80}.rules-title{color:#a45b7c}.rules p{color:#9d8587}.foot{color:#ad969f}
+.overlay{background:rgba(78,52,64,.36);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}.sheet{background:#fffdfa;border:1px solid rgba(255,255,255,.82);border-radius:28px 28px 0 0;box-shadow:0 -15px 42px rgba(81,54,65,.20)}.sheet-handle{background:#ead9dd}.sheet-head h3{color:#7f435c}.close{background:#f8edef;color:#9c6e80}
+.type-switch{background:#fff0f4;border-radius:13px}.type-option{color:#a17d8c}.type-option.active[data-type="income"]{color:#477d61;background:#fff;box-shadow:0 2px 7px rgba(153,94,117,.11)}.type-option.active[data-type="expense"]{color:#a95873;background:#fff;box-shadow:0 2px 7px rgba(153,94,117,.11)}
+.field label{color:#765d6a}.field input,.field textarea{border:1px solid #ecdfe0;background:#fff;color:#493440;border-radius:13px}.field input:focus,.field textarea:focus{border-color:#e78ba6;box-shadow:0 0 0 3px #fce5eb}
+.amount-wrap{border-color:#ecdfe0;background:#fff}.amount-wrap:focus-within{border-color:#e78ba6;box-shadow:0 0 0 3px #fce5eb}.amount-wrap span{color:#b16f88}
+.category-choice{border:1px solid #f0dfe5;background:#fff8f9;color:#8c6b7b;border-radius:13px;transition:background .18s,border-color .18s,transform .18s}.category-choice.active{border-color:#e5b7c6;background:#fcebf0;color:#a65374;box-shadow:inset 0 0 0 1px #e5b7c6}
+.submit{background:linear-gradient(110deg,#e96b91,#d95b85);color:#fff;border-radius:15px;box-shadow:0 8px 16px rgba(218,119,145,.22)}.secondary{border:1px solid #f1e2e6;background:#fff2f5;color:#bd5c7e;border-radius:14px}
+.detail-icon{background:#f8eaf0;color:#a65e7b}.detail-title{color:#684c5a}.detail-cell{border:1px solid #f1e7e5;background:#fffaf8;border-radius:14px}.detail-label{color:#a18b94}.detail-value{color:#765665}.edit-button{background:#f8eaf0;color:#a95876;border-radius:13px}.delete-button{background:#fff0f1;color:#b45e6a;border-radius:13px}
+.month-option{border:1px solid #f0e1e4;background:#fffaf8;color:#806171;border-radius:14px;transition:background .18s,border-color .18s}.month-option.active{border-color:#e5b7c6;background:#fcebf0;color:#a65374}
+.confirm-copy{color:#927b86}.confirm-highlight{background:#fff6f2;border:1px solid #f1e5df;color:#765665}.toast{background:rgba(111,65,82,.94);box-shadow:0 7px 24px rgba(86,56,76,.20)}
+@media(max-width:370px){.wrap{padding-left:15px;padding-right:15px}.balance-card{padding:19px 16px 15px}.balance-value{font-size:35px}.stat{padding:11px 8px}.stat-value{font-size:12.5px}.action{font-size:10px}.month-button{padding:9px 8px}}
+@media(min-width:600px){body{padding-top:20px;padding-bottom:20px}.wrap{min-height:calc(100dvh - 40px);border-radius:25px}.overlay{align-items:center}.sheet{border-radius:28px;max-height:min(88dvh,740px)}}
+
+</style>
+</head>
+<body>
+<main class="wrap">
+ <div class="topbar">
+  <div class="brand"><div class="brand-mark">🏡</div><div class="brand-label">OUR SHARED FUND</div></div>
+  <div class="demo-pill">独立试玩 · 虚构数据</div>
+ </div>
+ <h1>我们的小金库</h1>
+ <p class="subtitle">只记录两个人共同的收入和共同支出 ♡</p>
+
+ <div class="role-row">
+  <div class="role-caption">当前演示记录人</div>
+  <div class="roles" aria-label="切换虚构演示身份">
+   <button class="role-btn active" type="button" data-role="admin" aria-pressed="true">🌻 小葵</button>
+   <button class="role-btn" type="button" data-role="holder" aria-pressed="false">🐷 猪钮</button>
+  </div>
+ </div>
+
+ <section class="card balance-card">
+  <div class="balance-top"><div class="balance-label">共同账面余额</div><div class="balance-heart">♡</div></div>
+  <div class="balance-value" id="balance">¥1,450.00</div>
+  <div class="balance-note">期初余额 + 累计共同收入 − 累计共同支出<br>账本金额由你们手动填写，不连接现实账户</div>
+  <div class="opening-row">
+   <div class="opening-label" id="openingText">期初余额 · ¥1,000.00</div>
+   <button class="quiet-button" id="openingButton" type="button">调整期初余额</button>
+  </div>
+ </section>
+
+ <section class="stats" aria-label="共同收支摘要">
+  <div class="stat"><div class="stat-label" id="incomeLabel">本月共同收入</div><div class="stat-value income" id="monthIncome">+¥800.00</div></div>
+  <div class="stat"><div class="stat-label" id="expenseLabel">本月共同支出</div><div class="stat-value expense" id="monthExpense">−¥450.00</div></div>
+  <div class="stat"><div class="stat-label" id="netLabel">本月净变化</div><div class="stat-value net" id="monthNet">+¥350.00</div></div>
+ </section>
+
+ <section class="actions" aria-label="新增共同流水">
+  <button class="action income" type="button" data-add="income"><span class="action-symbol">＋</span>记一笔共同收入</button>
+  <button class="action expense" type="button" data-add="expense"><span class="action-symbol">－</span>记一笔共同支出</button>
+ </section>
+
+ <div class="section-heading"><h2>共同收支流水</h2><span class="count" id="recordCount">7 笔记录</span></div>
+ <div class="filter-panel">
+  <div class="segmented" role="group" aria-label="收支筛选">
+   <button class="segment active" type="button" data-filter="all" aria-pressed="true">全部</button>
+   <button class="segment" type="button" data-filter="income" aria-pressed="false">收入</button>
+   <button class="segment" type="button" data-filter="expense" aria-pressed="false">支出</button>
+  </div>
+  <button class="month-button" id="monthButton" type="button"><span id="monthLabel">2026年11月</span><span class="chevron">⌄</span></button>
+ </div>
+ <section class="card records-card" id="records" aria-live="polite"></section>
+
+ <section class="rules">
+  <div class="rules-title">♡ 我们的小金库约定</div>
+  <p>只记录双方认可的共同收入和共同用途支出，不记录个人消费，也不记录实际付款人</p>
+  <p>所有内容都由两个人手动填写，网站不连接银行卡、支付宝或微信，也不会自动对账或转账</p>
+ </section>
+ <div class="foot">当前页面只用于体验交互<br>所有金额均为虚构示例，刷新后恢复，不会保存或上传任何内容</div>
+</main>
+
+<div class="overlay" id="transactionOverlay" aria-hidden="true">
+ <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="transactionTitle">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head"><h3 id="transactionTitle">新增共同记录</h3><button class="close" type="button" data-close="transactionOverlay" aria-label="关闭">×</button></div>
+  <div class="type-switch">
+   <button class="type-option active" type="button" data-form-type="income">＋ 共同收入</button>
+   <button class="type-option" type="button" data-form-type="expense">－ 共同支出</button>
+  </div>
+  <form id="transactionForm">
+   <div class="field"><label for="titleInput">这笔钱是做什么的</label><input id="titleInput" maxlength="40" required placeholder="例如：一起收到的礼金 / 周末一起吃饭"></div>
+   <div class="field"><label for="amountInput">金额</label><div class="amount-wrap"><span>¥</span><input id="amountInput" type="text" inputmode="decimal" autocomplete="off" required placeholder="0.00"></div><div class="form-hint">人民币金额，最多精确到分</div></div>
+   <div class="field"><label>选择分类</label><div class="category-grid" id="categoryGrid"></div></div>
+   <div class="field"><label for="dateInput">发生日期</label><input id="dateInput" type="date" required value="2026-11-08"></div>
+   <div class="field"><label for="noteInput">备注（选填）</label><textarea id="noteInput" maxlength="300" placeholder="想留给未来的我们一点小记忆…"></textarea></div>
+   <div class="form-hint">记录人由当前演示身份自动填写，不需要选择实际付款人</div>
+   <button class="submit" type="submit" id="saveButton">保存这笔记录 ♡</button>
+   <button class="secondary" type="button" data-close="transactionOverlay">取消</button>
+  </form>
+ </section>
+</div>
+
+<div class="overlay" id="openingOverlay" aria-hidden="true">
+ <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="openingTitle">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head"><h3 id="openingTitle">设置期初余额</h3><button class="close" type="button" data-close="openingOverlay" aria-label="关闭">×</button></div>
+  <form id="openingForm">
+   <div class="field"><label for="openingInput">开始记账时已有的共同余额</label><div class="amount-wrap"><span>¥</span><input id="openingInput" type="text" inputmode="decimal" required></div></div>
+   <div class="form-hint">期初余额只作为账本起点，不计入收入统计</div>
+   <button class="submit" type="submit">确认期初余额</button><button class="secondary" type="button" data-close="openingOverlay">取消</button>
+  </form>
+ </section>
+</div>
+
+<div class="overlay" id="detailOverlay" aria-hidden="true">
+ <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head"><h3 id="detailTitle">流水详情</h3><button class="close" type="button" data-close="detailOverlay" aria-label="关闭">×</button></div>
+  <div id="detailBody"></div>
+  <div class="detail-actions"><button class="edit-button" id="editRecordButton" type="button">编辑记录</button><button class="delete-button" id="deleteRecordButton" type="button">删除记录</button></div>
+  <button class="secondary" type="button" data-close="detailOverlay">关闭</button>
+ </section>
+</div>
+
+<div class="overlay" id="monthOverlay" aria-hidden="true">
+ <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="monthTitle">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head"><h3 id="monthTitle">选择查看月份</h3><button class="close" type="button" data-close="monthOverlay" aria-label="关闭">×</button></div>
+  <div class="month-options" id="monthOptions"></div>
+  <button class="secondary" type="button" data-close="monthOverlay">完成</button>
+ </section>
+</div>
+
+<div class="overlay" id="deleteOverlay" aria-hidden="true">
+ <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head"><h3 id="deleteTitle">删除这笔记录？</h3><button class="close" type="button" data-close="deleteOverlay" aria-label="关闭">×</button></div>
+  <p class="confirm-copy">删除后，这笔虚构流水会从本次演示列表中移除，共同余额也会重新计算</p>
+  <div class="confirm-highlight" id="deleteSummary"></div>
+  <button class="submit" id="confirmDeleteButton" type="button" style="background:#bd6878">确认删除</button>
+  <button class="secondary" type="button" data-close="deleteOverlay">再想一下</button>
+ </section>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const categories={
+ income:[{id:'gift',name:'共同礼金',icon:'🎁'},{id:'project',name:'共同收入',icon:'🌱'},{id:'other-income',name:'其他收入',icon:'💗'}],
+ expense:[{id:'food',name:'餐饮',icon:'🍜'},{id:'date',name:'约会娱乐',icon:'🎬'},{id:'travel',name:'旅行交通',icon:'🚗'},{id:'shopping',name:'共同购物',icon:'🛍️'},{id:'living',name:'共同生活',icon:'🏡'},{id:'other-expense',name:'其他支出',icon:'✨'}]
+};
+const actorNames={admin:'小葵 🌻',holder:'猪钮 🐷'};
+const state={
+ role:'admin',type:'income',filter:'all',month:'2026-11',openingCents:100000,
+ editingId:null,selectedRecordId:null,deleteId:null,nextId:8,
+ records:[
+  {id:'r7',type:'income',title:'一起收到的小礼金',amountCents:30000,category:'gift',date:'2026-11-08',note:'留给我们的小小惊喜',createdBy:'holder'},
+  {id:'r6',type:'expense',title:'一起吃晚餐',amountCents:12600,category:'food',date:'2026-11-07',note:'今天的饭很好吃 ♡',createdBy:'admin'},
+  {id:'r5',type:'expense',title:'周末电影和零食',amountCents:7800,category:'date',date:'2026-11-05',note:'一起看了一场电影',createdBy:'holder'},
+  {id:'r4',type:'income',title:'共同小项目收入',amountCents:50000,category:'project',date:'2026-11-03',note:'两个人一起完成的小项目',createdBy:'admin'},
+  {id:'r3',type:'expense',title:'一起买生活用品',amountCents:24600,category:'living',date:'2026-11-02',note:'家里需要补充的小东西',createdBy:'holder'},
+  {id:'r2',type:'expense',title:'一起打车回家',amountCents:10000,category:'travel',date:'2026-10-30',note:'周末出门',createdBy:'admin'},
+  {id:'r1',type:'income',title:'两个人一起收到的礼金',amountCents:20000,category:'gift',date:'2026-10-28',note:'共同收到的心意',createdBy:'holder'}
+ ]
+};
+const monthChoices=[{id:'all',label:'全部月份'},{id:'2026-11',label:'2026年11月'},{id:'2026-10',label:'2026年10月'},{id:'2026-09',label:'2026年9月'}];
+const money=cents=>'¥'+(cents/100).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const signed=(cents,type)=>(type==='income'?'+':'−')+money(cents);
+const labels={income:'共同收入',expense:'共同支出'};
+function parseCents(raw,allowZero){
+ const value=String(raw??'').trim().replace(/,/g,'');
+ if(!/^\d{1,8}(?:\.\d{1,2})?$/.test(value))return null;
+ const [yuan,fen='']=value.split('.');
+ const cents=Number(yuan)*100+Number((fen+'00').slice(0,2));
+ if(!Number.isSafeInteger(cents)||cents<0||(!allowZero&&cents===0))return null;
+ return cents;
+}
+function total(type){return state.records.filter(r=>!type||r.type===type).reduce((sum,r)=>sum+r.amountCents,0)}
+function balance(){return state.openingCents+total('income')-total('expense')}
+function monthStats(month){
+ const rows=state.records.filter(r=>r.date.slice(0,7)===month);
+ const income=rows.filter(r=>r.type==='income').reduce((s,r)=>s+r.amountCents,0);
+ const expense=rows.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amountCents,0);
+ return{income,expense,net:income-expense};
+}
+function esc(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+let toastTimer=null;
+function toast(message){const node=$('#toast');node.textContent=message;node.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>node.classList.remove('show'),2100)}
+function showSheet(id){const node=document.getElementById(id);node.classList.add('show');node.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+function hideSheet(id){const node=document.getElementById(id);node.classList.remove('show');node.setAttribute('aria-hidden','true');if(!document.querySelector('.overlay.show'))document.body.style.overflow=''}
+function closeAllSheets(){document.querySelectorAll('.overlay.show').forEach(node=>hideSheet(node.id))}
+function categoryFor(record){return categories[record.type].find(c=>c.id===record.category)||{name:'其他',icon:'♡'}}
+function renderSummary(){
+ $('#balance').textContent=money(balance());
+ $('#openingText').textContent='期初余额 · '+money(state.openingCents);
+ const selected=state.month==='all'?null:monthStats(state.month);
+ const income=selected?selected.income:total('income');
+ const expense=selected?selected.expense:total('expense');
+ const net=income-expense;
+ const prefix=state.month==='all'?'累计':'所选月份';
+ $('#incomeLabel').textContent=prefix+'共同收入';
+ $('#expenseLabel').textContent=prefix+'共同支出';
+ $('#netLabel').textContent=prefix+'净变化';
+ $('#monthIncome').textContent='+'+money(income);
+ $('#monthExpense').textContent='−'+money(expense);
+ $('#monthNet').textContent=(net>=0?'+':'−')+money(Math.abs(net));
+}
+function renderRole(){
+ document.querySelectorAll('[data-role]').forEach(button=>{
+  const active=button.dataset.role===state.role;
+  button.classList.toggle('active',active);
+  button.setAttribute('aria-pressed',String(active));
+ });
+}
+function renderFilters(){
+ document.querySelectorAll('[data-filter]').forEach(button=>{
+  const active=button.dataset.filter===state.filter;
+  button.classList.toggle('active',active);
+  button.setAttribute('aria-pressed',String(active));
+ });
+ const month=monthChoices.find(x=>x.id===state.month);
+ $('#monthLabel').textContent=month?month.label:state.month.replace('-','年')+'月';
+ $('#monthOptions').innerHTML=monthChoices.map(item=>'<button type="button" class="month-option '+(item.id===state.month?'active':'')+'" data-month="'+item.id+'">'+item.label+'</button>').join('');
+}
+function renderRecords(){
+ const rows=state.records.filter(r=>(state.month==='all'||r.date.slice(0,7)===state.month)&&(state.filter==='all'||r.type===state.filter))
+  .sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
+ $('#recordCount').textContent=rows.length+' 笔记录';
+ $('#records').innerHTML=rows.length?rows.map(record=>{
+  const category=categoryFor(record);
+  return '<button class="record" type="button" data-record="'+esc(record.id)+'">'+
+   '<span class="record-left"><span class="record-icon '+record.type+'">'+category.icon+'</span>'+
+   '<span class="record-info"><span class="record-title">'+esc(record.title)+'</span>'+
+   '<span class="record-meta">'+category.name+' · '+actorNames[record.createdBy]+'记录</span></span></span>'+
+   '<span class="record-right"><span class="record-amount '+record.type+'">'+signed(record.amountCents,record.type)+'</span>'+
+   '<span class="record-date">'+record.date.slice(5).replace('-','/')+'</span></span></button>';
+ }).join(''):'<div class="empty"><div class="empty-icon">♡</div>这个筛选下还没有共同记录<br>一起留下第一笔小小的回忆吧</div>';
+}
+function render(){renderSummary();renderRole();renderFilters();renderRecords()}
+function renderCategories(selected){
+ const list=categories[state.type];
+ if(!selected||!list.some(x=>x.id===selected))selected=list[0].id;
+ $('#categoryGrid').innerHTML=list.map(item=>'<button class="category-choice '+(item.id===selected?'active':'')+'" type="button" data-category="'+item.id+'" aria-pressed="'+(item.id===selected)+'">'+item.icon+' '+item.name+'</button>').join('');
+}
+function openTransaction(type,recordId){
+ state.type=type;state.editingId=recordId||null;
+ const record=recordId?state.records.find(x=>x.id===recordId):null;
+ if(record&&!record) return;
+ if(record)state.type=record.type;
+ document.querySelectorAll('[data-form-type]').forEach(button=>{
+  const active=button.dataset.formType===state.type;
+  button.classList.toggle('active',active);
+ });
+ $('#transactionTitle').textContent=record?'编辑共同记录':state.type==='income'?'记录一笔共同收入':'记录一笔共同支出';
+ $('#saveButton').textContent=record?'保存修改 ♡':'保存这笔记录 ♡';
+ $('#transactionForm').reset();
+ $('#titleInput').value=record?record.title:'';
+ $('#amountInput').value=record?(record.amountCents/100).toFixed(2):'';
+ $('#dateInput').value=record?record.date:'2026-11-08';
+ $('#noteInput').value=record?record.note:'';
+ renderCategories(record?record.category:null);
+ showSheet('transactionOverlay');
+}
+function openDetail(id){
+ const record=state.records.find(x=>x.id===id);if(!record)return;
+ state.selectedRecordId=id;
+ const category=categoryFor(record);
+ $('#detailTitle').textContent=labels[record.type]+'详情';
+ $('#detailBody').innerHTML=
+  '<div class="detail-hero"><div class="detail-icon">'+category.icon+'</div><div class="detail-title">'+esc(record.title)+'</div><div class="detail-amount '+record.type+'">'+signed(record.amountCents,record.type)+'</div></div>'+
+  '<div class="detail-grid">'+
+   '<div class="detail-cell"><div class="detail-label">流水类型</div><div class="detail-value">'+labels[record.type]+'</div></div>'+
+   '<div class="detail-cell"><div class="detail-label">分类</div><div class="detail-value">'+category.name+'</div></div>'+
+   '<div class="detail-cell"><div class="detail-label">发生日期</div><div class="detail-value">'+record.date+'</div></div>'+
+   '<div class="detail-cell"><div class="detail-label">记录人</div><div class="detail-value">'+actorNames[record.createdBy]+'</div></div>'+
+  '</div>'+
+  (record.note?'<div class="detail-cell detail-note"><div class="detail-label">备注</div><div class="detail-value" style="font-weight:520">'+esc(record.note)+'</div></div>':'')+
+  (record.updatedBy?'<div class="form-hint" style="margin-top:10px">最近修改：'+actorNames[record.updatedBy]+'</div>':'')+
+  '<div class="form-hint" style="margin-top:10px">这里只记录共同用途，不记录实际付款人或个人消费</div>';
+ showSheet('detailOverlay');
+}
+function openDelete(id){
+ const record=state.records.find(x=>x.id===id);if(!record)return;
+ state.deleteId=id;
+ $('#deleteSummary').textContent=record.title+' · '+signed(record.amountCents,record.type);
+ showSheet('deleteOverlay');
+}
+document.querySelectorAll('[data-role]').forEach(button=>button.addEventListener('click',()=>{
+ state.role=button.dataset.role;renderRole();toast('当前演示记录人：'+actorNames[state.role]);
+}));
+document.querySelectorAll('[data-add]').forEach(button=>button.addEventListener('click',()=>openTransaction(button.dataset.add,null)));
+document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{
+ state.filter=button.dataset.filter;renderFilters();renderRecords();
+}));
+$('#monthButton').addEventListener('click',()=>showSheet('monthOverlay'));
+$('#monthOptions').addEventListener('click',event=>{
+ const button=event.target.closest('[data-month]');if(!button)return;
+ state.month=button.dataset.month;render();hideSheet('monthOverlay');
+});
+$('#records').addEventListener('click',event=>{
+ const button=event.target.closest('[data-record]');if(button)openDetail(button.dataset.record);
+});
+document.querySelectorAll('[data-form-type]').forEach(button=>button.addEventListener('click',()=>{
+ state.type=button.dataset.formType;document.querySelectorAll('[data-form-type]').forEach(x=>x.classList.toggle('active',x.dataset.formType===state.type));renderCategories();
+}));
+$('#categoryGrid').addEventListener('click',event=>{
+ const button=event.target.closest('[data-category]');if(!button)return;
+ $('#categoryGrid').querySelectorAll('[data-category]').forEach(x=>{const active=x===button;x.classList.toggle('active',active);x.setAttribute('aria-pressed',String(active))});
+});
+$('#transactionForm').addEventListener('submit',event=>{
+ event.preventDefault();
+ const title=$('#titleInput').value.trim(),amountCents=parseCents($('#amountInput').value,false);
+ const date=$('#dateInput').value,note=$('#noteInput').value.trim();
+ const selected=$('#categoryGrid [data-category].active');
+ const category=selected?.dataset.category;
+ if(!title||title.length>40||amountCents===null||!date||!category){toast('请检查名称、金额、日期和分类 qwq');return}
+ if(date>'2026-11-08'){toast('日期不能晚于演示当天 qwq');return}
+ if(state.editingId){
+  const record=state.records.find(x=>x.id===state.editingId);
+  if(!record){toast('没有找到这笔演示记录');return}
+  Object.assign(record,{type:state.type,title,amountCents,date,note,category,updatedBy:state.role,updatedAt:new Date().toISOString()});
+  state.month=date.slice(0,7);state.filter='all';
+  hideSheet('transactionOverlay');render();openDetail(record.id);toast('这笔记录已经修改啦 ♡');
+ }else{
+  const id='demo-'+state.nextId++;
+  state.records.push({id,type:state.type,title,amountCents,date,note,category,createdBy:state.role});
+  state.month=date.slice(0,7);state.filter='all';
+  hideSheet('transactionOverlay');render();toast('这笔共同记录已经保存啦 ♡');
+ }
+});
+$('#editRecordButton').addEventListener('click',()=>{
+ const id=state.selectedRecordId,record=state.records.find(x=>x.id===id);if(!record)return;
+ hideSheet('detailOverlay');openTransaction(record.type,id);
+});
+$('#deleteRecordButton').addEventListener('click',()=>openDelete(state.selectedRecordId));
+$('#confirmDeleteButton').addEventListener('click',()=>{
+ const id=state.deleteId,index=state.records.findIndex(x=>x.id===id);if(index<0)return;
+ state.records.splice(index,1);state.deleteId=null;state.selectedRecordId=null;
+ closeAllSheets();render();toast('这笔虚构记录已删除，余额已重新计算');
+});
+$('#openingButton').addEventListener('click',()=>{
+ $('#openingInput').value=(state.openingCents/100).toFixed(2);showSheet('openingOverlay');
+});
+$('#openingForm').addEventListener('submit',event=>{
+ event.preventDefault();const cents=parseCents($('#openingInput').value,true);
+ if(cents===null){toast('请填写有效的期初金额 qwq');return}
+ state.openingCents=cents;hideSheet('openingOverlay');render();toast('演示期初余额已调整 ♡');
+});
+document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>hideSheet(button.dataset.close)));
+document.querySelectorAll('.overlay').forEach(overlay=>overlay.addEventListener('click',event=>{if(event.target===overlay)hideSheet(overlay.id)}));
+document.addEventListener('keydown',event=>{if(event.key==='Escape')closeAllSheets()});
+render();
+})();
+</script>
+</body>
+</html>
