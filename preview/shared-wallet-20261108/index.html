@@ -45,9 +45,9 @@ h1{font-size:25px;letter-spacing:-.6px;line-height:1.35;color:#92546e;margin:8px
    <div class="opening-row"><div class="opening-text" id="openingText">期初余额 · ¥1,000.00</div><button class="text-button" id="openingButton" type="button">设置期初余额 ↗</button></div>
   </section>
   <section class="stats" aria-label="本月共同收支">
-   <div class="stat"><div class="stat-label">本月共同收入</div><div class="stat-value income" id="monthIncome">+¥800.00</div></div>
-   <div class="stat"><div class="stat-label">本月共同支出</div><div class="stat-value expense" id="monthExpense">−¥450.00</div></div>
-   <div class="stat"><div class="stat-label">本月净变化</div><div class="stat-value net" id="monthNet">+¥350.00</div></div>
+   <div class="stat"><div class="stat-label" id="incomeLabel">本月共同收入</div><div class="stat-value income" id="monthIncome">+¥800.00</div></div>
+   <div class="stat"><div class="stat-label" id="expenseLabel">本月共同支出</div><div class="stat-value expense" id="monthExpense">−¥450.00</div></div>
+   <div class="stat"><div class="stat-label" id="netLabel">本月净变化</div><div class="stat-value net" id="monthNet">+¥350.00</div></div>
   </section>
   <section class="actions" aria-label="新增共同流水"><button class="action income" type="button" data-add="income"><span class="symbol">＋</span> 记一笔共同收入</button><button class="action expense" type="button" data-add="expense"><span class="symbol">－</span> 记一笔共同支出</button></section>
   <div class="section-head"><h2>💗 共同收支流水</h2><span class="count" id="recordCount">7 笔记录</span></div>
@@ -115,6 +115,7 @@ h1{font-size:25px;letter-spacing:-.6px;line-height:1.35;color:#92546e;margin:8px
   $('#balance').textContent=money(balance());$('#openingText').textContent='期初余额 · '+money(opening);
   const month=$('#monthFilter').value,stats=month==='all'?null:monthStats(month);
   const inc=stats?stats.inc:total('income'),exp=stats?stats.exp:total('expense'),net=inc-exp;
+  const period=month==='all'?'累计':'所选月份';$('#incomeLabel').textContent=period+'共同收入';$('#expenseLabel').textContent=period+'共同支出';$('#netLabel').textContent=period+'净变化';
   $('#monthIncome').textContent='+'+money(inc);$('#monthExpense').textContent='−'+money(exp);$('#monthNet').textContent=(net>=0?'+':'−')+money(Math.abs(net));
   document.querySelectorAll('[data-role]').forEach(b=>{const active=b.dataset.role===role;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
   const mf=$('#monthFilter').value,tf=$('#typeFilter').value,list=records.filter(r=>(mf==='all'||r.date.slice(0,7)===mf)&&(tf==='all'||r.type===tf)).sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
